@@ -63,6 +63,11 @@ button.btn.big{padding:12px 20px;font-size:1rem}
 button.btn:disabled{opacity:.45;cursor:default}
 .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 @media (max-width:440px){nav.tabs button{padding:6px 10px 6px 6px;font-size:.85rem;gap:6px}nav.tabs button .c{display:none}}
+.hh{display:grid;gap:10px;margin-bottom:12px}
+.hh .code{display:flex;align-items:baseline;gap:12px;background:var(--sunk);border-radius:8px;padding:10px 14px}
+.hh .code b{font-size:1.3rem;letter-spacing:.08em}
+button.btn.warn{border-color:var(--need);color:var(--need)}
+#acct .link{font-size:.85rem}
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;overflow-x:auto}
 nav.tabs .row{display:flex;gap:6px;min-width:max-content}
 nav.tabs button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px 8px 8px;font:700 .95rem var(--f-body);cursor:pointer}
@@ -192,6 +197,7 @@ label.btn{display:inline-flex;align-items:center}
     </div>
     </div>
   </header>
+  <section class="panel hh" id="hh" hidden></section>
   <div class="modes" id="modes" role="group" aria-label="Mode"></div>
   <nav class="tabs" aria-label="Steps"><div class="row" id="tabs" role="tablist"></div></nav>
   <main id="view"></main>
@@ -442,7 +448,7 @@ V.shop=()=>{
   const n=active().length;
   if(!n)return `<div class="panel"><h2>${S.mode==="now"?"No recipe picked yet":"Nothing planned yet"}</h2><p class="muted">Pick ${S.mode==="now"?"a recipe":"dinners"} on the Recipes step and this list builds itself from what's missing.</p></div>`;
   const groups=CATS.map(c=>({c,items:need.filter(i=>(i.cat||"Other")===c).sort((a,b)=>a.n.localeCompare(b.n))})).filter(g=>g.items.length);
-  const checkedCount=need.filter(i=>S.checked[i.key]).length+S.extras.filter(e=>S.checked["x:"+e.id]).length;
+  const checkedCount=need.filter(i=>S.checked["k|"+i.key]).length+S.extras.filter(e=>S.checked["x:"+e.id]).length;
   const total=need.length+S.extras.length;
   return `
   <section class="block">
@@ -586,36 +592,80 @@ document.addEventListener("submit",e=>{
 render();
 </script>
 <script>
-/* Cloud sync: Google sign-in + one Firestore document per account (pantryToPlate/{uid}).
-   Without a Firebase config the planner still works and saves on this device only. */
+/* Cloud sync: Google sign-in + Firestore.
+   Personal planner: pantryToPlate/{uid}.state
+   Shared household:  households/{code}.state, members [uid...]; pantryToPlate/{uid}.household = code
+   Mode, current step and "hungry now" pick stay per person. */
 (function(){
-  const el=document.getElementById("acct");
+  const el=document.getElementById("acct"), hh=document.getElementById("hh");
   const cfg=window.FIREBASE_CONFIG;
   if(!cfg||!cfg.apiKey||!window.firebase){el.innerHTML='<span class="who">Saved on this device</span>';return}
   firebase.initializeApp(cfg);
-  const auth=firebase.auth(), db=firebase.firestore();
-  let ref=null, unsub=null, timer=null, last="";
-  const strip=s=>{const c=Object.assign({},s);delete c.tab;return JSON.stringify(c)};
+  const auth=firebase.auth(), db=firebase.firestore(), FV=firebase.firestore.FieldValue;
+  const LOCAL=["tab","mode","now"];
+  let user=null,userRef=null,ref=null,unsub=null,timer=null,last="",house=null,hdata=null,panelOpen=false,leaveArm=false,syncState="sync";
+  const joinParam=(new URLSearchParams(location.search).get("join")||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const strip=s=>{const c=Object.assign({},s);LOCAL.forEach(k=>delete c[k]);return JSON.stringify(c)};
+  const first=()=>user&&user.displayName?user.displayName.split(" ")[0]:"Someone";
+  const fmt=c=>c.slice(0,5)+"-"+c.slice(5);
+  const newCode=()=>{const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let c="";const r=crypto.getRandomValues(new Uint32Array(10));r.forEach(n=>c+=A[n%A.length]);return c};
+  const inviteLink=c=>location.origin+location.pathname+"?join="+c;
 
-  function show(mode,user){
-    const first=user&&user.displayName?esc(user.displayName.split(" ")[0]):"";
-    if(mode==="out")el.innerHTML='<button class="btn ghost" data-acct="in">Sign in with Google to sync</button>';
-    else if(mode==="sync")el.innerHTML='<span class="who"><span class="dot off"></span>Syncing…</span>';
-    else if(mode==="err")el.innerHTML='<span class="who"><span class="dot off"></span>Sync paused. Changes are saved on this device and will sync when you reconnect.</span>';
-    else el.innerHTML=`<span class="who"><span class="dot"></span>Synced${first?" · "+first:""}</span><button class="link" data-acct="out">Sign out</button>`;
+  function show(){
+    if(!user){el.innerHTML='<button class="btn ghost" data-acct="in">Sign in with Google to sync</button>';hh.hidden=true;return}
+    const n=hdata&&hdata.members?hdata.members.length:0;
+    const status=syncState==="err"?'<span class="dot off"></span>Sync paused':syncState==="sync"?'<span class="dot off"></span>Syncing…':`<span class="dot"></span>${house?`Shared · ${n} ${n===1?"person":"people"}`:"Synced · "+esc(first())}`;
+    el.innerHTML=`<span class="who">${status}</span><button class="link" data-acct="hh">${house?"Household":"Share with household"}</button><button class="link" data-acct="out">Sign out</button>`;
+    hh.hidden=!panelOpen;if(panelOpen)hh.innerHTML=panel();
   }
-  el.addEventListener("click",e=>{
-    const b=e.target.closest("[data-acct]");if(!b)return;
-    if(b.dataset.acct==="out"){auth.signOut();return}
-    const p=new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(p).catch(err=>{
-      if(/popup/.test(err.code||""))auth.signInWithRedirect(p);
-      else toast("Sign-in didn't finish. Try again.");
-    });
-  });
+  function panel(){
+    if(house){
+      const names=hdata&&hdata.names?Object.values(hdata.names):[];
+      return `<div class="head-row"><h3>Your household</h3><button class="link" data-acct="close">Close</button></div>
+      <p class="small" style="margin:0">Everyone here shares the same pantry, week plan, store list and recipes${names.length?`: <b>${names.map(esc).join(", ")}</b>`:""}.</p>
+      <div class="code"><span class="small muted">Invite code</span><b class="mono">${fmt(house)}</b></div>
+      <div class="form"><button class="btn" data-acct="invite">Send invite</button><button class="btn ghost ${leaveArm?"warn":""}" data-acct="leave">${leaveArm?"Tap again to leave":"Leave household"}</button></div>
+      <p class="small muted" style="margin:0">To add someone: send the invite, have them open it and sign in with their own Google account.</p>`;
+    }
+    return `<div class="head-row"><h3>Share with your household</h3><button class="link" data-acct="close">Close</button></div>
+    <p class="small" style="margin:0">Start a household to share one pantry, plan and store list with the people you live with. Each person signs in with their own Google account.</p>
+    <div class="form"><button class="btn" data-acct="create">Start a household</button></div>
+    <div class="form"><input type="text" id="joinCode" placeholder="Have a code? e.g. ABCDE-FGHJK" value="${joinParam?fmt(joinParam):""}" autocomplete="off" aria-label="Household invite code" style="text-transform:uppercase"><button class="btn ghost" data-acct="join">Join</button></div>
+    <p class="small muted" style="margin:0">Joining shows the household's planner. Your own planner is kept and comes back if you leave.</p>`;
+  }
+
+  el.addEventListener("click",onClick);hh.addEventListener("click",onClick);
+  async function onClick(e){
+    const b=e.target.closest("[data-acct]");if(!b)return;const a=b.dataset.acct;
+    if(a==="in"){const p=new firebase.auth.GoogleAuthProvider();auth.signInWithPopup(p).catch(err=>{if(/popup/.test(err.code||""))auth.signInWithRedirect(p);else toast("Sign-in didn't finish. Try again.")});return}
+    if(a==="out"){auth.signOut();return}
+    if(a==="hh"){panelOpen=!panelOpen;leaveArm=false;show();return}
+    if(a==="close"){panelOpen=false;show();return}
+    if(a==="create"){b.disabled=true;
+      try{const code=newCode();const current=JSON.parse(strip(S));
+        await db.collection("households").doc(code).set({members:[user.uid],names:{[user.uid]:first()},state:current,created:FV.serverTimestamp()});
+        await userRef.set({household:code},{merge:true});await attach(code);toast("Household started. Send the invite to add people.");
+      }catch(err){console.error(err);toast(permMsg(err));b.disabled=false}return}
+    if(a==="join"){const code=(document.getElementById("joinCode").value||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+      if(code.length!==10){toast("Codes are 10 letters and numbers, like ABCDE-FGHJK.");return}
+      b.disabled=true;
+      try{await db.collection("households").doc(code).update({members:FV.arrayUnion(user.uid),["names."+user.uid]:first()});
+        await userRef.set({household:code},{merge:true});await attach(code);
+        if(joinParam)history.replaceState(null,"",location.pathname);toast("You joined the household.");
+      }catch(err){console.error(err);toast(/not-found|NOT_FOUND|No document/i.test(String(err.code||err.message))?"That code wasn't found. Check it and try again.":permMsg(err));b.disabled=false}return}
+    if(a==="invite"){const link=inviteLink(house),text=`Join our meal planner on Pantry to Plate: ${link}\n(Code: ${fmt(house)})`;
+      if(navigator.share){try{await navigator.share({title:"Pantry to Plate household",text});return}catch(e){if(e&&e.name==="AbortError")return}}
+      try{await navigator.clipboard.writeText(text);toast("Invite copied. Paste it in a text or email.")}catch(e){prompt("Copy this invite:",text)}return}
+    if(a==="leave"){if(!leaveArm){leaveArm=true;show();return}
+      try{const code=house;await db.collection("households").doc(code).update({members:FV.arrayRemove(user.uid),["names."+user.uid]:FV.delete()});
+        await userRef.set({household:FV.delete()},{merge:true});leaveArm=false;await attach(null);toast("You left the household. Your own planner is back.");
+      }catch(err){console.error(err);toast(permMsg(err))}return}
+  }
+  const permMsg=err=>/permission|PERMISSION_DENIED/i.test(String(err&&(err.code||err.message)))?"Household sharing isn't allowed yet. The Firestore rules need the households section.":"That didn't work. Check your connection and try again.";
 
   function apply(st){
-    const tab=S.tab;const next=Object.assign(defaults(),st);next.tab=tab;
+    const keep={};LOCAL.forEach(k=>keep[k]=S[k]);
+    const next=Object.assign(defaults(),st,keep);
     if(strip(next)===last)return;
     S=next;last=strip(S);
     try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
@@ -624,26 +674,32 @@ render();
   window.cloudPush=function(){
     if(!ref)return;clearTimeout(timer);
     timer=setTimeout(()=>{const j=strip(S);if(j===last)return;last=j;
-      ref.set({state:JSON.parse(j),updated:firebase.firestore.FieldValue.serverTimestamp()})
-        .then(()=>show("in",auth.currentUser)).catch(()=>show("err"));},600);
+      ref.set({state:JSON.parse(j),updated:FV.serverTimestamp()},{merge:true})
+        .then(()=>{syncState="in";show()}).catch(e=>{console.error(e);syncState="err";show()});},600);
   };
+  async function attach(code){
+    if(unsub){unsub();unsub=null}last="";house=code;hdata=null;syncState="sync";show();
+    ref=code?db.collection("households").doc(code):userRef;
+    const snap=await ref.get();
+    if(code)hdata=snap.data()||null;
+    if(snap.exists&&snap.data().state)apply(snap.data().state);else window.cloudPush();
+    unsub=ref.onSnapshot(sn=>{
+      if(!sn.exists){return}
+      if(code){hdata=sn.data();if(!(hdata.members||[]).includes(user.uid)){attach(null);return}}
+      if(!sn.metadata.hasPendingWrites&&sn.data().state)apply(sn.data().state);
+      syncState="in";show();
+    },e=>{console.error(e);syncState="err";show()});
+    syncState="in";show();
+  }
 
-  auth.onAuthStateChanged(async user=>{
-    if(unsub){unsub();unsub=null}ref=null;last="";
-    if(!user){show("out");return}
-    show("sync",user);
-    ref=db.collection("pantryToPlate").doc(user.uid);
-    try{
-      const snap=await ref.get();
-      if(snap.exists&&snap.data().state)apply(snap.data().state); // account data wins over this device
-      else window.cloudPush();                                      // first sign-in: upload what's here
-    }catch(e){show("err");return}
-    unsub=ref.onSnapshot(snap=>{
-      if(snap.metadata.hasPendingWrites||!snap.exists)return;
-      const st=snap.data().state;if(st)apply(st);
-      show("in",user);
-    },()=>show("err"));
-    show("in",user);
+  auth.onAuthStateChanged(async u=>{
+    if(unsub){unsub();unsub=null}user=u;ref=null;last="";house=null;hdata=null;
+    if(!u){panelOpen=false;show();return}
+    userRef=db.collection("pantryToPlate").doc(u.uid);
+    try{const us=await userRef.get();const code=us.exists?us.data().household:null;
+      if(joinParam&&!code)panelOpen=true;
+      try{await attach(code||null)}catch(e){console.error(e);if(code){await attach(null)}else throw e}
+    }catch(e){console.error(e);syncState="err";show()}
   });
 })();
 </script>
