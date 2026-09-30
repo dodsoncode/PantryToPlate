@@ -722,7 +722,7 @@ if (cfg && cfg.apiKey) {
   const MODELS = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash"];
   const models = MODELS.map(m => getGenerativeModel(ai, { model: m,
     generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } }));
-  const busy = e => /429|500|503|RESOURCE_EXHAUSTED|UNAVAILABLE|INTERNAL|high demand|overloaded|quota/i.test(String(e && e.message || e));
+  const busy = e => /429|500|503|RESOURCE_EXHAUSTED|UNAVAILABLE|INTERNAL|high demand|overloaded|quota|Failed to fetch|network|timed? ?out/i.test(String(e && e.message || e));
   window.scanPantryPhotos = async (images, hint, vocab) => {
     const prompt = `You are taking inventory of a home kitchen from photos (fridge, freezer, pantry shelves, spice rack).
 List every distinct food, drink, condiment, baking or cooking ingredient you can identify across ALL photos.
@@ -736,7 +736,7 @@ Rules:
 - confidence: "low" if you are guessing from a partial or blurry view, otherwise "high".`;
     const parts = [{ text: prompt }, ...images.map(d => ({ inlineData: { mimeType: "image/jpeg", data: d } }))];
     let r, last;
-    for (const model of models) {
+    for (const model of [models[0], ...models]) {
       try { r = await model.generateContent(parts); break; }
       catch (e) { last = e; console.warn("scan model failed", e); if (!busy(e)) throw e; }
     }
