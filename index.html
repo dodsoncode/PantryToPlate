@@ -69,7 +69,7 @@ section.block{display:grid;gap:12px}
 .head-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
 .note{background:var(--accent-soft);border-radius:var(--r);padding:10px 14px;font-size:.9rem;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
 
-button.btn{font:700 .9rem var(--f-body);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+button.btn,label.btn{font:700 .9rem var(--f-body);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
 button.ghost{background:transparent;color:var(--accent)}
 button.link{background:none;border:0;padding:0;color:var(--accent);font:700 .875rem var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 button.warn{border-color:var(--need);color:var(--need)}
@@ -144,6 +144,19 @@ ol.steps{margin:0;padding-left:1.4rem;display:grid;gap:6px}
 .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px}
 @media (max-width:640px){.cols{grid-template-columns:1fr}.day{grid-template-columns:48px minmax(0,1fr)}.day .pill{grid-column:2;justify-self:start}}
 
+.scanlist{display:grid;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.scanrow{display:grid;grid-template-columns:22px minmax(0,1fr) 7.5rem 4.5rem;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);background:var(--surface)}
+.scanrow:first-child{border-top:0}
+.scanrow input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.scanrow input[type=text],.scanrow select{padding:6px 8px;width:100%}
+.scanrow.off input[type=text]{color:var(--muted);text-decoration:line-through}
+.scanrow .pill{justify-self:start}
+@media (max-width:520px){.scanrow{grid-template-columns:22px minmax(0,1fr) 6.5rem}.scanrow>span{grid-column:2}}
+.scanwait{display:flex;align-items:center;gap:12px;background:var(--sunk);border-radius:8px;padding:12px 14px;font-size:.9rem}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--accent);flex:0 0 auto}
+@media (prefers-reduced-motion:no-preference){.spin{animation:sp 0.8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}}
+.scanerr{background:var(--need-soft);color:var(--need);border-radius:8px;padding:10px 14px;font-size:.9rem;font-weight:700}
+label.btn{display:inline-flex;align-items:center}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:700;font-size:.9rem;z-index:10;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.toast{animation:up .2s ease-out}@keyframes up{from{transform:translate(-50%,8px);opacity:.4}}}
 </style>
@@ -276,6 +289,7 @@ V.pantry=()=>{
   const ranked=all().map(r=>({r,s:status(r)})).sort((a,b)=>a.s.missing.length-b.s.missing.length).slice(0,4);
   return `
   ${S.sample?`<div class="note"><span>These starter items are examples. Remove what you don't have and add what you do.</span><span style="display:flex;gap:12px"><button class="link" data-act="keepSample">Keep them</button><button class="link" data-act="clearPantry">Start empty</button></span></div>`:""}
+  ${scanPanel()}
   <section class="block panel">
     <div class="head-row"><h2>What's in the kitchen</h2><span class="muted small mono">${S.pantry.length} items</span></div>
     <form class="form" id="addForm">
@@ -296,6 +310,64 @@ V.pantry=()=>{
     <div class="cards">${ranked.map(({r,s})=>`<div class="card"><h3>${esc(r.name)}</h3>${meter(s)}${s.missing.length?`<div class="missing">Need: ${s.missing.map(m=>esc(m.n)).join(", ")}</div>`:`<div class="pill ok" style="justify-self:start">Everything on hand</div>`}</div>`).join("")}</div>
   </section>`;
 };
+/* ---------- photo scan ---------- */
+let SCAN={status:"idle",items:[],msg:"",n:0};
+function scanPanel(){
+  const locOpts=(sel)=>LOCS.map(l=>`<option${l===sel?" selected":""}>${l}</option>`).join("");
+  let body="";
+  if(SCAN.status==="working")body=`<div class="scanwait"><span class="spin" aria-hidden="true"></span><span>Looking through ${SCAN.n} photo${SCAN.n===1?"":"s"}… this takes about 10–30 seconds.</span></div>`;
+  else if(SCAN.status==="error")body=`<div class="scanerr">${esc(SCAN.msg)}</div>`;
+  else if(SCAN.status==="review"){
+    const pick=SCAN.items.filter(i=>i.on).length;
+    body=`<div class="head-row"><h3>Found ${SCAN.items.length} item${SCAN.items.length===1?"":"s"}</h3><span style="display:flex;gap:12px"><button class="link" data-act="scanAll" data-v="1">Select all</button><button class="link" data-act="scanAll" data-v="0">None</button></span></div>
+    <p class="small muted" style="margin:0">Uncheck anything that's wrong, fix names, then add. Items you already have are unchecked.</p>
+    <div class="scanlist">${SCAN.items.map((it,i)=>`<div class="scanrow${it.on?"":" off"}">
+      <input type="checkbox" id="sc-on-${i}" data-scan="on" data-i="${i}"${it.on?" checked":""} aria-label="Add ${esc(it.name)}">
+      <input type="text" id="sc-name-${i}" data-scan="name" data-i="${i}" value="${esc(it.name)}" aria-label="Item name">
+      <select id="sc-loc-${i}" data-scan="loc" data-i="${i}" aria-label="Where it's stored">${locOpts(it.loc)}</select>
+      ${it.dup?`<span class="pill ok">have it</span>`:it.unsure?`<span class="pill buy">check</span>`:`<span></span>`}
+    </div>`).join("")}</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="scanAdd"${pick?"":" disabled style=\"opacity:.5\""}>Add ${pick} to pantry</button><button class="btn ghost" data-act="scanClear">Discard</button></div>`;
+  }
+  return `<section class="block panel">
+    <div class="head-row"><h2>Scan with photos</h2><span class="muted small">Fridge, freezer, shelves</span></div>
+    <p class="small muted" style="margin:0">Take a few pictures with doors and shelves open. The app lists the food it sees, and you check the list before anything is added.</p>
+    <div class="form">
+      <select id="scanLoc" aria-label="What the photos show"><option value="">Photos show: figure it out</option>${LOCS.map(l=>`<option value="${l}">Photos show: ${l}</option>`).join("")}</select>
+      <label class="btn" for="scanFiles" role="button" tabindex="0">${SCAN.status==="review"?"Scan more photos":"Take or choose photos"}</label>
+      <input type="file" id="scanFiles" accept="image/*" multiple hidden>
+    </div>
+    ${body}
+  </section>`;
+}
+function shrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file);const img=new Image();
+  img.onload=()=>{const m=1280,s=Math.min(1,m/Math.max(img.naturalWidth,img.naturalHeight));const c=document.createElement("canvas");c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);res(c.toDataURL("image/jpeg",0.8).split(",")[1])};
+  img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error("One of the photos couldn't be opened. Try taking it again."))};img.src=url})}
+async function runScan(files){
+  const hint=(document.getElementById("scanLoc")||{}).value||"";
+  files=[...files].slice(0,10);if(!files.length)return;
+  if(!window.scanPantryPhotos){SCAN={status:"error",items:SCAN.items,n:0,msg:"Photo scanning isn't turned on yet. It needs Firebase AI Logic enabled for this project."};render(true);return}
+  const prev=SCAN.status==="review"?SCAN.items:[];
+  SCAN={status:"working",items:prev,n:files.length,msg:""};render(true);
+  try{
+    const imgs=await Promise.all(files.map(shrink));
+    const vocab=[...new Set(all().flatMap(r=>r.ing.map(i=>i[2].toLowerCase())))];
+    const found=await window.scanPantryPhotos(imgs,hint,vocab);
+    const merged=[...prev];
+    found.forEach(f=>{const name=String(f.name||"").trim().toLowerCase();if(!name)return;
+      if(merged.some(m=>norm(m.name).join(" ")===norm(name).join(" ")))return;
+      const loc=LOCS.includes(f.location)?f.location:(hint||"Pantry");
+      const dup=have(name);merged.push({name,loc,dup,unsure:f.confidence==="low",on:!dup&&f.confidence!=="low"})});
+    SCAN={status:merged.length?"review":"error",items:merged,n:0,msg:merged.length?"":"No food was recognized. Try closer photos with better light."};
+  }catch(err){console.error(err);SCAN={status:prev.length?"review":"error",items:prev,n:0,msg:scanErr(err)};if(prev.length)toast(scanErr(err))}
+  render(true);
+}
+function scanErr(err){const m=String(err&&err.message||err);
+  if(/api.*not.*enabled|PERMISSION_DENIED|403|has not been used|API_NOT_ENABLED/i.test(m))return "Photo scanning isn't turned on yet. Enable AI Logic in the Firebase console (AI Services → AI Logic → Get started → Gemini Developer API).";
+  if(/quota|429|RESOURCE_EXHAUSTED/i.test(m))return "The free scanning limit was reached for now. Try again in a minute.";
+  if(/network|fetch/i.test(m))return "Couldn't reach the scanning service. Check your connection and try again.";
+  return m.length<160?m:"The scan didn't finish. Try again with fewer photos.";}
+
 function meter(s){return `<div class="meter"><span class="bar"><i style="width:${Math.round(s.got/s.total*100)}%"></i></span><span class="mono">${s.got}/${s.total}</span><span class="muted">on hand</span></div>`}
 
 V.plan=()=>{
@@ -425,10 +497,18 @@ document.addEventListener("click",e=>{
     const done=()=>toast("List copied");try{navigator.clipboard.writeText(txt).then(done,()=>fallback(txt))}catch(err){fallback(txt)}return}
   if(a==="stock"){const {need}=shopping();let n=0;need.forEach(i=>{if(S.checked["k|"+i.key]){if(addPantry(i.n,locFor(i.cat)))n++;delete S.checked["k|"+i.key];delete S.buyAnyway[i.key]}});S.extras=S.extras.filter(x=>{if(S.checked["x:"+x.id]){delete S.checked["x:"+x.id];return false}return true});render();toast(`Moved ${n} item${n===1?"":"s"} into the pantry`);return}
   if(a==="resetDone"){S.done={};render();return}
+  if(a==="scanAll"){SCAN.items.forEach(i=>i.on=b.dataset.v==="1");render(true);return}
+  if(a==="scanClear"){SCAN={status:"idle",items:[],msg:"",n:0};render(true);return}
+  if(a==="scanAdd"){let n=0;SCAN.items.forEach(i=>{if(i.on&&addPantry(i.name,i.loc))n++});S.sample=false;SCAN={status:"idle",items:[],msg:"",n:0};render();toast(`Added ${n} item${n===1?"":"s"} to your pantry`);return}
 });
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.getAttribute&&e.target.getAttribute("for")==="scanFiles"){e.preventDefault();document.getElementById("scanFiles").click()}});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset.scan==="name")SCAN.items[+el.dataset.i].name=el.value});
 function fallback(txt){const ta=document.createElement("textarea");ta.value=txt;ta.style.minHeight="200px";ta.setAttribute("aria-label","Shopping list text");const v=document.getElementById("view");v.prepend(ta);ta.focus();ta.select();toast("Select all and copy the text above")}
 document.addEventListener("change",e=>{
   const el=e.target;const a=el.dataset.act;
+  if(el.id==="scanFiles"){runScan(el.files);return}
+  if(el.dataset.scan==="on"){SCAN.items[+el.dataset.i].on=el.checked;render(true);return}
+  if(el.dataset.scan==="loc"){SCAN.items[+el.dataset.i].loc=el.value;return}
   if(a==="setDay"){S.plan[el.dataset.k]=el.value||null;render()}
   if(a==="check"){S.checked[el.dataset.k]=el.checked;render()}
   if(a==="done"){S.done[el.dataset.k]=el.checked;const y=scrollY;render();scrollTo({top:y})}
@@ -504,6 +584,38 @@ render();
     show("in",user);
   });
 })();
+</script>
+<script type="module">
+/* Photo scan: Gemini via Firebase AI Logic (no API key in the page; uses this Firebase project). */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAI, getGenerativeModel, GoogleAIBackend, Schema } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
+const cfg = window.FIREBASE_CONFIG;
+if (cfg && cfg.apiKey) {
+  const app = initializeApp(cfg, "pantry-scan");
+  const ai = getAI(app, { backend: new GoogleAIBackend() });
+  const schema = Schema.object({ properties: { items: Schema.array({ items: Schema.object({ properties: {
+    name: Schema.string(),
+    location: Schema.enumString({ enum: ["Fridge", "Freezer", "Pantry", "Spices"] }),
+    confidence: Schema.enumString({ enum: ["high", "low"] })
+  } }) }) } });
+  const model = getGenerativeModel(ai, { model: "gemini-3.8-flash",
+    generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } });
+  window.scanPantryPhotos = async (images, hint, vocab) => {
+    const prompt = `You are taking inventory of a home kitchen from photos (fridge, freezer, pantry shelves, spice rack).
+List every distinct food, drink, condiment, baking or cooking ingredient you can identify across ALL photos.
+Rules:
+- One entry per kind of item; merge duplicates across photos. Ignore quantities, containers, non-food and brand-only packaging you can't identify.
+- Use short generic grocery names in lowercase (e.g. "black beans", "shredded cheddar", "chicken broth", "tortilla chips"). Keep a brand only when it's how people shop for it (e.g. "Tostitos tortilla chips").
+- When an item matches one of these names the household cooks with, use that exact wording: ${vocab.join(", ")}.
+- location: where it is stored. ${hint ? `All photos show the ${hint}, so use "${hint}" unless an item is clearly a spice or seasoning.` : "Infer from the photo (fridge interior, freezer, shelf/cabinet, spice rack)."} Dried herbs, spices, and seasoning blends go in "Spices".
+- confidence: "low" if you are guessing from a partial or blurry view, otherwise "high".`;
+    const parts = [{ text: prompt }, ...images.map(d => ({ inlineData: { mimeType: "image/jpeg", data: d } }))];
+    const r = await model.generateContent(parts);
+    let t = r.response.text().trim().replace(/^```(json)?/i, "").replace(/```$/, "");
+    const j = JSON.parse(t);
+    return Array.isArray(j) ? j : (j.items || []);
+  };
+}
 </script>
 </body>
 </html>
