@@ -145,13 +145,17 @@ ol.steps{margin:0;padding-left:1.4rem;display:grid;gap:6px}
 @media (max-width:640px){.cols{grid-template-columns:1fr}.day{grid-template-columns:48px minmax(0,1fr)}.day .pill{grid-column:2;justify-self:start}}
 
 .scanlist{display:grid;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.scanrow{display:grid;grid-template-columns:22px minmax(0,1fr) 7.5rem 4.5rem;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);background:var(--surface)}
+.scanrow{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:6px 8px;align-items:center;padding:8px 10px;border-top:1px solid var(--line);background:var(--surface)}
+.scanmeta{grid-column:2 / -1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,.9fr);gap:6px}
+@media (max-width:520px){.scanmeta{grid-template-columns:1fr 1fr}.scanmeta input{grid-column:1 / -1}}
+.chip .amt{font:500 .75rem var(--f-mono);color:var(--muted);margin-left:6px}
+.chip.low{border-color:var(--mark);background:color-mix(in srgb,var(--mark) 14%,var(--sunk))}
+.lownote{background:color-mix(in srgb,var(--mark) 18%,var(--surface))}
 .scanrow:first-child{border-top:0}
 .scanrow input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);margin:0}
 .scanrow input[type=text],.scanrow select{padding:6px 8px;width:100%}
 .scanrow.off input[type=text]{color:var(--muted);text-decoration:line-through}
 .scanrow .pill{justify-self:start}
-@media (max-width:520px){.scanrow{grid-template-columns:22px minmax(0,1fr) 6.5rem}.scanrow>span{grid-column:2}}
 .scanwait{display:flex;align-items:center;gap:12px;background:var(--sunk);border-radius:8px;padding:12px 14px;font-size:.9rem}
 .spin{width:18px;height:18px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--accent);flex:0 0 auto}
 @media (prefers-reduced-motion:no-preference){.spin{animation:sp 0.8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}}
@@ -302,8 +306,9 @@ V.pantry=()=>{
       <div class="form" style="margin-top:8px"><select id="bulkLoc" aria-label="Where they're stored">${LOCS.map(l=>`<option>${l}</option>`).join("")}</select><button class="btn ghost" data-act="bulk">Add all</button></div>
     </details>
   </section>
+  ${(()=>{const low=S.pantry.filter(p=>p.left==="low"||p.left==="empty");return low.length?`<div class="note lownote"><span><b>Running low:</b> ${low.map(p=>esc(p.name)).join(", ")}</span><button class="link" data-act="lowToList">Add to shopping list</button></div>`:""})()}
   <div class="locs">${LOCS.map(loc=>{const it=S.pantry.filter(p=>p.loc===loc).sort((a,b)=>a.name.localeCompare(b.name));
-    return `<div class="panel loc"><h3>${loc}<span class="muted small mono">${it.length}</span></h3><div class="chips">${it.length?it.map(p=>`<span class="chip">${esc(p.name)}<button data-act="rm" data-id="${p.id}" aria-label="Remove ${esc(p.name)}">×</button></span>`).join(""):`<span class="empty">Nothing here yet</span>`}</div></div>`}).join("")}
+    return `<div class="panel loc"><h3>${loc}<span class="muted small mono">${it.length}</span></h3><div class="chips">${it.length?it.map(p=>`<span class="chip${p.left==="low"||p.left==="empty"?" low":""}">${esc(p.name)}${p.qty||p.left?`<span class="amt">${esc([p.qty,LVL_SHORT[p.left]].filter(Boolean).join(" · "))}</span>`:""}<button data-act="rm" data-id="${p.id}" aria-label="Remove ${esc(p.name)}">×</button></span>`).join(""):`<span class="empty">Nothing here yet</span>`}</div></div>`}).join("")}
   </div>
   <section class="block">
     <div class="head-row"><h2>Closest to ready</h2><button class="link" data-act="tab" data-t="plan">See all recipes</button></div>
@@ -320,14 +325,18 @@ function scanPanel(){
   else if(SCAN.status==="review"){
     const pick=SCAN.items.filter(i=>i.on).length;
     body=`<div class="head-row"><h3>Found ${SCAN.items.length} item${SCAN.items.length===1?"":"s"}</h3><span style="display:flex;gap:12px"><button class="link" data-act="scanAll" data-v="1">Select all</button><button class="link" data-act="scanAll" data-v="0">None</button></span></div>
-    <p class="small muted" style="margin:0">Uncheck anything that's wrong, fix names, then add. Items you already have are unchecked.</p>
+    <p class="small muted" style="margin:0">Uncheck anything that's wrong and fix names or amounts. Items you already have will have their amounts updated.</p>
     <div class="scanlist">${SCAN.items.map((it,i)=>`<div class="scanrow${it.on?"":" off"}">
       <input type="checkbox" id="sc-on-${i}" data-scan="on" data-i="${i}"${it.on?" checked":""} aria-label="Add ${esc(it.name)}">
       <input type="text" id="sc-name-${i}" data-scan="name" data-i="${i}" value="${esc(it.name)}" aria-label="Item name">
-      <select id="sc-loc-${i}" data-scan="loc" data-i="${i}" aria-label="Where it's stored">${locOpts(it.loc)}</select>
-      ${it.dup?`<span class="pill ok">have it</span>`:it.unsure?`<span class="pill buy">check</span>`:`<span></span>`}
+      ${it.dup?`<span class="pill ok">update</span>`:it.unsure?`<span class="pill buy">check</span>`:`<span></span>`}
+      <div class="scanmeta">
+        <input type="text" id="sc-qty-${i}" data-scan="qty" data-i="${i}" value="${esc(it.qty||"")}" placeholder="Amount, e.g. 2 cans" aria-label="Amount">
+        <select id="sc-lvl-${i}" data-scan="left" data-i="${i}" aria-label="How much is left">${LVLS.map(([k,l])=>`<option value="${k}"${k===(it.left||"")?" selected":""}>${l}</option>`).join("")}</select>
+        <select id="sc-loc-${i}" data-scan="loc" data-i="${i}" aria-label="Where it's stored">${locOpts(it.loc)}</select>
+      </div>
     </div>`).join("")}</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="scanAdd"${pick?"":" disabled style=\"opacity:.5\""}>Add ${pick} to pantry</button><button class="btn ghost" data-act="scanClear">Discard</button></div>`;
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="scanAdd"${pick?"":" disabled style=\"opacity:.5\""}>Save ${pick} to pantry</button><button class="btn ghost" data-act="scanClear">Discard</button></div>`;
   }
   return `<section class="block panel">
     <div class="head-row"><h2>Scan with photos</h2><span class="muted small">Fridge, freezer, shelves</span></div>
@@ -357,7 +366,8 @@ async function runScan(files){
     found.forEach(f=>{const name=String(f.name||"").trim().toLowerCase();if(!name)return;
       if(merged.some(m=>norm(m.name).join(" ")===norm(name).join(" ")))return;
       const loc=LOCS.includes(f.location)?f.location:(hint||"Pantry");
-      const dup=have(name);merged.push({name,loc,dup,unsure:f.confidence==="low",on:!dup&&f.confidence!=="low"})});
+      const dup=!!findItem(name);const left=LVLS.some(([k])=>k===f.remaining)&&f.remaining!=="unknown"?f.remaining:"";
+      merged.push({name,loc,dup,qty:String(f.quantity||"").trim(),left,unsure:f.confidence==="low",on:f.confidence!=="low"})});
     SCAN={status:merged.length?"review":"error",items:merged,n:0,msg:merged.length?"":"No food was recognized. Try closer photos with better light."};
   }catch(err){console.error(err);SCAN={status:prev.length?"review":"error",items:prev,n:0,msg:scanErr(err)};if(prev.length)toast(scanErr(err))}
   render(true);
@@ -467,6 +477,12 @@ function render(quiet){
 }
 let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
 function locFor(cat){return {"Meat & Seafood":"Fridge","Dairy & Eggs":"Fridge","Produce":"Fridge","Frozen":"Freezer","Spices":"Spices"}[cat]||"Pantry"}
+const LVLS=[["","Amount left?"],["full","Full / unopened"],["most","Most left"],["half","About half"],["low","Running low"],["empty","Almost out"]];
+const LVL_SHORT={full:"full",most:"¾ left",half:"½ left",low:"low",empty:"almost out"};
+function findItem(name){const k=norm(name).join(" ");return S.pantry.find(p=>norm(p.name).join(" ")===k)}
+function upsertPantry(name,loc,qty,left){name=name.trim();if(!name)return 0;const ex=findItem(name);
+  if(ex){if(qty)ex.qty=qty;if(left)ex.left=left;return 2}
+  const it={id:nid(),name,loc};if(qty)it.qty=qty;if(left)it.left=left;S.pantry.push(it);return 1}
 function addPantry(name,loc){name=name.trim();if(!name)return false;if(S.pantry.some(p=>norm(p.name).join(" ")===norm(name).join(" ")))return false;S.pantry.push({id:nid(),name,loc});return true}
 
 /* custom recipe parsing */
@@ -499,16 +515,18 @@ document.addEventListener("click",e=>{
   if(a==="resetDone"){S.done={};render();return}
   if(a==="scanAll"){SCAN.items.forEach(i=>i.on=b.dataset.v==="1");render(true);return}
   if(a==="scanClear"){SCAN={status:"idle",items:[],msg:"",n:0};render(true);return}
-  if(a==="scanAdd"){let n=0;SCAN.items.forEach(i=>{if(i.on&&addPantry(i.name,i.loc))n++});S.sample=false;SCAN={status:"idle",items:[],msg:"",n:0};render();toast(`Added ${n} item${n===1?"":"s"} to your pantry`);return}
+  if(a==="scanAdd"){let n=0,u=0;SCAN.items.forEach(i=>{if(!i.on)return;const r=upsertPantry(i.name,i.loc,i.qty,i.left);if(r===1)n++;if(r===2)u++});S.sample=false;SCAN={status:"idle",items:[],msg:"",n:0};render();toast(`Added ${n}${u?`, updated ${u}`:""}`);return}
+  if(a==="lowToList"){let n=0;S.pantry.filter(p=>p.left==="low"||p.left==="empty").forEach(p=>{if(!S.extras.some(x=>norm(x.name).join(" ")===norm(p.name).join(" "))){S.extras.push({id:nid(),name:p.name});n++}});render();toast(n?`Added ${n} to the shopping list`:"Those are already on the list");return}
 });
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.getAttribute&&e.target.getAttribute("for")==="scanFiles"){e.preventDefault();document.getElementById("scanFiles").click()}});
-document.addEventListener("input",e=>{const el=e.target;if(el.dataset.scan==="name")SCAN.items[+el.dataset.i].name=el.value});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset.scan==="name")SCAN.items[+el.dataset.i].name=el.value;if(el.dataset.scan==="qty")SCAN.items[+el.dataset.i].qty=el.value});
 function fallback(txt){const ta=document.createElement("textarea");ta.value=txt;ta.style.minHeight="200px";ta.setAttribute("aria-label","Shopping list text");const v=document.getElementById("view");v.prepend(ta);ta.focus();ta.select();toast("Select all and copy the text above")}
 document.addEventListener("change",e=>{
   const el=e.target;const a=el.dataset.act;
   if(el.id==="scanFiles"){runScan(el.files);return}
   if(el.dataset.scan==="on"){SCAN.items[+el.dataset.i].on=el.checked;render(true);return}
   if(el.dataset.scan==="loc"){SCAN.items[+el.dataset.i].loc=el.value;return}
+  if(el.dataset.scan==="left"){SCAN.items[+el.dataset.i].left=el.value;return}
   if(a==="setDay"){S.plan[el.dataset.k]=el.value||null;render()}
   if(a==="check"){S.checked[el.dataset.k]=el.checked;render()}
   if(a==="done"){S.done[el.dataset.k]=el.checked;const y=scrollY;render();scrollTo({top:y})}
@@ -596,8 +614,10 @@ if (cfg && cfg.apiKey) {
   const schema = Schema.object({ properties: { items: Schema.array({ items: Schema.object({ properties: {
     name: Schema.string(),
     location: Schema.enumString({ enum: ["Fridge", "Freezer", "Pantry", "Spices"] }),
+    quantity: Schema.string(),
+    remaining: Schema.enumString({ enum: ["full", "most", "half", "low", "empty", "unknown"] }),
     confidence: Schema.enumString({ enum: ["high", "low"] })
-  } }) }) } });
+  }, optionalProperties: ["quantity"] }) }) } });
   const model = getGenerativeModel(ai, { model: "gemini-3.8-flash",
     generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } });
   window.scanPantryPhotos = async (images, hint, vocab) => {
@@ -608,6 +628,8 @@ Rules:
 - Use short generic grocery names in lowercase (e.g. "black beans", "shredded cheddar", "chicken broth", "tortilla chips"). Keep a brand only when it's how people shop for it (e.g. "Tostitos tortilla chips").
 - When an item matches one of these names the household cooks with, use that exact wording: ${vocab.join(", ")}.
 - location: where it is stored. ${hint ? `All photos show the ${hint}, so use "${hint}" unless an item is clearly a spice or seasoning.` : "Infer from the photo (fridge interior, freezer, shelf/cabinet, spice rack)."} Dried herbs, spices, and seasoning blends go in "Spices".
+- quantity: how much is there, as a short household phrase with count and package size when visible, e.g. "2 cans (15 oz)", "1 gallon jug", "1 bag, 32 oz", "6 eggs", "3 bell peppers", "1 jar". Combine counts across photos. Omit if you truly can't tell.
+- remaining: how full the open or partly used container looks: "full" (sealed/unopened or full), "most", "half", "low" (about a quarter or less), "empty" (nearly gone), or "unknown" if you can't see the level. For several of the same item, judge the total.
 - confidence: "low" if you are guessing from a partial or blurry view, otherwise "high".`;
     const parts = [{ text: prompt }, ...images.map(d => ({ inlineData: { mimeType: "image/jpeg", data: d } }))];
     const r = await model.generateContent(parts);
