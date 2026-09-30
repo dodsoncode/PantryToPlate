@@ -374,7 +374,7 @@ async function runScan(files){
 }
 function scanErr(err){const m=String(err&&err.message||err);
   if(/api.*not.*enabled|PERMISSION_DENIED|403|has not been used|API_NOT_ENABLED/i.test(m))return "Photo scanning isn't turned on yet. Enable AI Logic in the Firebase console (AI Services → AI Logic → Get started → Gemini Developer API).";
-  if(/quota|429|RESOURCE_EXHAUSTED/i.test(m))return "The free scanning limit was reached for now. Try again in a minute.";
+  if(/quota|429|RESOURCE_EXHAUSTED|high demand|overloaded|500|503/i.test(m))return "The scanning service is busy right now. Wait a minute and try again.";
   if(/network|fetch/i.test(m))return "Couldn't reach the scanning service. Check your connection and try again.";
   return m.length<160?m:"The scan didn't finish. Try again with fewer photos.";}
 
@@ -618,8 +618,11 @@ if (cfg && cfg.apiKey) {
     remaining: Schema.enumString({ enum: ["full", "most", "half", "low", "empty", "unknown"] }),
     confidence: Schema.enumString({ enum: ["high", "low"] })
   }, optionalProperties: ["quantity"] }) }) } });
-  const model = getGenerativeModel(ai, { model: "gemini-3.8-flash",
-    generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } });
+  // Tried in order; moves on when a model is busy or over its free-tier limit.
+  const MODELS = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash"];
+  const models = MODELS.map(m => getGenerativeModel(ai, { model: m,
+    generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } }));
+  const busy = e => /429|500|503|RESOURCE_EXHAUSTED|UNAVAILABLE|INTERNAL|high demand|overloaded|quota/i.test(String(e && e.message || e));
   window.scanPantryPhotos = async (images, hint, vocab) => {
     const prompt = `You are taking inventory of a home kitchen from photos (fridge, freezer, pantry shelves, spice rack).
 List every distinct food, drink, condiment, baking or cooking ingredient you can identify across ALL photos.
@@ -632,7 +635,12 @@ Rules:
 - remaining: how full the open or partly used container looks: "full" (sealed/unopened or full), "most", "half", "low" (about a quarter or less), "empty" (nearly gone), or "unknown" if you can't see the level. For several of the same item, judge the total.
 - confidence: "low" if you are guessing from a partial or blurry view, otherwise "high".`;
     const parts = [{ text: prompt }, ...images.map(d => ({ inlineData: { mimeType: "image/jpeg", data: d } }))];
-    const r = await model.generateContent(parts);
+    let r, last;
+    for (const model of models) {
+      try { r = await model.generateContent(parts); break; }
+      catch (e) { last = e; console.warn("scan model failed", e); if (!busy(e)) throw e; }
+    }
+    if (!r) throw last;
     let t = r.response.text().trim().replace(/^```(json)?/i, "").replace(/```$/, "");
     const j = JSON.parse(t);
     return Array.isArray(j) ? j : (j.items || []);
