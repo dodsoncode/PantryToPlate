@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Pantry to Plate: each signed-in person can read and write only their own planner.
+    match /pantryToPlate/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // If this project also serves Anchor, keep Anchor's existing rules alongside this block.
+  }
+}
