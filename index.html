@@ -527,7 +527,7 @@ function navBar(){
     if(S.mode==="plan"&&t==="shop"){ok=active().length>0;why="Add at least one dinner to continue"}
     if(S.tab==="plan"){ok=active().length>0;why="Pick a recipe to continue";
       if(ok&&S.mode==="now"&&!shopping().need.length){t="prep";extra=" (nothing to buy)"}}
-    next=`<div class="nextwrap">${ok?"":`<span class="small muted">${why}</span>`}<button class="btn big" data-act="tab" data-t="${t}"${ok?"":" disabled"}>Next: ${LBL[t]}${extra} →</button></div>`;
+    next=`<div class="nextwrap">${ok?"":`<span class="small muted">${why}</span>`}<button class="btn big" data-act="tab" data-t="${t}"${ok?"":" disabled"}>${t==="choose"?"Next":`Next: ${LBL[t]}${extra}`} →</button></div>`;
   }else next=S.mode==="now"?`<button class="btn big" data-act="doneCooking">Done cooking ✓</button>`:`<span class="small muted">That's the whole week.</span>`;
   return `<div class="nextbar">${back}${next}</div>`;
 }
