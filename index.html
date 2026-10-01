@@ -33,6 +33,7 @@
   --mark:#e6b64e; --need:#e98d62; --need-soft:#3a241a; color-scheme:dark}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);padding-inline:16px;padding-block:env(safe-area-inset-top,0px) calc(48px + env(safe-area-inset-bottom,0px))}
 #acct{display:flex;align-items:center;gap:10px;font-size:.85rem;flex-wrap:wrap}
 #acct .who{color:var(--muted)}
@@ -68,6 +69,13 @@ button.btn:disabled{opacity:.45;cursor:default}
 .hh .code b{font-size:1.3rem;letter-spacing:.08em}
 button.btn.warn{border-color:var(--need);color:var(--need)}
 #acct .link{font-size:.85rem}
+.choose{display:grid;gap:22px;justify-items:center;text-align:center;padding-block:clamp(32px,10vh,90px)}
+.choose h2{font-size:1.5rem;max-width:22ch}
+.choices{display:grid;gap:12px;width:100%;max-width:440px}
+.choice{display:grid;gap:4px;text-align:left;padding:18px 20px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:inherit}
+.choice b{font:700 1.15rem var(--f-display)}
+.choice span{color:var(--muted);font-size:.92rem}
+.choice:hover{border-color:var(--accent)}
 nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;overflow-x:auto}
 nav.tabs .row{display:flex;gap:6px;min-width:max-content}
 nav.tabs button{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px 8px 8px;font:700 .95rem var(--f-body);cursor:pointer}
@@ -290,9 +298,8 @@ function fq(q,u){
 const scale=(q,r)=>q*S.servings/r.serves;
 function planned(){return DAYS.map(([k,l])=>({k,l,r:S.plan[k]?byId(S.plan[k]):null})).filter(d=>d.r)}
 function active(){if(S.mode==="now"){const r=S.now&&byId(S.now);return r?[{k:"now",l:"Tonight",r}]:[]}return planned()}
-const FLOWS={plan:["pantry","plan","shop","prep"],now:["plan","shop","prep"]};
-const LBL={pantry:"Pantry",plan:"Recipes",shop:"Store list",prep:"Directions"};
-const flow=()=>FLOWS[S.mode]||FLOWS.plan;
+const LBL={pantry:"Pantry",choose:"Choose again",week:"Week plan",meals:"Meals",plan:"Recipes",shop:"Store list",prep:"Directions"};
+const flow=()=>S.mode==="now"?["plan","shop","prep"]:["pantry","choose",...(S.order==="meals"?["meals","week"]:["week","meals"]),"shop","prep"];
 
 function shopping(){
   const map={};
@@ -413,19 +420,29 @@ V.pick=()=>{
     <div class="cards">${list.map(({r,s})=>recipeCard(r,s,S.now===r.id?`<span class="pill ok">✓ Picked</span><button class="link" data-act="pickNow" data-id="">Change</button>`:`<button class="btn" data-act="pickNow" data-id="${r.id}">Cook this</button>`,S.now===r.id)).join("")}</div>
   </section>`;
 };
-V.plan=()=>{
-  if(S.mode==="now")return V.pick();
-  const list=all().map(r=>({r,s:status(r)})).sort((a,b)=>a.s.missing.length-b.s.missing.length);
-  const shown=S.filter==="ready"?list.filter(x=>x.s.missing.length<=2):list;
-  const inPlan=new Set(Object.values(S.plan).filter(Boolean));
-  return `
+V.plan=()=>V.pick();
+V.choose=()=>`<section class="choose">
+    <h2>Do you want to plan the week or review the meals first?</h2>
+    <div class="choices">
+      <button class="choice" data-act="order" data-o="week"><b>Plan the week</b><span>Start with the days. Pick a dinner for each night from a list.</span></button>
+      <button class="choice" data-act="order" data-o="meals"><b>Review the meals first</b><span>Browse recipes and see what you can make, then fit them into the week.</span></button>
+    </div>
+  </section>`;
+V.week=()=>{
+  return `<p class="muted small" style="margin:0">${S.order==="meals"?"Your picked meals are on the days below. Move them around or fill the gaps.":"Choose a dinner for each night, or tap Fill empty days to let the app pick what fits your pantry."}</p>
   <section class="block">
     <div class="head-row"><h2>This week's dinners</h2><span style="display:flex;gap:14px"><button class="link" data-act="autofill">Fill empty days</button><button class="link" data-act="clearWeek">Clear week</button></span></div>
     <div class="week">${DAYS.map(([k,l])=>{const r=S.plan[k]?byId(S.plan[k]):null,s=r&&status(r);
       return `<div class="day"><span class="dn">${l.slice(0,3)}</span><select data-act="setDay" data-k="${k}" id="day-${k}" aria-label="${l} dinner"><option value="">— No plan —</option>${all().map(x=>`<option value="${x.id}"${x.id===S.plan[k]?" selected":""}>${esc(x.name)}</option>`).join("")}</select>${r?(s.missing.length?`<span class="pill buy">buy ${s.missing.length}</span>`:`<span class="pill ok">ready</span>`):`<span class="pill muted">open</span>`}</div>`}).join("")}</div>
-  </section>
+  </section>`;
+};
+V.meals=()=>{
+  const list=all().map(r=>({r,s:status(r)})).sort((a,b)=>a.s.missing.length-b.s.missing.length);
+  const shown=S.filter==="ready"?list.filter(x=>x.s.missing.length<=2):list;
+  const inPlan=new Set(Object.values(S.plan).filter(Boolean));
+  return `<p class="muted small" style="margin:0">${S.order==="meals"?"Tap Add to week on the meals you want. They go on the first open nights.":"Here's everything on your week, plus other meals you could swap in."} ${planned().length}/7 nights planned.</p>
   <section class="block">
-    <div class="head-row"><h2>Recipes</h2><div class="filters"><button data-act="filter" data-f="all" aria-pressed="${S.filter!=="ready"}">All</button><button data-act="filter" data-f="ready" aria-pressed="${S.filter==="ready"}">Missing 2 or fewer</button></div></div>
+    <div class="head-row"><h2>Meals</h2><div class="filters"><button data-act="filter" data-f="all" aria-pressed="${S.filter!=="ready"}">All</button><button data-act="filter" data-f="ready" aria-pressed="${S.filter==="ready"}">Missing 2 or fewer</button></div></div>
     <div class="cards">${shown.map(({r,s})=>recipeCard(r,s,`${inPlan.has(r.id)?`<span class="pill ok">on the plan</span>`:`<button class="btn ghost" data-act="addPlan" data-id="${r.id}">Add to week</button>`}${r.custom?`<button class="link" data-act="rmRecipe" data-id="${r.id}">Delete</button>`:""}`)).join("")||`<p class="empty">No recipes are within two ingredients of your pantry yet.</p>`}</div>
     <details class="panel"><summary>Add your own recipe</summary>
       <form id="recForm" style="display:grid;gap:10px">
@@ -502,11 +519,13 @@ V.prep=()=>{
 function navBar(){
   const F=flow(),i=F.indexOf(S.tab);
   if(i<0)return `<div class="nextbar"><span></span><button class="btn big" data-act="tab" data-t="${F[0]}">Back to ${LBL[F[0]]} →</button></div>`;
+  if(S.tab==="choose")return `<div class="nextbar"><button class="btn ghost" data-act="tab" data-t="${F[i-1]}">← ${LBL[F[i-1]]}</button><span></span></div>`;
   const back=i>0?`<button class="btn ghost" data-act="tab" data-t="${F[i-1]}">← ${LBL[F[i-1]]}</button>`:"<span></span>";
   let next;
   if(i<F.length-1){
     let t=F[i+1],ok=true,why="",extra="";
-    if(S.tab==="plan"){ok=active().length>0;why=S.mode==="now"?"Pick a recipe to continue":"Add at least one dinner to continue";
+    if(S.mode==="plan"&&t==="shop"){ok=active().length>0;why="Add at least one dinner to continue"}
+    if(S.tab==="plan"){ok=active().length>0;why="Pick a recipe to continue";
       if(ok&&S.mode==="now"&&!shopping().need.length){t="prep";extra=" (nothing to buy)"}}
     next=`<div class="nextwrap">${ok?"":`<span class="small muted">${why}</span>`}<button class="btn big" data-act="tab" data-t="${t}"${ok?"":" disabled"}>Next: ${LBL[t]}${extra} →</button></div>`;
   }else next=S.mode==="now"?`<button class="btn big" data-act="doneCooking">Done cooking ✓</button>`:`<span class="small muted">That's the whole week.</span>`;
@@ -515,10 +534,11 @@ function navBar(){
 function render(quiet){
   document.getElementById("servN").textContent=S.servings;
   const F=flow();if(!F.includes(S.tab)&&!(S.mode==="now"&&S.tab==="pantry"))S.tab=F[0];
-  document.getElementById("modes").innerHTML=[["plan","Plan the week"],["now","Hungry now"]].map(([m,l])=>`<button data-act="mode" data-m="${m}" aria-pressed="${S.mode===m}">${l}</button>`).join("");
+  document.getElementById("modes").innerHTML=[["plan","Planning"],["now","Hungry now"]].map(([m,l])=>`<button data-act="mode" data-m="${m}" aria-pressed="${S.mode===m}">${l}</button>`).join("");
   document.getElementById("sub").textContent=S.mode==="now"?"Pick something you can make with what's here, grab anything missing, then cook.":"Check what you have, choose the week's dinners, shop for the gap, then prep and cook.";
-  const cnt={pantry:S.pantry.length,plan:S.mode==="now"?(S.now?"1":""):planned().length+"/7",shop:shopping().need.length+S.extras.length,prep:active().length||""};
-  document.getElementById("tabs").innerHTML=F.map((k,i)=>`<button role="tab" data-act="tab" data-t="${k}" aria-selected="${S.tab===k}"><span class="n">${i+1}</span>${LBL[k]}<span class="c">${cnt[k]}</span></button>`).join("");
+  const cnt={week:planned().length+"/7",meals:"",choose:"",pantry:S.pantry.length,plan:S.mode==="now"?(S.now?"1":""):planned().length+"/7",shop:shopping().need.length+S.extras.length,prep:active().length||""};
+  document.getElementById("tabs").innerHTML=F.filter(k=>k!=="choose").map((k,i)=>`<button role="tab" data-act="tab" data-t="${k}" aria-selected="${S.tab===k}"><span class="n">${i+1}</span>${LBL[k]}<span class="c">${cnt[k]}</span></button>`).join("");
+  document.querySelector("nav.tabs").hidden=S.tab==="choose";
   document.getElementById("view").innerHTML=V[S.tab]()+navBar();
   if(!quiet)save();
 }
@@ -544,6 +564,7 @@ document.addEventListener("click",e=>{
   const b=e.target.closest("[data-act]");if(!b||b.tagName==="SELECT"||b.type==="checkbox")return;
   const a=b.dataset.act;
   if(a==="tab"){S.tab=b.dataset.t;render();scrollTo({top:0});return}
+  if(a==="order"){S.order=b.dataset.o;S.tab=S.order;render();scrollTo({top:0});return}
   if(a==="mode"){if(S.mode!==b.dataset.m){S.mode=b.dataset.m;S.tab=flow()[0];render();scrollTo({top:0})}return}
   if(a==="pickNow"){S.now=b.dataset.id||null;Object.keys(S.done).forEach(k=>{if(/:now:/.test(k))delete S.done[k]});render();if(S.now)toast("Picked. Tap Next when you're ready.");return}
   if(a==="doneCooking"){Object.keys(S.done).forEach(k=>{if(/:now:/.test(k))delete S.done[k]});S.now=null;S.tab="plan";render();scrollTo({top:0});toast("Enjoy your meal!");return}
