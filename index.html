@@ -91,7 +91,7 @@ section.block{display:grid;gap:12px}
 .head-row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
 .note{background:var(--accent-soft);border-radius:var(--r);padding:10px 14px;font-size:.9rem;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
 
-button.btn,label.btn{font:700 .9rem var(--f-body);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+button.btn,label.btn,a.btn{font:700 .9rem var(--f-body);border-radius:8px;padding:8px 14px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
 button.ghost{background:transparent;color:var(--accent)}
 button.link{background:none;border:0;padding:0;color:var(--accent);font:700 .875rem var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 button.warn{border-color:var(--need);color:var(--need)}
@@ -183,6 +183,8 @@ ol.steps{margin:0;padding-left:1.4rem;display:grid;gap:6px}
 @media (prefers-reduced-motion:no-preference){.spin{animation:sp 0.8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}}
 .scanerr{background:var(--need-soft);color:var(--need);border-radius:8px;padding:10px 14px;font-size:.9rem;font-weight:700}
 label.btn{display:inline-flex;align-items:center}
+.icready{align-items:center}
+.icready a.btn{text-decoration:none;display:inline-flex}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:700;font-size:.9rem;z-index:10;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.toast{animation:up .2s ease-out}@keyframes up{from{transform:translate(-50%,8px);opacity:.4}}}
 </style>
@@ -436,11 +438,45 @@ V.week=()=>{
       return `<div class="day"><span class="dn">${l.slice(0,3)}</span><select data-act="setDay" data-k="${k}" id="day-${k}" aria-label="${l} dinner"><option value="">— No plan —</option>${all().map(x=>`<option value="${x.id}"${x.id===S.plan[k]?" selected":""}>${esc(x.name)}</option>`).join("")}</select>${r?(s.missing.length?`<span class="pill buy">buy ${s.missing.length}</span>`:`<span class="pill ok">ready</span>`):`<span class="pill muted">open</span>`}</div>`}).join("")}</div>
   </section>`;
 };
+/* ---------- import a recipe from a link ---------- */
+let IMP={status:"idle",url:"",r:null,msg:""};
+function importPanel(){
+  let body="";
+  if(IMP.status==="working")body=`<div class="scanwait"><span class="spin" aria-hidden="true"></span><span>Reading the recipe… this takes about 15–30 seconds.</span></div>`;
+  else if(IMP.status==="error")body=`<div class="scanerr">${esc(IMP.msg)}</div>`;
+  else if(IMP.status==="review"){const r=IMP.r;
+    body=`<div class="card"><div class="eyebrow">${esc(r.time||"")}${r.time?" · ":""}serves ${r.serves} · from ${esc(r.source.label)}</div>
+      <input type="text" id="impName" value="${esc(r.name)}" aria-label="Recipe name" style="font:700 1.05rem var(--f-display)">
+      <ul class="ing">${r.ing.map(([q,u,n])=>`<li><span class="q">${fq(q,u)}</span><span>${esc(n)}</span><span></span></li>`).join("")}</ul>
+      <p class="small muted" style="margin:0">${r.steps.length} steps${r.prep.length?` · ${r.prep.length} make-ahead task${r.prep.length>1?"s":""}`:""}. You can delete it later from its card.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="impSave">Save recipe</button><button class="btn ghost" data-act="impSave" data-add="1">Save and add to week</button><button class="link" data-act="impClear">Discard</button></div></div>`;}
+  return `<section class="block panel">
+    <div class="head-row"><h2>Import a recipe</h2><span class="muted small">Paste a link from any recipe site</span></div>
+    <form class="form" id="impForm"><input type="url" id="impUrl" placeholder="https://www.tasteofhome.com/recipes/…" value="${esc(IMP.url)}" autocomplete="off" aria-label="Recipe link"><button class="btn" type="submit"${IMP.status==="working"?" disabled":""}>Import</button></form>
+    ${body}
+  </section>`;
+}
+const UNIT_OK=["lb","oz","cup","tbsp","tsp","can","clove","jar","bag","box","pkg","head","bunch","slice","stalk","pinch","each"];
+async function runImport(url){
+  url=url.trim();if(!/^https?:\/\/\S+\.\S+/.test(url)){toast("Paste a full link that starts with https://");return}
+  if(!window.importRecipeFromUrl){IMP={status:"error",url,r:null,msg:"Recipe import isn't available right now. Reload the page and try again."};render(true);return}
+  IMP={status:"working",url,r:null,msg:""};render(true);
+  try{const j=await window.importRecipeFromUrl(url,CATS);
+    if(!j||j.error||!Array.isArray(j.ingredients)||!j.ingredients.length)throw new Error(j&&j.error?j.error:"No recipe was found at that link.");
+    const ing=j.ingredients.map(x=>{const u=UNIT_OK.includes(String(x.unit||"").toLowerCase())?String(x.unit).toLowerCase():"each";const q=+x.quantity>0?+x.quantity:1;
+      const n=String(x.item||"").trim().toLowerCase();return [q,u,n,CATS.includes(x.section)?x.section:guess(n)]}).filter(x=>x[2]);
+    let host="";try{host=new URL(url).hostname.replace(/^www\./,"")}catch(e){}
+    IMP={status:"review",url,msg:"",r:{name:String(j.name||"Imported recipe").trim(),serves:Math.max(1,Math.round(+j.serves||4)),time:String(j.time||"").trim(),
+      ing,prep:(j.prep||[]).map(String).filter(Boolean),steps:(j.steps||[]).map(String).filter(Boolean),source:{label:host||"link",url}}};
+  }catch(err){console.error(err);IMP={status:"error",url,r:null,msg:/busy|quota|429|500|503|demand/i.test(String(err.message))?"The import service is busy. Wait a minute and try again.":String(err.message||err).slice(0,200)}}
+  render(true);
+}
 V.meals=()=>{
   const list=all().map(r=>({r,s:status(r)})).sort((a,b)=>a.s.missing.length-b.s.missing.length);
   const shown=S.filter==="ready"?list.filter(x=>x.s.missing.length<=2):list;
   const inPlan=new Set(Object.values(S.plan).filter(Boolean));
   return `<p class="muted small" style="margin:0">${S.order==="meals"?"Tap Add to week on the meals you want. They go on the first open nights.":"Here's everything on your week, plus other meals you could swap in."} ${planned().length}/7 nights planned.</p>
+  ${importPanel()}
   <section class="block">
     <div class="head-row"><h2>Meals</h2><div class="filters"><button data-act="filter" data-f="all" aria-pressed="${S.filter!=="ready"}">All</button><button data-act="filter" data-f="ready" aria-pressed="${S.filter==="ready"}">Missing 2 or fewer</button></div></div>
     <div class="cards">${shown.map(({r,s})=>recipeCard(r,s,`${inPlan.has(r.id)?`<span class="pill ok">on the plan</span>`:`<button class="btn ghost" data-act="addPlan" data-id="${r.id}">Add to week</button>`}${r.custom?`<button class="link" data-act="rmRecipe" data-id="${r.id}">Delete</button>`:""}`)).join("")||`<p class="empty">No recipes are within two ingredients of your pantry yet.</p>`}</div>
@@ -469,8 +505,9 @@ V.shop=()=>{
   const total=need.length+S.extras.length;
   return `
   <section class="block">
-    <div class="head-row"><h2>Store list</h2><span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="copy">Copy list</button><button class="btn" data-act="stock" ${checkedCount?"":"disabled style=\"opacity:.5;cursor:default\""}>Put checked in pantry</button></span></div>
+    <div class="head-row"><h2>Store list</h2><span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="copy">Copy list</button>${window.INSTACART_ENDPOINT?`<button class="btn" data-act="instacart"${IC.status==="working"?" disabled":""}>Order on Instacart</button>`:""}<button class="btn" data-act="stock" ${checkedCount?"":"disabled style=\"opacity:.5;cursor:default\""}>Put checked in pantry</button></span></div>
     <div class="stats"><span>${S.mode==="now"?`<b>${esc(active()[0].r.name)}</b>`:`<b>${n}</b> dinners`} for <b>${S.servings}</b></span><span><b>${total}</b> to buy</span><span><b>${checkedCount}</b> in the cart</span><span><b>${onHand.length}</b> already on hand</span></div>
+    ${icPanel()}
     <div class="note"><span>Walmart pickup: tap <b>Walmart ↗</b> on each item, add it to your cart, then check it off here.</span></div>
     <div class="ticket">
       ${groups.map(g=>`<div class="aisle"><div class="eyebrow"><span>${g.c}</span><span class="mono">${g.items.length}</span></div>${g.items.map(i=>row("k|"+i.key,i.n,fq(i.q,i.u),[...i.for].join(" · ")+(S.buyAnyway[i.key]?" · restock":""))).join("")}</div>`).join("")}
@@ -485,6 +522,29 @@ V.shop=()=>{
     <ul class="ing">${onHand.map(i=>`<li><span class="q">${fq(i.q,i.u)}</span><span>${esc(i.n)}</span><button class="link" data-act="buyAnyway" data-k="${esc(i.key)}">need more</button></li>`).join("")||`<li><span></span><span class="empty">None</span><span></span></li>`}</ul>
   </details>`;
 };
+/* ---------- Instacart ---------- */
+let IC={status:"idle",url:"",msg:"",n:0};
+function icPanel(){
+  if(IC.status==="working")return `<div class="scanwait"><span class="spin" aria-hidden="true"></span><span>Building your Instacart list…</span></div>`;
+  if(IC.status==="error")return `<div class="scanerr">${esc(IC.msg)}</div>`;
+  if(IC.status==="ready")return `<div class="note icready"><span><b>Your Instacart list is ready</b> with ${IC.n} item${IC.n===1?"":"s"}. Pick a store and pickup or delivery there, then check out.</span><a class="btn" href="${esc(IC.url)}" target="_blank" rel="noopener">Open in Instacart ↗</a></div>`;
+  return "";
+}
+function icItem(i){const m={lb:"pound",oz:"ounce",cup:"cup",tbsp:"tablespoon",tsp:"teaspoon"};
+  if(m[i.u])return{name:i.n,quantity:Math.round(i.q*100)/100||1,unit:m[i.u]};
+  return{name:i.n,quantity:Math.max(1,Math.ceil(i.q-0.05)),unit:"each"}}
+async function orderInstacart(){
+  const {need}=shopping();
+  const items=need.filter(i=>!S.checked["k|"+i.key]).map(icItem).concat(S.extras.filter(x=>!S.checked["x:"+x.id]).map(x=>({name:x.name,quantity:1,unit:"each"})));
+  if(!items.length){toast("Nothing left to buy on the list");return}
+  IC={status:"working",url:"",msg:"",n:items.length};render(true);
+  try{const r=await fetch(window.INSTACART_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:S.mode==="now"&&active()[0]?active()[0].r.name:"Pantry to Plate: this week's groceries",items})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.products_link_url)throw new Error(j.error||j.message||("Instacart returned an error ("+r.status+")"));
+    IC={status:"ready",url:j.products_link_url,msg:"",n:items.length};
+  }catch(err){console.error(err);IC={status:"error",url:"",n:0,msg:"Couldn't build the Instacart list. "+String(err.message||"").slice(0,140)}}
+  render(true);
+}
 function row(key,name,qty,sub){const c=!!S.checked[key];return `<label class="check${c?" done":""}"><input type="checkbox" data-act="check" data-k="${esc(key)}"${c?" checked":""}><span class="t">${esc(name)}${sub?`<span class="for">${sub}</span>`:""}</span><span class="q">${qty}<a class="wm" href="https://www.walmart.com/search?q=${encodeURIComponent(name)}" target="_blank" rel="noopener" aria-label="Find ${esc(name)} at Walmart">Walmart ↗</a></span></label>`}
 
 const chk=(key,html)=>{const c=!!S.done[key];return `<label class="check${c?" done":""}"><input type="checkbox" data-act="done" data-k="${key}"${c?" checked":""}><span class="t">${html}</span><span></span></label>`};
@@ -584,6 +644,12 @@ document.addEventListener("click",e=>{
     const done=()=>toast("List copied");try{navigator.clipboard.writeText(txt).then(done,()=>fallback(txt))}catch(err){fallback(txt)}return}
   if(a==="stock"){const {need}=shopping();let n=0;need.forEach(i=>{if(S.checked["k|"+i.key]){if(addPantry(i.n,locFor(i.cat)))n++;delete S.checked["k|"+i.key];delete S.buyAnyway[i.key]}});S.extras=S.extras.filter(x=>{if(S.checked["x:"+x.id]){delete S.checked["x:"+x.id];return false}return true});render();toast(`Moved ${n} item${n===1?"":"s"} into the pantry`);return}
   if(a==="resetDone"){S.done={};render();return}
+  if(a==="impClear"){IMP={status:"idle",url:"",r:null,msg:""};render(true);return}
+  if(a==="impSave"){const r=IMP.r;const nm=(document.getElementById("impName")||{}).value;const id="c"+nid();
+    S.custom.push({id,custom:true,name:(nm||r.name).trim(),serves:r.serves,time:r.time,tags:["imported"],ing:r.ing,prep:r.prep,steps:r.steps,source:r.source});
+    let msg="Recipe saved";if(b.dataset.add){const d=DAYS.find(([k])=>!S.plan[k]);if(d){S.plan[d[0]]=id;msg=`Saved and added to ${d[1]}`}else msg="Saved. The week is full, so swap it in on Week plan."}
+    IMP={status:"idle",url:"",r:null,msg:""};render();toast(msg);return}
+  if(a==="instacart"){orderInstacart();return}
   if(a==="scanAll"){SCAN.items.forEach(i=>i.on=b.dataset.v==="1");render(true);return}
   if(a==="scanClear"){SCAN={status:"idle",items:[],msg:"",n:0};render(true);return}
   if(a==="scanAdd"){let n=0,u=0;SCAN.items.forEach(i=>{if(!i.on)return;const r=upsertPantry(i.name,i.loc,i.qty,i.left);if(r===1)n++;if(r===2)u++});S.sample=false;SCAN={status:"idle",items:[],msg:"",n:0};render();toast(`Added ${n}${u?`, updated ${u}`:""}`);return}
@@ -604,6 +670,7 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("submit",e=>{
   e.preventDefault();const f=e.target;
+  if(f.id==="impForm"){runImport(document.getElementById("impUrl").value);return}
   if(f.id==="addForm"){const n=document.getElementById("addName").value;if(addPantry(n,document.getElementById("addLoc").value)){render();document.getElementById("addName").focus()}else toast(n.trim()?"That's already in your pantry":"Type an item name first")}
   if(f.id==="extraForm"){const n=document.getElementById("extraName").value.trim();if(!n)return;S.extras.push({id:nid(),name:n});render();document.getElementById("extraName").focus()}
   if(f.id==="recForm"){const name=document.getElementById("rName").value.trim();const ing=lines(document.getElementById("rIng").value).map(parseIng).filter(x=>x[2]);const steps=lines(document.getElementById("rSteps").value);
@@ -744,6 +811,31 @@ if (cfg && cfg.apiKey) {
   const models = MODELS.map(m => getGenerativeModel(ai, { model: m,
     generationConfig: { responseMimeType: "application/json", responseSchema: schema, temperature: 0.2 } }));
   const busy = e => /429|500|503|RESOURCE_EXHAUSTED|UNAVAILABLE|INTERNAL|high demand|overloaded|quota|Failed to fetch|network|timed? ?out/i.test(String(e && e.message || e));
+  const reader = getGenerativeModel(ai, { model: "gemini-3.5-flash", tools: [{ urlContext: {} }], generationConfig: { temperature: 0.1 } });
+  const reader2 = getGenerativeModel(ai, { model: "gemini-3.5-flash-lite", tools: [{ urlContext: {} }], generationConfig: { temperature: 0.1 } });
+  window.importRecipeFromUrl = async (url, cats) => {
+    const prompt = `Read the recipe at this link: ${url}
+Return ONLY a JSON object, no other text:
+{"name": string, "serves": integer, "time": string like "45 min",
+ "ingredients": [{"quantity": number, "unit": one of "lb","oz","cup","tbsp","tsp","can","clove","jar","bag","box","pkg","head","bunch","slice","stalk","pinch","each", "item": string, "section": one of ${JSON.stringify(cats)}}],
+ "prep": [string], "steps": [string]}
+Rules:
+- item: a short generic grocery name in lowercase without prep words or sizes (e.g. "onion" not "1 medium onion, chopped"; "diced tomatoes" for a can of diced tomatoes; "chicken breast").
+- Convert to the allowed units; use "each" for counted things (eggs, onions, peppers). For canned goods use "can" with the count. Fractions as decimals.
+- Skip water, and skip salt and pepper "to taste".
+- prep: up to 3 short make-ahead tasks someone could do earlier in the week (chopping, marinating, making a sauce). Empty if none.
+- steps: the cooking steps, each one or two sentences, in order. Keep any temperatures and times.
+- If the page is not a recipe or can't be read, return {"error": "short reason"}.`;
+    let r, last;
+    for (const m of [reader, reader, reader2]) {
+      try { r = await m.generateContent(prompt); break; } catch (e) { last = e; console.warn("import failed", e); if (!busy(e)) throw e; }
+    }
+    if (!r) throw last;
+    const t = r.response.text();
+    const a = t.indexOf("{"), b = t.lastIndexOf("}");
+    if (a < 0 || b < a) throw new Error("Couldn't read a recipe from that page.");
+    return JSON.parse(t.slice(a, b + 1));
+  };
   window.scanPantryPhotos = async (images, hint, vocab) => {
     const prompt = `You are taking inventory of a home kitchen from photos (fridge, freezer, pantry shelves, spice rack).
 List every distinct food, drink, condiment, baking or cooking ingredient you can identify across ALL photos.

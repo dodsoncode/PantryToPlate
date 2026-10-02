@@ -9,3 +9,7 @@ window.FIREBASE_CONFIG = {
   appId: "1:480059595784:web:c2cca9b909f224b96785bd",
   measurementId: "G-77891QBWK9"
 };
+
+// Instacart ordering: the address of your Cloudflare Worker (see instacart-worker.js).
+// Leave empty to hide the "Order on Instacart" button.
+window.INSTACART_ENDPOINT = "";

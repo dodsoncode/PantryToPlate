@@ -36,3 +36,20 @@ A static site (no build step) with optional Google sign-in and Firebase sync, se
 Built-in recipes live in the `RECIPES` array near the top of the script in `index.html`.
 Each ingredient is `[quantity, unit, name, store section]`, based on the recipe's `serves` count; the app scales to the servings you pick.
 Recipes you add in the app are saved to your account instead.
+
+## Instacart ordering
+
+The Store list's **Order on Instacart** button sends the list to a small Cloudflare Worker
+(`instacart-worker.js`), which calls Instacart's *Create shopping list page* API with a secret key
+and returns a link. The button stays hidden until `INSTACART_ENDPOINT` is set in `firebase-config.js`.
+
+1. Get a key at https://dashboard.instacart.com (Development keys are self-serve; Production keys need Instacart's approval).
+2. Cloudflare → Workers & Pages → Create Worker → paste `instacart-worker.js` → Deploy.
+3. Worker → Settings → Variables and Secrets: secret `INSTACART_API_KEY`; while on a Development key also add
+   `INSTACART_URL = https://connect.dev.instacart.tools/idp/v1/products/products_link`.
+4. Set `window.INSTACART_ENDPOINT` in `firebase-config.js` to the worker's `https://….workers.dev` address.
+
+## Recipe import
+
+Meals → **Import a recipe** reads a recipe page with Gemini (Firebase AI Logic, URL context tool) and
+shows a preview before saving it as one of your recipes.
