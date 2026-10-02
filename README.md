@@ -53,3 +53,20 @@ and returns a link. The button stays hidden until `INSTACART_ENDPOINT` is set in
 
 Meals → **Import a recipe** reads a recipe page with Gemini (Firebase AI Logic, URL context tool) and
 shows a preview before saving it as one of your recipes.
+
+## Walmart cart
+
+On the Store list, **set product** on an item → paste the Walmart product link (`walmart.com/ip/…/<number>`).
+Saved products are shared with the household. **Add N items to Walmart cart** opens
+`affil.walmart.com/cart/addToCart?items=ID|QTY,…`, which fills the Walmart cart; choose pickup at checkout.
+
+## Kroger cart
+
+Uses Kroger's public API through a Cloudflare Worker (`kroger-worker.js`) that holds the client secret.
+
+1. https://developer.kroger.com → create an account → register an application (Production environment),
+   scopes `product.compact` and `cart.basic:write`, redirect URI `https://<worker>.workers.dev/callback`.
+2. Cloudflare → Create Worker → paste `kroger-worker.js` → Deploy. Settings → Variables and Secrets:
+   `KROGER_CLIENT_ID` (variable) and `KROGER_CLIENT_SECRET` (secret).
+3. Set `window.KROGER_ENDPOINT` in `firebase-config.js` to the worker address. A Kroger tab appears in **Send to a store**:
+   pick a store by ZIP, connect your Kroger account once per device, then **Add N items to Kroger cart** (pickup or delivery).

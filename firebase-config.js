@@ -13,3 +13,7 @@ window.FIREBASE_CONFIG = {
 // Instacart ordering: the address of your Cloudflare Worker (see instacart-worker.js).
 // Leave empty to hide the "Order on Instacart" button.
 window.INSTACART_ENDPOINT = "";
+
+// Kroger ordering: the address of your Kroger Cloudflare Worker (see kroger-worker.js).
+// Leave empty to hide the Kroger tab.
+window.KROGER_ENDPOINT = "";

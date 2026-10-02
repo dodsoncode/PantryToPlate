@@ -185,6 +185,18 @@ ol.steps{margin:0;padding-left:1.4rem;display:grid;gap:6px}
 label.btn{display:inline-flex;align-items:center}
 .icready{align-items:center}
 .icready a.btn{text-decoration:none;display:inline-flex}
+.storebox{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.storebox a.btn,.pick a.btn{justify-self:start}
+.pick{display:grid;gap:12px;background:var(--surface);border:2px solid var(--accent);border-radius:var(--r);padding:14px 16px;scroll-margin-top:70px}
+.pickstore{display:grid;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
+.pickstore a{color:var(--accent)}
+.plist{display:grid;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.prow{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 10px;border-top:1px solid var(--line)}
+.prow:first-child{border-top:0}
+.prow.on{background:var(--accent-soft)}
+.prow>span{min-width:0}
+.check .pickbtn{font-size:.72rem;font-weight:500;color:var(--muted)}
+.wm.set{background:var(--accent-soft)}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:700;font-size:.9rem;z-index:10;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.toast{animation:up .2s ease-out}@keyframes up{from{transform:translate(-50%,8px);opacity:.4}}}
 </style>
@@ -515,7 +527,7 @@ V.shop=()=>{
     <div class="head-row"><h2>Store list</h2><span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="copy">Copy list</button>${window.INSTACART_ENDPOINT?`<button class="btn" data-act="instacart"${IC.status==="working"?" disabled":""}>Order on Instacart</button>`:""}<button class="btn" data-act="stock" ${checkedCount?"":"disabled style=\"opacity:.5;cursor:default\""}>Put checked in pantry</button></span></div>
     <div class="stats"><span>${S.mode==="now"?`<b>${esc(active()[0].r.name)}</b>`:`<b>${n}</b> dinners`} for <b>${S.servings}</b></span><span><b>${total}</b> to buy</span><span><b>${checkedCount}</b> in the cart</span><span><b>${onHand.length}</b> already on hand</span></div>
     ${icPanel()}
-    <div class="note"><span>Walmart pickup: tap <b>Walmart ↗</b> on each item, add it to your cart, then check it off here.</span></div>
+    ${storePanel()}
     <div class="ticket">
       ${groups.map(g=>`<div class="aisle"><div class="eyebrow"><span>${g.c}</span><span class="mono">${g.items.length}</span></div>${g.items.map(i=>row("k|"+i.key,i.n,fq(i.q,i.u),[...i.for].join(" · ")+(S.buyAnyway[i.key]?" · restock":""))).join("")}</div>`).join("")}
       <div class="aisle"><div class="eyebrow"><span>Extras</span><span class="mono">${S.extras.length}</span></div>
@@ -529,6 +541,79 @@ V.shop=()=>{
     <ul class="ing">${onHand.map(i=>`<li><span class="q">${fq(i.q,i.u)}</span><span>${esc(i.n)}</span><button class="link" data-act="buyAnyway" data-k="${esc(i.key)}">need more</button></li>`).join("")||`<li><span></span><span class="empty">None</span><span></span></li>`}</ul>
   </details>`;
 };
+/* ---------- store carts: saved products, Walmart, Kroger ---------- */
+const ik=n=>norm(n).join(" ");
+const prod=(n,st)=>{const p=(S.products||{})[ik(n)];return p&&p[st]||null};
+function setProd(n,st,v){S.products=S.products||{};const k=ik(n),cur=Object.assign({},S.products[k]);if(v)cur[st]=v;else delete cur[st];if(Object.keys(cur).length)S.products[k]=cur;else delete S.products[k]}
+function storeQty(q,u){if(["can","jar","bag","box","pkg","head","bunch"].includes(u)||(u==="each"&&q<=6))return Math.max(1,Math.ceil(q-0.05));return 1}
+function buyItems(){const {need}=shopping();
+  return need.filter(i=>!S.checked["k|"+i.key]).map(i=>({n:i.n,qty:storeQty(i.q,i.u)})).concat(S.extras.filter(x=>!S.checked["x:"+x.id]).map(x=>({n:x.name,qty:1})))}
+function parseWalmart(t){t=String(t||"");const m=t.match(/\/ip\/(?:[^\/?#\s]*\/)?(\d{5,})/)||t.match(/[?&](?:itemId|selected)=(\d{5,})/)||t.match(/^\s*(\d{5,})\s*$/);return m?m[1]:null}
+let PICK=null,KR={status:"idle",msg:"",stores:null,results:null};
+const KEY_KR="pantry-to-plate.kroger";
+const krTok=()=>{try{return JSON.parse(localStorage.getItem(KEY_KR)||"null")}catch(e){return null}};
+const krSave=t=>{try{t?localStorage.setItem(KEY_KR,JSON.stringify(t)):localStorage.removeItem(KEY_KR)}catch(e){}};
+(function(){const h=location.hash;if(h.startsWith("#kroger=")){try{const b=h.slice(8).replace(/-/g,"+").replace(/_/g,"/");krSave(JSON.parse(atob(b)));S.storeTab="kroger";setTimeout(()=>toast("Kroger account connected"),300)}catch(e){}history.replaceState(null,"",location.pathname+location.search)}
+  else if(h.startsWith("#krogererror=")){setTimeout(()=>toast("Kroger sign-in was cancelled"),300);history.replaceState(null,"",location.pathname+location.search)}})();
+async function kr(path,opt){const r=await fetch(window.KROGER_ENDPOINT.replace(/\/$/,"")+path,opt);const j=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(j.error||("Kroger error "+r.status));e.status=r.status;throw e}return j}
+
+function pickPanel(){if(!PICK)return "";const n=PICK.n,wm=prod(n,"walmart"),kp=prod(n,"kroger");
+  let kro="";
+  if(window.KROGER_ENDPOINT){
+    if(!S.krStore)kro=`<p class="small muted" style="margin:0">Choose a Kroger store first (Kroger tab below) to see Kroger products.</p>`;
+    else if(PICK.loading)kro=`<div class="scanwait"><span class="spin" aria-hidden="true"></span><span>Searching Kroger…</span></div>`;
+    else if(PICK.res)kro=PICK.res.length?`<div class="plist">${PICK.res.map((x,i)=>`<div class="prow${kp&&kp.upc===x.upc?" on":""}"><span><b>${esc(x.title)}</b><span class="small muted"> ${esc([x.brand,x.size].filter(Boolean).join(" · "))}${x.price?` · $${(+x.price).toFixed(2)}`:""}</span></span><button class="btn ghost" data-act="pickKr" data-i="${i}">${kp&&kp.upc===x.upc?"Chosen":"Choose"}</button></div>`).join("")}</div>`:`<p class="small muted">No Kroger matches. Try a different name.</p>`;
+  }
+  return `<div class="pick" id="pickPanel"><div class="head-row"><h3>Products for “${esc(n)}”</h3><button class="link" data-act="pickClose">Done</button></div>
+    <div class="pickstore"><b>Walmart</b>${wm?`<span class="small">Saved: <a href="https://www.walmart.com/ip/${wm.id}" target="_blank" rel="noopener">${esc(wm.title||"item "+wm.id)}</a> <button class="link" data-act="wmClear">remove</button></span>`:""}
+      <p class="small muted" style="margin:0">Open <a href="https://www.walmart.com/search?q=${encodeURIComponent(n)}" target="_blank" rel="noopener">Walmart search ↗</a>, open the product you buy, copy its web address and paste it here.</p>
+      <div class="form"><input type="text" id="wmLink" placeholder="https://www.walmart.com/ip/…" autocomplete="off" aria-label="Walmart product link"><button class="btn ghost" data-act="wmSave">Save</button></div></div>
+    ${window.KROGER_ENDPOINT?`<div class="pickstore"><b>Kroger</b>${kp?`<span class="small">Saved: ${esc(kp.title)} <button class="link" data-act="krClear">remove</button></span>`:""}${kro}</div>`:""}
+  </div>`}
+
+function storePanel(){
+  const items=buyItems();if(!items.length)return pickPanel();
+  const tabs=[["walmart","Walmart"]].concat(window.KROGER_ENDPOINT?[["kroger","Kroger"]]:[]);
+  const tab=tabs.some(t=>t[0]===S.storeTab)?S.storeTab:"walmart";
+  let body="";
+  if(tab==="walmart"){const have=items.filter(i=>prod(i.n,"walmart")),miss=items.filter(i=>!prod(i.n,"walmart"));
+    const url="https://affil.walmart.com/cart/addToCart?items="+have.map(i=>prod(i.n,"walmart").id+"|"+i.qty).join(",");
+    body=`<p class="small" style="margin:0"><b>${have.length} of ${items.length}</b> items have a saved Walmart product. Saved products are remembered for next time.</p>
+      ${have.length?`<a class="btn" href="${url}" target="_blank" rel="noopener">Add ${have.length} item${have.length===1?"":"s"} to Walmart cart ↗</a>`:""}
+      ${miss.length?`<p class="small muted" style="margin:0">Set a product for: ${miss.map(i=>`<button class="link" data-act="pick" data-n="${esc(i.n)}">${esc(i.n)}</button>`).join(", ")}</p>`:""}
+      <p class="small muted" style="margin:0">Choose pickup and a time when you check out on Walmart.</p>`}
+  else{const tok=krTok();
+    if(!S.krStore)body=`<p class="small" style="margin:0">Pick your Kroger store.</p><form class="form" id="krZipForm"><input type="text" id="krZip" inputmode="numeric" placeholder="ZIP code" value="${esc(S.krZip||"")}" aria-label="ZIP code" style="max-width:9rem"><button class="btn ghost" type="submit">Find stores</button></form>
+      ${KR.status==="stores"?(KR.stores.length?`<div class="plist">${KR.stores.map((x,i)=>`<div class="prow"><span><b>${esc(x.name)}</b><span class="small muted"> ${esc(x.address)}</span></span><button class="btn ghost" data-act="krStore" data-i="${i}">Choose</button></div>`).join("")}</div>`:`<p class="small muted">No Kroger-family stores within 50 miles of that ZIP.</p>`):""}`;
+    else if(!tok)body=`<p class="small" style="margin:0">Store: <b>${esc(S.krStore.name)}</b> <button class="link" data-act="krStoreClear">change</button></p>
+      <button class="btn" data-act="krLogin">Connect your Kroger account</button><p class="small muted" style="margin:0">You'll sign in on Kroger's site, then come back here. This phone stays connected.</p>`;
+    else body=`<p class="small" style="margin:0">Store: <b>${esc(S.krStore.name)}</b> <button class="link" data-act="krStoreClear">change</button> · <button class="link" data-act="krLogout">disconnect</button></p>
+      <p class="small muted" style="margin:0">Items without a saved Kroger product use the best match. You can change any of them with “set product.”</p>
+      <div class="form"><button class="btn" data-act="krSend"${KR.status==="sending"?" disabled":""}>Add ${items.length} item${items.length===1?"":"s"} to Kroger cart</button><select id="krMode" aria-label="Pickup or delivery"><option value="PICKUP"${S.krMode!=="DELIVERY"?" selected":""}>Pickup</option><option value="DELIVERY"${S.krMode==="DELIVERY"?" selected":""}>Delivery</option></select></div>`;
+    if(KR.status==="working"||KR.status==="sending")body+=`<div class="scanwait"><span class="spin" aria-hidden="true"></span><span>${esc(KR.msg)}</span></div>`;
+    if(KR.status==="error")body+=`<div class="scanerr">${esc(KR.msg)}</div>`;
+    if(KR.status==="done")body+=`<div class="note icready"><span>${esc(KR.msg)}</span><a class="btn" href="https://www.kroger.com/cart" target="_blank" rel="noopener">Open Kroger cart ↗</a></div>`;
+  }
+  return `${pickPanel()}<div class="storebox"><div class="head-row"><h3>Send to a store</h3><div class="filters">${tabs.map(([k,l])=>`<button data-act="storeTab" data-s="${k}" aria-pressed="${k===tab}">${l}</button>`).join("")}</div></div>${body}</div>`;
+}
+async function krPickSearch(){if(!PICK||!S.krStore||!window.KROGER_ENDPOINT)return;PICK.loading=true;render(true);
+  try{const j=await kr(`/products?term=${encodeURIComponent(PICK.n)}&locationId=${encodeURIComponent(S.krStore.id)}`);if(PICK)PICK.res=j.products}catch(e){if(PICK)PICK.res=[];toast(e.message)}
+  if(PICK)PICK.loading=false;render(true)}
+async function krAuthed(fn){let t=krTok();if(!t)throw new Error("Connect your Kroger account first");
+  if(t.e&&Date.now()>t.e-60000){t=await kr("/refresh",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refresh_token:t.r})});krSave(t)}
+  try{return await fn(t.a)}catch(e){if(e.status!==401)throw e;t=await kr("/refresh",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refresh_token:t.r})});krSave(t);return await fn(t.a)}}
+async function krSend(){const items=buyItems();const miss=[];const out=[];
+  KR={status:"sending",msg:"Matching products…"};render(true);
+  try{for(const i of items){let p=prod(i.n,"kroger");
+      if(!p){KR.msg=`Matching “${i.n}”…`;render(true);const j=await kr(`/products?term=${encodeURIComponent(i.n)}&locationId=${encodeURIComponent(S.krStore.id)}`);
+        const x=j.products&&j.products[0];if(x){p={upc:x.upc,title:x.title+(x.size?" ("+x.size+")":"")};setProd(i.n,"kroger",p)}}
+      if(p)out.push({upc:p.upc,quantity:i.qty});else miss.push(i.n)}
+    if(!out.length)throw new Error("None of the items matched a Kroger product.");
+    KR.msg="Adding to your Kroger cart…";render(true);
+    await krAuthed(a=>kr("/cart",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({access_token:a,items:out,modality:S.krMode==="DELIVERY"?"DELIVERY":"PICKUP"})}));
+    KR={status:"done",msg:`Added ${out.length} item${out.length===1?"":"s"} to your Kroger cart.${miss.length?` Not found: ${miss.join(", ")}.`:""}`};save();
+  }catch(e){console.error(e);KR={status:"error",msg:/Connect your Kroger/.test(e.message)?e.message:"Couldn't add to the Kroger cart. "+e.message};if(e.status===400||/refresh|invalid_grant/i.test(e.message)){krSave(null)}}
+  render(true)}
 /* ---------- Instacart ---------- */
 let IC={status:"idle",url:"",msg:"",n:0};
 function icPanel(){
@@ -552,7 +637,8 @@ async function orderInstacart(){
   }catch(err){console.error(err);IC={status:"error",url:"",n:0,msg:"Couldn't build the Instacart list. "+String(err.message||"").slice(0,140)}}
   render(true);
 }
-function row(key,name,qty,sub){const c=!!S.checked[key];return `<label class="check${c?" done":""}"><input type="checkbox" data-act="check" data-k="${esc(key)}"${c?" checked":""}><span class="t">${esc(name)}${sub?`<span class="for">${sub}</span>`:""}</span><span class="q">${qty}<a class="wm" href="https://www.walmart.com/search?q=${encodeURIComponent(name)}" target="_blank" rel="noopener" aria-label="Find ${esc(name)} at Walmart">Walmart ↗</a></span></label>`}
+function row(key,name,qty,sub){const c=!!S.checked[key];const wm=prod(name,"walmart");
+  return `<label class="check${c?" done":""}"><input type="checkbox" data-act="check" data-k="${esc(key)}"${c?" checked":""}><span class="t">${esc(name)}${sub?`<span class="for">${sub}</span>`:""}</span><span class="q">${qty}${wm?`<a class="wm set" href="https://www.walmart.com/ip/${wm.id}" target="_blank" rel="noopener" aria-label="Your Walmart product for ${esc(name)}">Walmart ✓</a>`:`<a class="wm" href="https://www.walmart.com/search?q=${encodeURIComponent(name)}" target="_blank" rel="noopener" aria-label="Find ${esc(name)} at Walmart">Walmart ↗</a>`}<button type="button" class="link pickbtn" data-act="pick" data-n="${esc(name)}" aria-label="Choose store products for ${esc(name)}">${wm||prod(name,"kroger")?"change":"set product"}</button></span></label>`}
 
 const chk=(key,html)=>{const c=!!S.done[key];return `<label class="check${c?" done":""}"><input type="checkbox" data-act="done" data-k="${key}"${c?" checked":""}><span class="t">${html}</span><span></span></label>`};
 V.prep=()=>{
@@ -658,6 +744,19 @@ document.addEventListener("click",e=>{
     let msg="Recipe saved";if(b.dataset.add){const d=DAYS.find(([k])=>!S.plan[k]);if(d){S.plan[d[0]]=id;msg=`Saved and added to ${d[1]}`}else msg="Saved. The week is full, so swap it in on Week plan."}
     IMP={status:"idle",url:"",r:null,msg:""};render();toast(msg);return}
   if(a==="instacart"){orderInstacart();return}
+  if(a==="pick"){e.preventDefault();PICK={n:b.dataset.n};render(true);krPickSearch();setTimeout(()=>{const el=document.getElementById("pickPanel");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},50);return}
+  if(a==="pickClose"){PICK=null;render(true);return}
+  if(a==="wmSave"){const id=parseWalmart(document.getElementById("wmLink").value);if(!id){toast("That doesn't look like a Walmart product link. It should contain /ip/ and a number.");return}
+    const raw=document.getElementById("wmLink").value;const t=(raw.match(/\/ip\/([^\/?#\s]+)\/\d/)||[])[1];setProd(PICK.n,"walmart",{id,title:t?decodeURIComponent(t).replace(/-/g," "):""});render();toast("Walmart product saved");return}
+  if(a==="wmClear"){setProd(PICK.n,"walmart",null);render();return}
+  if(a==="krClear"){setProd(PICK.n,"kroger",null);render();return}
+  if(a==="pickKr"){const x=PICK.res[+b.dataset.i];setProd(PICK.n,"kroger",{upc:x.upc,title:x.title+(x.size?" ("+x.size+")":"")});render();toast("Kroger product saved");return}
+  if(a==="storeTab"){S.storeTab=b.dataset.s;render(true);return}
+  if(a==="krStore"){const x=KR.stores[+b.dataset.i];S.krStore={id:x.id,name:x.name};KR={status:"idle"};render();return}
+  if(a==="krStoreClear"){S.krStore=null;KR={status:"idle"};render();return}
+  if(a==="krLogin"){location.href=window.KROGER_ENDPOINT.replace(/\/$/,"")+"/login?return="+encodeURIComponent(location.origin+location.pathname);return}
+  if(a==="krLogout"){krSave(null);KR={status:"idle"};render(true);return}
+  if(a==="krSend"){krSend();return}
   if(a==="scanAll"){SCAN.items.forEach(i=>i.on=b.dataset.v==="1");render(true);return}
   if(a==="scanClear"){SCAN={status:"idle",items:[],msg:"",n:0};render(true);return}
   if(a==="scanAdd"){let n=0,u=0;SCAN.items.forEach(i=>{if(!i.on)return;const r=upsertPantry(i.name,i.loc,i.qty,i.left);if(r===1)n++;if(r===2)u++});S.sample=false;SCAN={status:"idle",items:[],msg:"",n:0};render();toast(`Added ${n}${u?`, updated ${u}`:""}`);return}
@@ -669,6 +768,7 @@ function fallback(txt){const ta=document.createElement("textarea");ta.value=txt;
 document.addEventListener("change",e=>{
   const el=e.target;const a=el.dataset.act;
   if(el.id==="scanFiles"){runScan(el.files);return}
+  if(el.id==="krMode"){S.krMode=el.value;save();return}
   if(el.dataset.scan==="on"){SCAN.items[+el.dataset.i].on=el.checked;render(true);return}
   if(el.dataset.scan==="loc"){SCAN.items[+el.dataset.i].loc=el.value;return}
   if(el.dataset.scan==="left"){SCAN.items[+el.dataset.i].left=el.value;return}
@@ -678,6 +778,8 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("submit",e=>{
   e.preventDefault();const f=e.target;
+  if(f.id==="krZipForm"){const z=document.getElementById("krZip").value.replace(/\D/g,"").slice(0,5);if(z.length!==5){toast("Enter a 5-digit ZIP code");return}S.krZip=z;
+    KR={status:"working",msg:"Finding Kroger stores…"};render(true);kr("/locations?zip="+z).then(j=>{KR={status:"stores",stores:j.stores||[]};render(true)}).catch(err=>{KR={status:"error",msg:"Couldn't find stores. "+err.message};render(true)});return}
   if(f.id==="impForm"){runImport(document.getElementById("impUrl").value);return}
   if(f.id==="addForm"){const n=document.getElementById("addName").value;if(addPantry(n,document.getElementById("addLoc").value)){render();document.getElementById("addName").focus()}else toast(n.trim()?"That's already in your pantry":"Type an item name first")}
   if(f.id==="extraForm"){const n=document.getElementById("extraName").value.trim();if(!n)return;S.extras.push({id:nid(),name:n});render();document.getElementById("extraName").focus()}
@@ -698,7 +800,7 @@ render();
   if(!cfg||!cfg.apiKey||!window.firebase){el.innerHTML='<span class="who">Saved on this device</span>';return}
   firebase.initializeApp(cfg);
   const auth=firebase.auth(), db=firebase.firestore(), FV=firebase.firestore.FieldValue;
-  const LOCAL=["tab","mode","now"];
+  const LOCAL=["tab","mode","now","storeTab","krMode"];
   let user=null,userRef=null,ref=null,unsub=null,timer=null,last="",house=null,hdata=null,panelOpen=false,leaveArm=false,syncState="sync";
   const joinParam=(new URLSearchParams(location.search).get("join")||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
   const strip=s=>{const c=Object.assign({},s);LOCAL.forEach(k=>delete c[k]);return JSON.stringify(c)};
