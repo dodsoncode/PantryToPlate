@@ -13,5 +13,13 @@ service cloud.firestore {
         && (request.auth.uid in resource.data.members || request.auth.uid in request.resource.data.members);
     }
     // If this project also serves Anchor, keep Anchor's existing rules alongside this block.
+    // Ingredient names that still need a Walmart link. Read by the daily product-link check.
+    match /productRequests/{id} {
+      allow read: if true;
+      allow create, update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['name', 'section', 'requestedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() < 80;
+    }
   }
 }

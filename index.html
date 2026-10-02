@@ -844,6 +844,13 @@ const WM_DEFAULTS={
   "tomatoes":[44390944,"Fresh Roma Tomato, each",1]
 };
 const WMD=Object.fromEntries(Object.entries(WM_DEFAULTS).map(([n,v])=>[norm(n).join(" "),{id:String(v[0]),title:v[1],per:v[2]||0,suggested:true}]));
+/* More suggestions come from walmart-products.json, which the daily product-link check fills in
+   for ingredients of recipes people add or edit (see productRequests below). */
+function addCatalog(obj){let n=0;Object.entries(obj||{}).forEach(([name,v])=>{const k=norm(name).join(" ");if(!WMD[k]&&v&&v.id){WMD[k]={id:String(v.id),title:v.title||"",per:v.per||0,suggested:true};n++}});return n}
+fetch("walmart-products.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():{}).then(j=>{if(addCatalog(j.products))render(true)}).catch(()=>{});
+function unmappedIngredients(){const out=new Map();all().forEach(r=>(r.ing||[]).forEach(([q,u,n,cat])=>{if(!n)return;const k=ik(n),p=(S.products||{})[k];
+  if(!k||WMD[k]||(p&&(p.walmart||p.walmart===false)))return;if(!out.has(k))out.set(k,{name:String(n).toLowerCase().trim().slice(0,70),section:cat||""})}));return [...out.values()]}
+let reqTimer;function queueProductRequests(){clearTimeout(reqTimer);reqTimer=setTimeout(()=>{if(window.requestProducts)window.requestProducts(unmappedIngredients())},2000)}
 const prod=(n,st)=>{const k=ik(n),p=(S.products||{})[k];if(p&&p[st]===false)return null;if(p&&p[st])return p[st];return st==="walmart"&&WMD[k]||null};
 function setProd(n,st,v){S.products=S.products||{};const k=ik(n),cur=Object.assign({},S.products[k]);if(v)cur[st]=v;else if(st==="walmart"&&WMD[k])cur[st]=false;else delete cur[st];if(Object.keys(cur).length)S.products[k]=cur;else delete S.products[k]}
 function storeQty(q,u){if(["can","jar","bag","box","pkg","head","bunch"].includes(u)||(u==="each"&&q<=6))return Math.max(1,Math.ceil(q-0.05));return 1}
@@ -882,7 +889,7 @@ function storePanel(){
     const url="https://affil.walmart.com/cart/addToCart?items="+have.map(i=>prod(i.n,"walmart").id+"|"+wq(i)).join(",");
     body=`<p class="small" style="margin:0"><b>${have.length} of ${items.length}</b> items have a Walmart product. <span class="muted">Suggested picks are Great Value or fresh produce; tap “change” on any item to use what you usually buy.</span></p>
       ${have.length?`<a class="btn" href="${url}" target="_blank" rel="noopener">Add ${have.length} item${have.length===1?"":"s"} to Walmart cart ↗</a>`:""}
-      ${miss.length?`<p class="small muted" style="margin:0">Set a product for: ${miss.map(i=>`<button class="link" data-act="pick" data-n="${esc(i.n)}">${esc(i.n)}</button>`).join(", ")}</p>`:""}
+      ${miss.length?`<p class="small muted" style="margin:0">No Walmart product yet (the daily check looks these up for you), or set one now: ${miss.map(i=>`<button class="link" data-act="pick" data-n="${esc(i.n)}">${esc(i.n)}</button>`).join(", ")}</p>`:""}
       <p class="small muted" style="margin:0">Choose pickup and a time when you check out on Walmart.</p>`}
   else{const tok=krTok();
     if(!S.krStore)body=`<p class="small" style="margin:0">Pick your Kroger store.</p><form class="form" id="krZipForm"><input type="text" id="krZip" inputmode="numeric" placeholder="ZIP code" value="${esc(S.krZip||"")}" aria-label="ZIP code" style="max-width:9rem"><button class="btn ghost" type="submit">Find stores</button></form>
@@ -1095,6 +1102,7 @@ function render(quiet){
   applyFinds();
   if(SHEET)renderSheet();
   if(!quiet)save();
+  queueProductRequests();
 }
 let tt,UNDO=null;
 function toast(m,undo){const t=document.getElementById("toast");UNDO=undo||null;t.innerHTML=`<span>${esc(m)}</span>${undo?`<button data-act="undo">Undo</button>`:""}`;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true;UNDO=null},undo?6000:2600)}
@@ -1345,6 +1353,12 @@ render();
     syncState="in";show();
   }
 
+  // Ingredients without a Walmart product are listed for the daily product-link check.
+  window.requestProducts=async list=>{if(!user||!list||!list.length)return;let sent=[];try{sent=JSON.parse(localStorage.getItem("pantry-to-plate.req")||"[]")}catch(e){}
+    const todo=list.filter(x=>!sent.includes(x.name)).slice(0,25);
+    for(const x of todo){const id=x.name.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"item";
+      try{await db.collection("productRequests").doc(id).set({name:x.name,section:x.section||"",requestedAt:FV.serverTimestamp()});sent.push(x.name)}catch(e){console.warn("product request not saved",e);break}}
+    try{localStorage.setItem("pantry-to-plate.req",JSON.stringify(sent.slice(-500)))}catch(e){}};
   auth.onAuthStateChanged(async u=>{
     if(unsub){unsub();unsub=null}user=u;ref=null;lastF=null;house=null;hdata=null;
     window.ME=u&&u.displayName?u.displayName.split(" ")[0]:"";
