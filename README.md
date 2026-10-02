@@ -22,13 +22,33 @@ A static site (no build step) with optional Google sign-in and Firebase sync, se
    - *Project settings → Your apps → Web app* → copy the config into `firebase-config.js`.
    - *Authentication → Settings → Authorized domains* → add your new Netlify domain (e.g. `pantry-to-plate.netlify.app`).
    - *Firestore → Rules* → add the `match /pantryToPlate/{uid}` block from `firestore.rules`
-     **inside your existing rules** so Anchor's rules keep working. Publish.
+     **inside your existing rules** so Anchor's rules keep working. Add the `households` block too for sharing. Publish.
 4. Open the site, tap **Sign in with Google to sync**. On your phone, use *Share → Add to Home Screen*.
+
+## How the app is laid out
+
+Four tabs along the bottom, sized for one-handed use on an iPhone:
+
+| Tab | What it's for |
+|---|---|
+| **Today** | Tonight's dinner with a big *Start cooking* button, reminders (thaw tomorrow's meat, prep tasks left, things to buy, running low), and the week at a glance. *Hungry now?* finds something you can make with what's here. |
+| **Kitchen** | What you have. Type several foods at once (`milk, 2 lb chicken, eggs`); each goes to its usual spot. Tap **Low** to flag something, × to remove (with Undo). Photo scan is here too. |
+| **Plan** | *This week*: tap a night to choose its dinner, or *Fill empty nights for me*. Servings live here. *Recipes*: search, filter, import a recipe from a link, photo or pasted text. |
+| **Shop** | Everything missing for the week, by aisle. Tap a row to check it; it moves to *In the cart* with the initial of whoever checked it. **Put away ✓** adds the groceries to the Kitchen. Send the list to Instacart, Walmart or Kroger from *Send the list…*. |
+
+Cook mode opens from Today: full screen, one step at a time, tap-to-start timers, and the screen stays awake.
+Prep (from Today) groups the week's make-ahead tasks so all the chopping happens together.
 
 ## How sync works
 
-- Each account gets one Firestore document: `pantryToPlate/{uid}` holding pantry, week plan, checkmarks and custom recipes.
-- The first time you sign in, whatever is on that device is uploaded. After that, the account copy wins, and changes appear live on your other devices.
+- Signed in, your planner lives in Firestore: `pantryToPlate/{uid}`, or `households/{code}` once you share with a household.
+- The shared copy is saved **one change at a time** (one pantry item, one checkmark, one night of the plan) using field paths,
+  so two people editing at once don't overwrite each other. Pantry items, extras and your recipes are stored as maps keyed by id
+  (`state.pantryM`, `state.extrasM`, `state.customM`).
+- When an update arrives from someone else, it's combined with any of your changes that haven't been sent yet.
+- A household saved in the older whole-planner format is converted automatically the first time an updated phone opens it.
+  Reload the app on every phone after updating so no one keeps writing the old format.
+- Which tab you're on, cook-mode progress and a *Hungry now* pick stay per person.
 - Signed out (or with no config), everything still works and saves in that browser only.
 
 ## Editing recipes
