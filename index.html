@@ -778,11 +778,77 @@ function shopRow(r){const c=!!S.checked[r.key],by=c&&(S.checkedBy||{})[r.key];
   return `<label class="shoprow${c?" done":""}"><input type="checkbox" data-act="check" data-k="${esc(r.key)}"${c?" checked":""}><span class="t"><b>${esc(r.n)}</b>${by?`<span class="by" title="Checked by ${esc(by)}">${esc(by.slice(0,1).toUpperCase())}</span>`:""}${r.sub?`<span class="for">${r.sub}</span>`:""}</span><span class="q">${r.q}${r.xid&&!c?`<button type="button" class="link" data-act="rmExtra" data-id="${r.xid}" aria-label="Remove ${esc(r.n)}" style="display:block;margin-left:auto">remove</button>`:""}</span></label>`}
 /* ---------- store carts: saved products, Walmart, Kroger ---------- */
 const ik=n=>norm(n).join(" ");
-const prod=(n,st)=>{const p=(S.products||{})[ik(n)];return p&&p[st]||null};
-function setProd(n,st,v){S.products=S.products||{};const k=ik(n),cur=Object.assign({},S.products[k]);if(v)cur[st]=v;else delete cur[st];if(Object.keys(cur).length)S.products[k]=cur;else delete S.products[k]}
+/* Suggested Walmart products for the built-in recipes: name → [item id, title, items per package for counted ingredients].
+   Found from walmart.com product pages (October 2026). Anyone can change them with "change" on the store list. */
+const WM_DEFAULTS={
+  "chicken breast":[10414680,"Great Value Boneless Skinless Chicken Breasts, 3 lb (frozen)"],
+  "chicken broth":[10899013,"Great Value Chicken Broth, 32 oz carton"],
+  "chili powder":[157643393,"Great Value Chili Powder, 3 oz"],
+  "frozen corn":[659879040,"Great Value Whole Kernel Corn, 12 oz steamable (frozen)"],
+  "salsa":[44981934,"Great Value Medium Chunky Salsa, 16 oz"],
+  "shredded pepper jack":[164334732,"Great Value Shredded Pepper Jack, 8 oz"],
+  "tostitos tortilla chips":[10900110,"Tostitos Original Restaurant Style Tortilla Chips, 13 oz"],
+  "bell peppers":[44390945,"Fresh Green Bell Pepper, each",1],
+  "onion":[51259212,"Fresh Yellow Onion, each",1],
+  "olive oil":[10315102,"Great Value Extra Virgin Olive Oil, 17 fl oz"],
+  "cumin":[564519710,"Great Value Ground Cumin, 4.5 oz"],
+  "lime":[44391008,"Fresh Lime, each",1],
+  "flour tortillas":[632791432,"Great Value Soft Taco Flour Tortillas, 10 ct",10],
+  "sour cream":[12335111,"Great Value Sour Cream, 16 oz"],
+  "shredded cheddar":[10452370,"Great Value Finely Shredded Mild Cheddar, 8 oz"],
+  "spaghetti":[10534115,"Great Value Spaghetti, 16 oz"],
+  "ground beef":[479601462,"80% Lean Ground Beef Chuck, 1 lb"],
+  "garlic":[44391100,"Fresh Garlic Bulb, each",10],
+  "marinara sauce":[19758051,"Great Value Traditional Pasta Sauce, 24 oz"],
+  "diced tomatoes":[10450990,"Great Value Diced Tomatoes, 14.5 oz can",1],
+  "italian seasoning":[116427929,"Great Value Italian Seasoning, 2 oz"],
+  "parmesan":[10315402,"Great Value Grated Parmesan, 8 oz"],
+  "salmon fillets":[1469077193,"Marketside Skinless Atlantic Salmon Portions, 2 lb (frozen)"],
+  "honey":[20647992,"Great Value Honey, 12 oz bear"],
+  "soy sauce":[10315653,"Great Value Soy Sauce, 15 fl oz"],
+  "rice":[10315395,"Great Value Long Grain Enriched Rice, 5 lb"],
+  "broccoli":[51259378,"Fresh Broccoli Crowns, each",1],
+  "butter":[26954458,"Great Value Salted Butter, 16 oz (4 sticks)"],
+  "sweet potatoes":[44390964,"Fresh Sweet Potato, each",1],
+  "black beans":[39778876,"Great Value Black Beans, 15 oz can",1],
+  "eggs":[145051970,"Great Value Large White Eggs, 12 ct",12],
+  "frozen peas and carrots":[994038828,"Great Value Peas & Carrots, 12 oz (frozen)"],
+  "sesame oil":[177236407,"Kadoya Pure Sesame Oil, 5.5 oz"],
+  "scallions":[51259361,"Fresh Green Onions, bunch",1],
+  "ziti pasta":[10534083,"Great Value Ziti, 16 oz"],
+  "italian sausage":[173141461,"Mild Italian Pork Sausage Roll, 16 oz"],
+  "ricotta":[10315688,"Great Value Whole Milk Ricotta, 15 oz"],
+  "shredded mozzarella":[10452421,"Great Value Shredded Mozzarella, 16 oz"],
+  "flank steak":[178881423,"Flank Steak, Choice Angus Beef (per tray)"],
+  "brown sugar":[10315012,"Great Value Light Brown Sugar, 2 lb"],
+  "cornstarch":[54802256,"Great Value Corn Starch, 16 oz"],
+  "fresh ginger":[44391005,"Fresh Ginger Root"],
+  "vegetable oil":[10451002,"Great Value Vegetable Oil, 48 fl oz"],
+  "flour":[10403017,"Great Value All-Purpose Flour, 5 lb"],
+  "sugar":[10315162,"Great Value Granulated Sugar, 4 lb"],
+  "baking powder":[16627955,"Great Value Baking Powder, 8.1 oz"],
+  "milk":[10450114,"Great Value Whole Milk, gallon"],
+  "bacon":[10293911,"Great Value Hickory Smoked Bacon, 16 oz"],
+  "maple syrup":[13925187,"Great Value Pure Maple Syrup, 12.5 fl oz"],
+  "strawberries":[44391605,"Fresh Strawberries, 1 lb"],
+  "carrots":[10535757,"Fresh Whole Carrots, 2 lb bag",12],
+  "celery":[51259411,"Fresh Celery Stalk, each",8],
+  "egg noodles":[47375521,"Golden Grain Wide Egg Noodles, 12 oz"],
+  "dried thyme":[829145644,"Great Value Ground Thyme, 1.4 oz"],
+  "ground turkey":[167794433,"Jennie-O 93% Lean Ground Turkey, 1 lb"],
+  "burger buns":[10450104,"Great Value Hamburger Buns, 8 ct",8],
+  "russet potatoes":[10447839,"Fresh Idaho Russet Potatoes, 5 lb bag"],
+  "garlic powder":[676979470,"Great Value Garlic Powder, 3.4 oz"],
+  "sliced cheddar":[15077514,"Great Value Sliced Sharp Cheddar, 12 slices",12],
+  "lettuce":[10402650,"Fresh Iceberg Lettuce, each",1],
+  "tomatoes":[44390944,"Fresh Roma Tomato, each",1]
+};
+const WMD=Object.fromEntries(Object.entries(WM_DEFAULTS).map(([n,v])=>[norm(n).join(" "),{id:String(v[0]),title:v[1],per:v[2]||0,suggested:true}]));
+const prod=(n,st)=>{const k=ik(n),p=(S.products||{})[k];if(p&&p[st]===false)return null;if(p&&p[st])return p[st];return st==="walmart"&&WMD[k]||null};
+function setProd(n,st,v){S.products=S.products||{};const k=ik(n),cur=Object.assign({},S.products[k]);if(v)cur[st]=v;else if(st==="walmart"&&WMD[k])cur[st]=false;else delete cur[st];if(Object.keys(cur).length)S.products[k]=cur;else delete S.products[k]}
 function storeQty(q,u){if(["can","jar","bag","box","pkg","head","bunch"].includes(u)||(u==="each"&&q<=6))return Math.max(1,Math.ceil(q-0.05));return 1}
 function buyItems(){const {need}=shopping();
-  return need.filter(i=>!S.checked["k|"+i.key]).map(i=>({n:i.n,qty:storeQty(i.q,i.u)})).concat(S.extras.filter(x=>!S.checked["x:"+x.id]).map(x=>({n:x.name,qty:1})))}
+  return need.filter(i=>!S.checked["k|"+i.key]).map(i=>({n:i.n,q:i.q,u:i.u,qty:storeQty(i.q,i.u)})).concat(S.extras.filter(x=>!S.checked["x:"+x.id]).map(x=>({n:x.name,qty:1})))}
 function parseWalmart(t){t=String(t||"");const m=t.match(/\/ip\/(?:[^\/?#\s]*\/)?(\d{5,})/)||t.match(/[?&](?:itemId|selected)=(\d{5,})/)||t.match(/^\s*(\d{5,})\s*$/);return m?m[1]:null}
 let PICK=null,KR={status:"idle",msg:"",stores:null,results:null};
 const KEY_KR="pantry-to-plate.kroger";
@@ -800,7 +866,7 @@ function pickPanel(){if(!PICK)return "";const n=PICK.n,wm=prod(n,"walmart"),kp=p
     else if(PICK.res)kro=PICK.res.length?`<div class="plist">${PICK.res.map((x,i)=>`<div class="prow${kp&&kp.upc===x.upc?" on":""}"><span><b>${esc(x.title)}</b><span class="small muted"> ${esc([x.brand,x.size].filter(Boolean).join(" · "))}${x.price?` · $${(+x.price).toFixed(2)}`:""}</span></span><button class="btn ghost" data-act="pickKr" data-i="${i}">${kp&&kp.upc===x.upc?"Chosen":"Choose"}</button></div>`).join("")}</div>`:`<p class="small muted">No Kroger matches. Try a different name.</p>`;
   }
   return `<div class="pick" id="pickPanel"><div class="head-row"><h3>Products for “${esc(n)}”</h3><button class="link" data-act="pickClose">Done</button></div>
-    <div class="pickstore"><b>Walmart</b>${wm?`<span class="small">Saved: <a href="https://www.walmart.com/ip/${wm.id}" target="_blank" rel="noopener">${esc(wm.title||"item "+wm.id)}</a> <button class="link" data-act="wmClear">remove</button></span>`:""}
+    <div class="pickstore"><b>Walmart</b>${wm?`<span class="small">${wm.suggested?"Suggested":"Saved"}: <a href="https://www.walmart.com/ip/${wm.id}" target="_blank" rel="noopener">${esc(wm.title||"item "+wm.id)}</a> <button class="link" data-act="wmClear">remove</button></span>`:""}
       <p class="small muted" style="margin:0">Open <a href="https://www.walmart.com/search?q=${encodeURIComponent(n)}" target="_blank" rel="noopener">Walmart search ↗</a>, open the product you buy, copy its web address and paste it here.</p>
       <div class="form"><input type="text" id="wmLink" placeholder="https://www.walmart.com/ip/…" autocomplete="off" aria-label="Walmart product link"><button class="btn ghost" data-act="wmSave">Save</button></div></div>
     ${window.KROGER_ENDPOINT?`<div class="pickstore"><b>Kroger</b>${kp?`<span class="small">Saved: ${esc(kp.title)} <button class="link" data-act="krClear">remove</button></span>`:""}${kro}</div>`:""}
@@ -812,8 +878,9 @@ function storePanel(){
   const tab=tabs.some(t=>t[0]===S.storeTab)?S.storeTab:"walmart";
   let body="";
   if(tab==="walmart"){const have=items.filter(i=>prod(i.n,"walmart")),miss=items.filter(i=>!prod(i.n,"walmart"));
-    const url="https://affil.walmart.com/cart/addToCart?items="+have.map(i=>prod(i.n,"walmart").id+"|"+i.qty).join(",");
-    body=`<p class="small" style="margin:0"><b>${have.length} of ${items.length}</b> items have a saved Walmart product. Saved products are remembered for next time.</p>
+    const wq=i=>{const p=prod(i.n,"walmart");return p&&p.per&&i.u&&(i.u==="each"||["can","jar","bag","box","pkg","head","bunch","clove","slice","stalk"].includes(i.u))?Math.max(1,Math.ceil(i.q/p.per-0.05)):i.qty};
+    const url="https://affil.walmart.com/cart/addToCart?items="+have.map(i=>prod(i.n,"walmart").id+"|"+wq(i)).join(",");
+    body=`<p class="small" style="margin:0"><b>${have.length} of ${items.length}</b> items have a Walmart product. <span class="muted">Suggested picks are Great Value or fresh produce; tap “change” on any item to use what you usually buy.</span></p>
       ${have.length?`<a class="btn" href="${url}" target="_blank" rel="noopener">Add ${have.length} item${have.length===1?"":"s"} to Walmart cart ↗</a>`:""}
       ${miss.length?`<p class="small muted" style="margin:0">Set a product for: ${miss.map(i=>`<button class="link" data-act="pick" data-n="${esc(i.n)}">${esc(i.n)}</button>`).join(", ")}</p>`:""}
       <p class="small muted" style="margin:0">Choose pickup and a time when you check out on Walmart.</p>`}
