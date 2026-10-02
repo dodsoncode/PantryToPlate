@@ -206,6 +206,11 @@ label.btn.ghost{background:transparent;color:var(--accent)}
 .family{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .family input{flex:1 1 200px}
 #cookSheet select{max-width:48%}
+.item .amt{border:0;background:none;padding:2px 0;font:500 .78rem var(--f-mono);color:var(--muted);text-align:left;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
+.item .amt.est{font-style:italic}
+.amtedit{display:grid;gap:6px;margin-top:6px;width:100%}
+.amtedit input,.amtedit select{width:100%}
+.amtbtns{display:flex;gap:12px;align-items:center}
 .toast{position:fixed;left:50%;bottom:calc(var(--tabh) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 8px 8px 16px;border-radius:10px;font-weight:700;font-size:.95rem;z-index:30;width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;gap:12px;min-height:44px}
 .toast button{border:0;background:transparent;color:var(--bg);font:700 .95rem var(--f-body);text-decoration:underline;text-underline-offset:3px;min-height:44px;padding:0 10px;cursor:pointer}
 body.cooking .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
@@ -510,6 +515,10 @@ function parseAdds(text){return text.split(/[,\n;]+/).map(s=>s.trim()).filter(Bo
   if(m){const u=m[2]&&UNITS[m[2].toLowerCase().replace(/\.$/,"")];if(u)return {name:m[3].replace(/^of\s+/i,""),qty:m[1]+" "+u};return {name:(m[2]?m[2]+" ":"")+m[3],qty:m[1]}}
   return {name:s,qty:""}})}
 const LOWS=p=>p.left==="low"||p.left==="empty";
+let EDIT=null;
+function amtEditor(p){return `<form class="amtedit" id="amtForm" data-id="${p.id}"><input type="text" id="amtQty" value="${esc(p.qty||guessQty(p))}" placeholder="e.g. 1 jar (16 oz), 2 lb, 12" aria-label="Amount of ${esc(p.name)}" autocomplete="off">
+  <select id="amtLeft" aria-label="How much is left">${LVLS.map(([k,l])=>`<option value="${k}"${(p.left==="full"?"":p.left||"")===k?" selected":""}>${l}</option>`).join("")}</select>
+  <span class="amtbtns"><button class="btn" type="submit">Save</button><button class="link" type="button" data-act="amtCancel">Cancel</button></span></form>`}
 V.kitchen=()=>{
   const open=S.kOpen||{};
   const low=S.pantry.filter(LOWS);
@@ -530,7 +539,7 @@ V.kitchen=()=>{
   ${low.length?`<div class="note lownote"><span><b>Running low:</b> ${low.map(p=>esc(p.name)).join(", ")}</span><button class="link" data-act="lowToList">Add to shopping list</button></div>`:""}
   ${LOCS.map(loc=>{const it=S.pantry.filter(p=>p.loc===loc).sort((a,b)=>a.name.localeCompare(b.name));
     return `<details class="panel loclist" data-loc="${loc}"${open[loc]===false?"":" open"}><summary>${loc}<span class="muted small mono" style="margin-left:auto;margin-right:10px">${it.length}</span></summary>
-      <div class="items">${it.length?it.map(p=>`<div class="item${LOWS(p)?" low":""}"><span class="nm"><b>${esc(p.name)}</b>${p.qty||p.left?`<span class="amt">${esc([p.qty,LVL_SHORT[p.left]].filter(Boolean).join(" · "))}</span>`:""}</span><button data-act="lowToggle" data-id="${p.id}" class="${LOWS(p)?"on":""}" aria-pressed="${LOWS(p)}" aria-label="${esc(p.name)} is running low">Low</button><button class="x" data-act="rm" data-id="${p.id}" aria-label="Remove ${esc(p.name)}">×</button></div>`).join(""):`<p class="empty" style="margin:8px 0">Nothing here yet</p>`}</div>
+      <div class="items">${it.length?it.map(p=>`<div class="item${LOWS(p)?" low":""}"><span class="nm"><b>${esc(p.name)}</b>${EDIT===p.id?amtEditor(p):`<button class="amt${p.qty?"":" est"}" data-act="amt" data-id="${p.id}" aria-label="Amount of ${esc(p.name)}: ${esc(amtText(p)||"not set")}. Tap to change">${esc(amtText(p)||"amount ?")}</button>`}</span><button data-act="lowToggle" data-id="${p.id}" class="${LOWS(p)?"on":""}" aria-pressed="${LOWS(p)}" aria-label="${esc(p.name)} is running low">Low</button><button class="x" data-act="rm" data-id="${p.id}" aria-label="Remove ${esc(p.name)}">×</button></div>`).join(""):`<p class="empty" style="margin:8px 0">Nothing here yet</p>`}</div>
     </details>`}).join("")}`;
 };
 /* ---------- photo scan ---------- */
@@ -588,7 +597,7 @@ async function runScan(files){
     found.forEach(f=>{const name=String(f.name||"").trim().toLowerCase();if(!name)return;
       if(merged.some(m=>norm(m.name).join(" ")===norm(name).join(" ")))return;
       const loc=LOCS.includes(f.location)?f.location:(hint||"Pantry");
-      const dup=!!findItem(name);const left=LVLS.some(([k])=>k===f.remaining)&&f.remaining!=="unknown"?f.remaining:"";
+      const dup=!!findItem(name);const left=f.remaining==="unknown"?"open":f.remaining==="full"?"":LVLS.some(([k])=>k===f.remaining)?f.remaining:"";
       merged.push({name,loc,dup,qty:String(f.quantity||"").trim(),left,unsure:f.confidence==="low",on:f.confidence!=="low"})});
     SCAN={status:merged.length?"review":"error",items:merged,n:0,msg:merged.length?"":"No food was recognized. Try closer photos with better light."};
   }catch(err){console.error(err);SCAN={status:prev.length?"review":"error",items:prev,n:0,msg:scanErr(err)};if(prev.length)toast(scanErr(err))}
@@ -952,29 +961,35 @@ function row(key,name,qty,sub){const c=!!S.checked[key];const wm=prod(name,"walm
 /* ---------- cooked → update the pantry ---------- */
 let COOK=null;
 const PACK=["can","jar","bag","box","pkg","head","bunch","clove","slice","stalk","each"];
-const UA={lb:"lb",lbs:"lb",pound:"lb",oz:"oz",ounce:"oz",cup:"cup",tbsp:"tbsp",tablespoon:"tbsp",tsp:"tsp",teaspoon:"tsp",can:"can",jar:"jar",bag:"bag",box:"box",pkg:"pkg",package:"pkg",head:"head",bunch:"bunch",clove:"clove",slice:"slice",stalk:"stalk",each:"each",egg:"each"};
+const UA={ct:"each",count:"each",gal:"gal",gallon:"gal",lb:"lb",lbs:"lb",pound:"lb",oz:"oz",ounce:"oz",cup:"cup",tbsp:"tbsp",tablespoon:"tbsp",tsp:"tsp",teaspoon:"tsp",can:"can",jar:"jar",bag:"bag",box:"box",pkg:"pkg",package:"pkg",head:"head",bunch:"bunch",clove:"clove",slice:"slice",stalk:"stalk",each:"each",egg:"each"};
 function parseQty(t){const m=String(t||"").trim().match(/^(\d+(?:\.\d+)?|\d+\/\d+)\s*([a-zA-Z]+)?/);if(!m)return null;
   const n=m[1].includes("/")?+m[1].split("/")[0]/+m[1].split("/")[1]:+m[1];const w=(m[2]||"").toLowerCase();return{n,w,u:w?(UA[w]||UA[sing(w)]||null):"each",rest:String(t).trim().slice(m[0].length)}}
 const nice=x=>Math.round(x*100)/100;
-const CONV={"cup>can":1/1.75,"can>cup":1.75,"lb>oz":16,"oz>lb":1/16,"cup>tbsp":16,"tbsp>cup":1/16,"tbsp>tsp":3,"tsp>tbsp":1/3,"cup>tsp":48,"tsp>cup":1/48,"oz>can":1/14.5,"can>oz":14.5};
+const CONV={"cup>oz":8,"oz>cup":1/8,"tbsp>oz":0.5,"oz>tbsp":2,"tsp>oz":1/6,"oz>tsp":6,"gal>cup":16,"cup>gal":1/16,"gal>oz":128,"oz>gal":1/128,"lb>cup":2,"cup>lb":0.5,"cup>can":1/1.75,"can>cup":1.75,"lb>oz":16,"oz>lb":1/16,"cup>tbsp":16,"tbsp>cup":1/16,"tbsp>tsp":3,"tsp>tbsp":1/3,"cup>tsp":48,"tsp>cup":1/48,"oz>can":1/14.5,"can>oz":14.5};
 const conv=(q,from,to)=>from===to?q:CONV[from+">"+to]?q*CONV[from+">"+to]:null;
 function cookProposal(r){const rows=[],seen=new Set();
   r.ing.forEach(([q,u,n,cat])=>{const p=S.pantry.find(x=>matches(n,x.name));if(!p||seen.has(p.id))return;seen.add(p.id);
     const need=scale(q,r),before=[p.qty,LVL_SHORT[p.left]].filter(Boolean).join(" · ")||"amount not set";
-    const row={pid:p.id,name:p.name,before,choice:"some",qty:p.qty||"",left:p.left||""};
+    const row={pid:p.id,name:p.name,before:amtText(p)||before,choice:"some",qty:p.qty||"",left:p.left||""};
+    const pqty=p.qty||guessQty(p),pk=parseQty(pqty),sm=pk&&(pk.rest.match(/\((\d+(?:\.\d+)?)\s*(oz|lb|gal|cup)\)/)||(pk.n>0&&["gal","lb","oz"].includes(pk.u)&&!pk.rest.trim()&&pk.w?((pk.w=(pk.u==="gal"?"jug":"pkg")),[null,String(pk.n),pk.u]):null));
+    if(sm&&!pk.rest.trim()){pk.n=1}
+    const FR={"":1,full:1,most:.75,half:.5,low:.25,empty:.05,open:.5};
     if(p.loc==="Spices"||cat==="Spices"){row.choice="keep"}
-    else{const pq=parseQty(p.qty);
+    else if(sm&&conv(need,u,sm[2])!==null){const size=+sm[1],have=(pk.n-1)*size+size*(FR[p.left||""]??1),leftAmt=have-conv(need,u,sm[2]);
+      if(leftAmt<=size*0.05)row.choice="out";else{const packs=Math.ceil(leftAmt/size-0.001),fr=(leftAmt-(packs-1)*size)/size;
+        row.qty=packs+" "+plural(pk.w.replace(/s$/,""),packs)+" ("+sm[1]+" "+sm[2]+")";row.left=fr>0.9?"":fr>0.6?"most":fr>0.35?"half":fr>0.12?"low":"empty";if(row.left==="low"||row.left==="empty")row.choice="low"}}
+    else{const pq=parseQty(pqty);
       const cv=pq&&pq.u?conv(need,u,pq.u):null;
-      if(pq&&pq.u&&(cv!==null||(PACK.includes(u)&&pq.u==="each"&&!pq.w))){const use=pq.u===u&&PACK.includes(u)?storeQty(need,u):cv!==null?(PACK.includes(pq.u)?Math.ceil(cv-0.05):cv):storeQty(need,u),left=nice(pq.n-use);
+      if(pq&&pq.u&&(cv!==null||(PACK.includes(u)&&pq.u==="each"&&!pq.w))){const use=pq.u===u&&PACK.includes(u)?(u==="each"?Math.ceil(need-0.05):storeQty(need,u)):cv!==null?(PACK.includes(pq.u)?Math.ceil(cv-0.05):cv):storeQty(need,u),left=nice(pq.n-use);
         if(left<=0.01)row.choice="out";else{const w=pq.w&&left===1&&/s$/.test(pq.w)?pq.w.slice(0,-1):pq.w;row.qty=(left+" "+(w||"")+pq.rest).replace(/\s+/g," ").trim()}}
-      else{const L=["full","most","half","low","empty"],i=Math.max(0,L.indexOf(p.left||"full"));if(i>=3)row.choice="out";else{row.left=L[i+1];if(i+1>=3)row.choice="low"}}}
+      else{const L=["full","most","half","low","empty"],i=p.left==="open"?2:Math.max(0,L.indexOf(p.left||"full"));if(i>=3)row.choice="out";else{row.left=L[i+1];if(i+1>=3)row.choice="low"}}}
     rows.push(row)});
   return rows}
 function openCook(dk){const d=active().find(x=>x.k===dk);if(!d)return;COOK={dk,rid:d.r.id,name:d.r.name,rows:cookProposal(d.r)};render(true);
   setTimeout(()=>{const el=document.getElementById("cookSheet");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},50)}
 function finishCook(apply){if(!COOK)return;let changed=0;
   if(apply)COOK.rows.forEach((row,i)=>{const sel=document.getElementById("ck-"+i);const c=sel?sel.value:row.choice;const p=S.pantry.find(x=>x.id===row.pid);if(!p||c==="keep")return;changed++;
-    if(c==="out")S.pantry=S.pantry.filter(x=>x.id!==row.pid);else if(c==="low")p.left="low";else{if(row.qty)p.qty=row.qty;if(row.left)p.left=row.left;else if(!row.qty)p.left="half"}});
+    if(c==="out")S.pantry=S.pantry.filter(x=>x.id!==row.pid);else if(c==="low")p.left="low";else{if(row.qty)p.qty=row.qty;if(row.left)p.left=row.left;else if(row.qty)delete p.left;else p.left="half"}});
   S.cookLog=Object.assign({},S.cookLog,{[COOK.rid]:today()});S.cooked=Object.assign({},S.cooked,{[COOK.dk]:today()});
   const wasNow=COOK.dk==="now";COOK=null;
   if(wasNow){Object.keys(S.done).forEach(k=>{if(/:now:/.test(k))delete S.done[k]});S.now=null}
@@ -1108,8 +1123,41 @@ let tt,UNDO=null;
 function toast(m,undo){const t=document.getElementById("toast");UNDO=undo||null;t.innerHTML=`<span>${esc(m)}</span>${undo?`<button data-act="undo">Undo</button>`:""}`;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{t.hidden=true;UNDO=null},undo?6000:2600)}
 const snap=()=>JSON.stringify(S);
 function locFor(cat){return {"Meat & Seafood":"Fridge","Dairy & Eggs":"Fridge","Produce":"Fridge","Frozen":"Freezer","Spices":"Spices"}[cat]||"Pantry"}
-const LVLS=[["","Amount left?"],["full","Full / unopened"],["most","Most left"],["half","About half"],["low","Running low"],["empty","Almost out"]];
-const LVL_SHORT={full:"full",most:"¾ left",half:"½ left",low:"low",empty:"almost out"};
+/* How much is left in the package you're using:
+   full/""  sealed or full        most  about ¾      half  about ½
+   low      about ¼ (Running low) empty almost out
+   open     opened, can't tell (opaque container) — planned as about ½ */
+const LVLS=[["","Full / sealed"],["most","About ¾ left"],["half","About ½ left"],["low","About ¼ left (low)"],["empty","Almost out"],["open","Opened, not sure how much"]];
+const LVL_SHORT={full:"full",most:"¾ left",half:"½ left",low:"¼ left",empty:"almost out",open:"opened · amount ?"};
+/* ---------- package sizes: "1 jar (16 oz)", "2 cans (15 oz)", "1 gal", "12" ---------- */
+const PKG_EXTRA={"salt":"Salt, 26 oz container","black pepper":"Black pepper, 3 oz tin","ketchup":"Ketchup, 20 oz bottle","mustard":"Mustard, 14 oz bottle",
+  "orange juice":"Orange juice, 52 oz carton","greek yogurt":"Greek yogurt, 32 oz tub","yogurt":"Yogurt, 32 oz tub","mayonnaise":"Mayonnaise, 30 oz jar",
+  "peanut butter":"Peanut butter, 16 oz jar","bread":"Bread, 20 oz loaf","cream cheese":"Cream cheese, 8 oz pkg","jelly":"Jelly, 18 oz jar",
+  "ranch dressing":"Ranch dressing, 16 oz bottle","oatmeal":"Oats, 42 oz container","cereal":"Cereal, 12 oz box","coffee":"Coffee, 30 oz canister","heavy cream":"Heavy cream, 16 oz carton",
+  "shredded mexican cheese":"Shredded Mexican cheese, 8 oz bag","enchilada sauce":"Enchilada sauce, 10 oz can","chickpeas":"Chickpeas, 15 oz can","tomato sauce":"Tomato sauce, 15 oz can","tomato paste":"Tomato paste, 6 oz can"};
+const CONTW={bear:"bottle",shaker:"container",tray:"pkg",package:"pkg",canister:"container",pack:"pkg"};
+function pkgFromTitle(t){t=String(t||"");
+  const sz=t.match(/(\d+(?:\.\d+)?)\s*(fl oz|oz|lbs?|gallon|gal|ct|count|slices)\b/i);
+  let c=(t.match(/\b(jar|can|carton|bottle|bag|box|tub|jug|bear|container|canister|tin|pouch|loaf|pack|package|pkg|shaker|tray|bunch|head)\b/i)||[])[1];
+  if(/\bgallon\b/i.test(t)&&!sz)return {count:1,cont:"jug",size:{n:1,u:"gal"}};
+  if(!sz)return /\beach\b|\bbunch\b|\bhead\b/i.test(t)?{count:1,cont:"",size:null}:null;
+  if(/gallon|\bgal\b/i.test(sz[2]))return {count:1,cont:"jug",size:{n:+sz[1],u:"gal"}};
+  const u=sz[2].toLowerCase().replace(/^gallon$/,"gal").replace(/^lbs$/,"lb").replace(/^(count|slices)$/,"ct").replace("fl oz","oz");
+  if(u==="ct")return {count:+sz[1],cont:"",size:null};
+  c=c?c.toLowerCase():"";c=CONTW[c]||c||(u==="lb"?"pkg":"pkg");return {count:1,cont:c,size:{n:+sz[1],u}}}
+const CONT_BY_NAME=[[/salsa|marinara|pasta sauce|peanut butter|jelly|mayo|pickle|ricotta/,"jar"],[/sour cream|yogurt|cottage|ricotta|butter spread/,"tub"],[/oil|honey|syrup|soy sauce|ketchup|mustard|dressing|vinegar/,"bottle"],
+  [/broth|stock|juice|heavy cream|half and half/,"carton"],[/shredded|frozen|chicken breast|salmon|rice|flour|sugar|potatoes|carrots|chips|noodles/,"bag"],[/spaghetti|ziti|pasta|cereal|crackers|cornstarch|butter/,"box"],
+  [/powder|seasoning|cumin|thyme|paprika|oregano|cinnamon|salt|pepper$|parmesan/,"container"],[/ground beef|ground turkey|sausage|bacon|steak|cheese/,"pkg"]];
+function pkgOf(name){const k=norm(name).join(" ");const d=WMD[k];let pk=d&&pkgFromTitle(d.title);
+  if(pk&&pk.cont==="pkg"){const m=CONT_BY_NAME.find(([re])=>re.test(k));if(m)pk.cont=m[1]}if(pk)return pk;
+  const x=Object.entries(PKG_EXTRA).find(([n])=>norm(n).join(" ")===k);return x?pkgFromTitle(x[1]):null}
+const plural=(w,n)=>n===1||!w?w:/(x|s|ch|sh)$/.test(w)?w+"es":w+"s";
+function fmtPkg(pk,packs){packs=packs||1;if(!pk)return "";
+  if(!pk.size)return (pk.count*packs)+" ct";
+  if(!pk.cont)return (pk.size.n*packs)+" "+pk.size.u;
+  return packs+" "+plural(pk.cont,packs)+" ("+pk.size.n+" "+pk.size.u+")"}
+const guessQty=p=>p.qty?"":fmtPkg(pkgOf(p.name),1);
+function amtText(p){const q=p.qty||guessQty(p),lv=LVL_SHORT[p.left];return [q?(p.qty?q:"~"+q):"",lv].filter(Boolean).join(" · ")}
 function findItem(name){const k=norm(name).join(" ");return S.pantry.find(p=>norm(p.name).join(" ")===k)}
 function upsertPantry(name,loc,qty,left){name=name.trim();if(!name)return 0;const ex=findItem(name);
   if(ex){if(qty)ex.qty=qty;if(left)ex.left=left;return 2}
@@ -1117,7 +1165,7 @@ function upsertPantry(name,loc,qty,left){name=name.trim();if(!name)return 0;cons
 function addPantry(name,loc){name=name.trim();if(!name)return false;if(S.pantry.some(p=>norm(p.name).join(" ")===norm(name).join(" ")))return false;S.pantry.push({id:nid(),name,loc});return true}
 
 /* custom recipe parsing */
-const UNITS={lb:"lb",lbs:"lb",pound:"lb",pounds:"lb",oz:"oz",ounce:"oz",ounces:"oz",cup:"cup",cups:"cup",c:"cup",tbsp:"tbsp",tablespoon:"tbsp",tablespoons:"tbsp",tsp:"tsp",teaspoon:"tsp",teaspoons:"tsp",can:"can",cans:"can",clove:"clove",cloves:"clove",jar:"jar",jars:"jar",bag:"bag",bags:"bag",box:"box",boxes:"box",pkg:"pkg",package:"pkg",packages:"pkg",head:"head",heads:"head",bunch:"bunch",bunches:"bunch",slice:"slice",slices:"slice",stalk:"stalk",stalks:"stalk",tub:"tub"};
+const UNITS={gal:"gal",gallon:"gal",gallons:"gal",lb:"lb",lbs:"lb",pound:"lb",pounds:"lb",oz:"oz",ounce:"oz",ounces:"oz",cup:"cup",cups:"cup",c:"cup",tbsp:"tbsp",tablespoon:"tbsp",tablespoons:"tbsp",tsp:"tsp",teaspoon:"tsp",teaspoons:"tsp",can:"can",cans:"can",clove:"clove",cloves:"clove",jar:"jar",jars:"jar",bag:"bag",bags:"bag",box:"box",boxes:"box",pkg:"pkg",package:"pkg",packages:"pkg",head:"head",heads:"head",bunch:"bunch",bunches:"bunch",slice:"slice",slices:"slice",stalk:"stalk",stalks:"stalk",tub:"tub"};
 function num(t){if(!t)return NaN;const u={"½":.5,"¼":.25,"¾":.75};if(u[t])return u[t];if(/^\d+\/\d+$/.test(t)){const[a,b]=t.split("/");return a/b}return /^\d*\.?\d+$/.test(t)?parseFloat(t):NaN}
 const CATKEY=[["Meat & Seafood",/chicken|beef|pork|turkey|sausage|bacon|steak|salmon|shrimp|fish|ham|lamb/],["Dairy & Eggs",/milk|cheese|cheddar|mozzarella|parmesan|butter|yogurt|cream|egg|ricotta/],["Frozen",/frozen/],["Bakery",/bread|bun|tortilla|roll|bagel|pita/],["Spices",/powder|cumin|paprika|oregano|thyme|basil|cinnamon|seasoning|salt|pepper$/],["Produce",/onion|garlic|pepper|tomato|potato|carrot|celery|lettuce|spinach|broccoli|lemon|lime|apple|banana|berr|herb|cilantro|parsley|ginger|zucchini|mushroom|avocado|cucumber|scallion/]];
 const guess=n=>{n=n.toLowerCase();for(const[c,re]of CATKEY)if(re.test(n))return c;return "Pantry"};
@@ -1141,6 +1189,8 @@ document.addEventListener("click",e=>{
   if(a==="timerStart"){startTimer(+b.dataset.m);render(true);return}
   if(a==="timerStop"){stopTimer();render(true);return}
   if(a==="clearNow"){const was=snap();S.now=null;render();toast("Cleared tonight's pick",was);return}
+  if(a==="amt"){EDIT=b.dataset.id;render(true);setTimeout(()=>{const i=document.getElementById("amtQty");if(i){i.focus();i.select()}},30);return}
+  if(a==="amtCancel"){EDIT=null;render(true);return}
   if(a==="lowToggle"){const p=S.pantry.find(x=>x.id===b.dataset.id);if(!p)return;if(LOWS(p))delete p.left;else p.left="low";render();return}
   if(a==="pickNow"){S.now=b.dataset.id||null;Object.keys(S.done).forEach(k=>{if(/:now:/.test(k))delete S.done[k]});if(S.now){startCook(active().find(x=>x.r.id===S.now).k)}else render();return}
   if(a==="serv"){S.servings=Math.min(20,Math.max(1,S.servings+ +b.dataset.d));render();return}
@@ -1158,7 +1208,10 @@ document.addEventListener("click",e=>{
   if(a==="copy"){const {need}=shopping();const txt=CATS.map(c=>{const it=need.filter(i=>(i.cat||"Other")===c&&!S.checked["k|"+i.key]);return it.length?c.toUpperCase()+"\n"+it.map(i=>`- ${i.n} (${fq(i.q,i.u)})`).join("\n"):""}).filter(Boolean).join("\n\n")+(S.extras.length?"\n\nEXTRAS\n"+S.extras.filter(x=>!S.checked["x:"+x.id]).map(x=>"- "+x.name).join("\n"):"");
     const done=()=>toast("List copied");try{navigator.clipboard.writeText(txt).then(done,()=>fallback(txt))}catch(err){fallback(txt)}return}
   if(a==="stock"){const was=snap();const {need}=shopping();let n=0;S.checkedBy=S.checkedBy||{};
-    need.forEach(i=>{const k="k|"+i.key;if(S.checked[k]){const ex=findItem(i.n);if(ex){delete ex.left}else if(addPantry(i.n,guessLoc(i.n)))n++;delete S.checked[k];delete S.checkedBy[k];delete S.buyAnyway[i.key]}});
+    need.forEach(i=>{const k="k|"+i.key;if(S.checked[k]){const pk=pkgOf(i.n),packs=pk&&pk.size?storeQty(i.q,i.u):1;
+        const bought=pk?(pk.size?fmtPkg(pk,packs):(pk.count*Math.max(1,Math.ceil(i.q/pk.count-0.05)))+" ct"):"";
+        const ex=findItem(i.n);if(ex){delete ex.left;if(bought){const a=parseQty(ex.qty),b2=parseQty(bought);ex.qty=a&&b2&&a.u===b2.u&&a.rest.trim()===b2.rest.trim()?bought.replace(/^\S+/,String(nice(a.n+b2.n))).replace(/\b(jar|can|carton|bottle|bag|box|tub|jug|container|tin|pouch|loaf|pkg)\b/,w=>plural(w,a.n+b2.n)):bought}}
+        else if(addPantry(i.n,guessLoc(i.n))){n++;const it=findItem(i.n);if(it&&bought)it.qty=bought}delete S.checked[k];delete S.checkedBy[k];delete S.buyAnyway[i.key]}});
     S.extras=S.extras.filter(x=>{const k="x:"+x.id;if(S.checked[k]){delete S.checked[k];delete S.checkedBy[k];const ex=findItem(x.name);if(ex)delete ex.left;return false}return true});
     render();toast(`Put away. ${n} new item${n===1?"":"s"} in the kitchen.`,was);return}
   if(a==="resetDone"){const was=snap();S.done={};render();toast("Checkmarks cleared",was);return}
@@ -1216,10 +1269,12 @@ document.addEventListener("submit",e=>{
     KR={status:"working",msg:"Finding Kroger stores…"};render(true);kr("/locations?zip="+z).then(j=>{KR={status:"stores",stores:j.stores||[]};render(true)}).catch(err=>{KR={status:"error",msg:"Couldn't find stores. "+err.message};render(true)});return}
   if(f.id==="famForm"){S.people=[...new Set(document.getElementById("famNames").value.split(",").map(x=>x.trim()).filter(Boolean))].slice(0,12);render();toast(S.people.length?"Family saved. Tap a name on a meal to rate it.":"Family cleared");return}
   if(f.id==="impForm"){runImport(document.getElementById("impUrl").value);return}
+  if(f.id==="amtForm"){const p=S.pantry.find(x=>x.id===f.dataset.id);if(p){const q=document.getElementById("amtQty").value.trim(),l=document.getElementById("amtLeft").value;
+      if(q)p.qty=q;else delete p.qty;if(l)p.left=l;else delete p.left}EDIT=null;render();toast("Amount saved");return}
   if(f.id==="addForm"){const inp=document.getElementById("addName"),forced=document.getElementById("addLoc").value,list=parseAdds(inp.value);
     if(!list.length){toast("Type something to add, like milk or 2 lb chicken");inp.focus();return}
     const was=snap(),where=new Set();let n=0,u=0;
-    list.forEach(x=>{const loc=forced||guessLoc(x.name);const r=upsertPantry(x.name.toLowerCase(),loc,x.qty,"");if(r===1){n++;where.add(loc)}if(r===2){u++;const ex=findItem(x.name);if(ex)delete ex.left}});
+    list.forEach(x=>{const loc=forced||guessLoc(x.name);if(x.qty&&/^\d+(\.\d+)?$/.test(x.qty)){const pk=pkgOf(x.name);if(pk)x.qty=fmtPkg(pk,+x.qty)}const r=upsertPantry(x.name.toLowerCase(),loc,x.qty||fmtPkg(pkgOf(x.name),1),"");if(r===1){n++;where.add(loc)}if(r===2){u++;const ex=findItem(x.name);if(ex)delete ex.left}});
     S.sample=false;S.kOpen=S.kOpen||{};where.forEach(l=>S.kOpen[l]=true);inp.value="";render();
     const el=document.getElementById("addName");if(el)el.focus();
     const w=[...where],spots=w.length>1?w.slice(0,-1).join(", ")+" and "+w.at(-1):w[0];toast(n?`Added ${n===1?list.find(x=>x).name:n+" items"} to ${spots}${u?`, updated ${u}`:""}`:`Already in the kitchen${u?" (amount updated)":""}`,was);return}
@@ -1434,8 +1489,8 @@ Rules:
 - Use short generic grocery names in lowercase (e.g. "black beans", "shredded cheddar", "chicken broth", "tortilla chips"). Keep a brand only when it's how people shop for it (e.g. "Tostitos tortilla chips").
 - When an item matches one of these names the household cooks with, use that exact wording: ${vocab.join(", ")}.
 - location: where it is stored. ${hint ? `All photos show the ${hint}, so use "${hint}" unless an item is clearly a spice or seasoning.` : "Infer from the photo (fridge interior, freezer, shelf/cabinet, spice rack)."} Dried herbs, spices, and seasoning blends go in "Spices".
-- quantity: how much is there, as a short household phrase with count and package size when visible, e.g. "2 cans (15 oz)", "1 gallon jug", "1 bag, 32 oz", "6 eggs", "3 bell peppers", "1 jar". Combine counts across photos. Omit if you truly can't tell.
-- remaining: how full the open or partly used container looks: "full" (sealed/unopened or full), "most", "half", "low" (about a quarter or less), "empty" (nearly gone), or "unknown" if you can't see the level. For several of the same item, judge the total.
+- quantity: count + container + package size when you can read or estimate it, in exactly this style: "1 jar (16 oz)", "2 cans (15 oz)", "1 jug (1 gal)", "1 bag (2 lb)", "1 carton (32 oz)", "12 ct" for counted things like eggs, tortillas or loose produce. Combine the same item across photos into one count. Leave it out if you truly can't tell.
+- remaining: how much is left in the package being used: "full" if sealed or full, "most" (about 3/4), "half", "low" (about 1/4), "empty" (nearly gone). For see-through containers (milk jugs, jars, bags) judge the level you can see. Use "unknown" ONLY when the container is clearly opened (lid off, torn, clipped, partly used) but you can't see how much is inside. If you can't tell whether it was opened, use "full". For several of the same item, judge the opened one.
 - confidence: "low" if you are guessing from a partial or blurry view, otherwise "high".`;
     const parts = [{ text: prompt }, ...images.map(d => ({ inlineData: { mimeType: "image/jpeg", data: d } }))];
     let r, last;
