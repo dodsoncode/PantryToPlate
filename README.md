@@ -63,6 +63,11 @@ The larger library is in `recipes.js` (`window.LIBRARY`), same shape plus `meal`
 
 - **Diet & allergies** (Plan tab → Set up / Edit): a household diet (classic, flexitarian, pescatarian, vegetarian, vegan, low carb, paleo), allergies for the whole household and for each named person, and foods each person dislikes. Recipes that don't fit are hidden from Recipes, Hungry now, the day picker and "Fill"; "Show N that don't fit" brings them back with a warning. Matching is by ingredient name, so always check package labels for allergens.
 - **Breakfast & lunch**: the Plan: Breakfast / Lunch / Dinner chips add those meals to every day. They're saved as `monB` / `monL` next to the dinner key `mon`, and they flow into the shopping list, prep session and cook mode.
+- **Avoid list**: besides allergies, "No pork", "No red meat" and "No alcohol", plus one-tap common dislikes; dislikes are unlimited.
+- **Zero waste**: "Fill" prefers recipes that share fresh ingredients with the rest of the week, and the week view lists what will be left over (half a tub of sour cream, 4 tortillas…). Recipes that would use a leftover are marked ♻ in the day picker. Package sizes for this live in `PERPKG`.
+- **Hands-free cooking**: in cook mode, tap 🎙 Hands-free to hear each step read aloud and say "next", "back", "repeat", "timer" (or "set a timer for 5 minutes") or "ingredients". Voice commands need a browser with speech recognition (Chrome, Edge, Safari) and microphone permission; the screen stays awake.
+- **Edit any recipe**: Edit on any recipe card (including built-in ones, which saves your own version with "Undo my edits"), and "Edit first" when importing.
+- **Stores**: Walmart fills the cart directly; Kroger does once its worker is set up. Target, Amazon Fresh, Instacart and Kroger (before setup) open item-by-item searches.
 - **✨ Suggest new recipes** (Recipes view): Gemini writes 3 original recipes for the chosen meal that fit the profile and lean on what's in the kitchen. Review, then save the ones you want.
 
 ## Instacart ordering
