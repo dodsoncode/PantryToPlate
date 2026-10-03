@@ -869,7 +869,7 @@ function score(r,s){s=s||status(r);let v=(S.fav||{})[r.id]?3:0;const rt=(S.ratin
   Object.values(rt).forEach(x=>v+=x>0?1:-2);v-=s.missing.length*0.6;if(S.profile&&S.profile.diet==="flexitarian"&&!traits(r).has("meat")&&!traits(r).has("fish"))v+=1.5;const d=daysAgo((S.cookLog||{})[r.id]);if(d!==null&&d<14)v-=3*(14-d)/14;return v}
 /* ---------- diet, allergies and dislikes ---------- */
 const DIETS=[["classic","Classic","Everything"],["flexitarian","Flexitarian","Mostly meatless"],["pescatarian","Pescatarian","Fish, no meat"],["vegetarian","Vegetarian","No meat or fish"],["vegan","Vegan","No animal foods"],["lowcarb","Low carb / keto","Skip rice, pasta, bread, potatoes"],["paleo","Paleo","No grains, dairy or beans"]];
-const ALLERGENS=[["gluten","Gluten"],["dairy","Dairy"],["egg","Eggs"],["peanut","Peanuts"],["treenut","Tree nuts"],["fish","Fish"],["shellfish","Shellfish"],["soy","Soy"],["sesame","Sesame"],["pork","No pork"],["redmeat","No red meat"],["alcohol","No alcohol"]];
+const ALLERGENS=[["gluten","Gluten"],["dairy","Dairy"],["egg","Eggs"],["peanut","Peanuts"],["treenut","Tree nuts"],["fish","Fish"],["shellfish","Shellfish"],["soy","Soy"],["sesame","Sesame"],["pork","Pork"],["redmeat","Red meat"],["alcohol","Alcohol"]];
 const COMMON_DISLIKES=["mushrooms","olives","bell peppers","onion","cilantro","tomatoes","avocado","beans","coconut","spinach","shrimp","cauliflower"];
 const GLUTEN=/\b(flour|bread|breaded|breadcrumbs|buns?|bagels?|english muffins?|ciabatta|pita|rolls?|pasta|spaghetti|linguine|fettuccine|penne|rotini|ziti|lasagna|macaroni|noodles?|ramen|tortellini|ravioli|couscous|crackers|croutons|pizza dough|biscuits|soy sauce|hoisin|teriyaki|cream of \w+ soup|barley|waffles?|granola|meatballs|wheat)\b/;
 const TRAITS={
