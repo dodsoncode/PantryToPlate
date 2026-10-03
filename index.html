@@ -1153,7 +1153,7 @@ V.setup=()=>{
       <div class="block" style="gap:8px"><b>Usually cooking for</b><div class="stepper" style="justify-self:start"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}<small>people</small></span><button data-act="serv" data-d="1" aria-label="More people">+</button></div></div>`}
   if(st==="diet"){h="Pick your diet";lede="Recipes that don't fit are hidden.";
     body=`<div class="bigrows">${DIETS.map(([k,l,d])=>`<button class="bigrow" data-act="suDiet" data-v="${k}" aria-pressed="${P.diet===k}">${l}<small>${d}</small></button>`).join("")}</div>`}
-  if(st==="allergy"){h="Any allergies?";lede="Also foods your family avoids.";
+  if(st==="allergy"){h="Any Allergies or Foods you Avoid?";lede="Tap any that apply.";
     body=`${whoSeg}<div class="bigchips">${ALLERGENS.map(([k,l])=>`<button data-act="suAllergy" data-v="${k}" aria-pressed="${(P.allergies[P.who]||[]).includes(k)}">${l}</button>`).join("")}</div>`}
   if(st==="dislike"){h="How about dislikes?";lede="Meals with these won't be suggested.";const cur=listOf(P.dislikes[P.who]);
     const btn=(n,attr="")=>`<button data-act="suDislike" data-v="${esc(n)}" aria-pressed="${cur.includes(n)}"${attr}>${esc(n)}</button>`;
