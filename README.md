@@ -8,6 +8,7 @@ A static site (no build step) with optional Google sign-in and Firebase sync, se
 | File | What it is |
 |---|---|
 | `index.html` | The whole app |
+| `recipes.js` | The recipe library: 90 original breakfasts, lunches and dinners |
 | `firebase-config.js` | Your Firebase web config (fill in) |
 | `firestore.rules` | Security rules block for the planner's data |
 | `manifest.webmanifest`, `icon*.png`, `icon.svg` | "Add to Home Screen" support |
@@ -56,6 +57,13 @@ Prep (from Today) groups the week's make-ahead tasks so all the chopping happens
 Built-in recipes live in the `RECIPES` array near the top of the script in `index.html`.
 Each ingredient is `[quantity, unit, name, store section]`, based on the recipe's `serves` count; the app scales to the servings you pick.
 Recipes you add in the app are saved to your account instead.
+The larger library is in `recipes.js` (`window.LIBRARY`), same shape plus `meal` ("breakfast", "lunch" or "dinner"; dinner if missing).
+
+## Diet, allergies and meals
+
+- **Diet & allergies** (Plan tab → Set up / Edit): a household diet (classic, flexitarian, pescatarian, vegetarian, vegan, low carb, paleo), allergies for the whole household and for each named person, and foods each person dislikes. Recipes that don't fit are hidden from Recipes, Hungry now, the day picker and "Fill"; "Show N that don't fit" brings them back with a warning. Matching is by ingredient name, so always check package labels for allergens.
+- **Breakfast & lunch**: the Plan: Breakfast / Lunch / Dinner chips add those meals to every day. They're saved as `monB` / `monL` next to the dinner key `mon`, and they flow into the shopping list, prep session and cook mode.
+- **✨ Suggest new recipes** (Recipes view): Gemini writes 3 original recipes for the chosen meal that fit the profile and lean on what's in the kitchen. Review, then save the ones you want.
 
 ## Instacart ordering
 
