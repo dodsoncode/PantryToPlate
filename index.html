@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2c6a4d">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="Weekly dinner planner: pantry check, shopping list, prep and cooking steps.">
 <title>Pantry to Plate</title>
 <link rel="manifest" href="manifest.webmanifest">
@@ -11,26 +11,27 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: a four-step kitchen workflow (Pantry → Plan → Shop → Prep & cook) as numbered tabs over a single working column; lists read like a grocery ticket. */
 :root{
-  --bg:#eef2ee; --surface:#ffffff; --sunk:#e4eae5; --ink:#1b241f; --muted:#5a6a61; --line:#d3dcd5;
-  --accent:#2c6a4d; --accent-ink:#ffffff; --accent-soft:#d9ebe1;
-  --mark:#e7b23a; --need:#b0502a; --need-soft:#f6e3d9;
-  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --r:10px;
+  --bg:#ffffff; --surface:#ffffff; --sunk:#f3f4f2; --ink:#22252a; --muted:#6a6f77; --line:#e5e6e3;
+  --accent:#e2462f; --accent-ink:#ffffff; --accent-soft:#fde8e3;
+  --ok:#2c7a4c; --ok-soft:#e2f2e8;
+  --mark:#f2b233; --need:#9c5600; --need-soft:#fff0d6;
+  --f-display:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r:14px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111714; --surface:#19211d; --sunk:#141b17; --ink:#e5ece7; --muted:#9aaaa1; --line:#2b3730;
-  --accent:#6fc59c; --accent-ink:#0d1812; --accent-soft:#1f3a2c;
-  --mark:#e6b64e; --need:#e98d62; --need-soft:#3a241a; color-scheme:dark}}
+  --bg:#17191d; --surface:#1f2227; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#ff6a52; --accent-ink:#1b0d0a; --accent-soft:#3b201b; --ok:#6cc892; --ok-soft:#1c3326;
+  --mark:#f2b84b; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111714; --surface:#19211d; --sunk:#141b17; --ink:#e5ece7; --muted:#9aaaa1; --line:#2b3730;
-  --accent:#6fc59c; --accent-ink:#0d1812; --accent-soft:#1f3a2c;
-  --mark:#e6b64e; --need:#e98d62; --need-soft:#3a241a; color-scheme:dark}
+  --bg:#17191d; --surface:#1f2227; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#ff6a52; --accent-ink:#1b0d0a; --accent-soft:#3b201b; --ok:#6cc892; --ok-soft:#1c3326;
+  --mark:#f2b84b; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -372,16 +373,208 @@ input::-webkit-calendar-picker-indicator{display:none!important}
 .cooknav .ghost{background:var(--surface)}
 .ingbig .ing li{grid-template-columns:6rem minmax(0,1fr) auto;font-size:1.05rem;padding:8px 0}
 .ingbig .ing .q{font-size:.95rem}
+
+/* ===== v3: photo-first, one typeface, plain lists instead of boxes ===== */
+body{font:17px/1.5 var(--f-body);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--f-display);letter-spacing:-.015em}
+h2{font-size:1.3rem;font-weight:800}
+.eyebrow,.tag,.stepnum,.ing .h,.optnote[data-sep]{text-transform:none;letter-spacing:0}
+.eyebrow{font-size:.85rem}
+header.top{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);margin-inline:-16px;padding:calc(10px + env(safe-area-inset-top,0px)) 16px 8px;display:flex;align-items:center;justify-content:space-between}
+header.top h1{font-size:2rem;font-weight:800;letter-spacing:-.025em}
+.gear{width:44px;height:44px;border:0;border-radius:50%;background:var(--sunk);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.gear svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+body.detail header.top,body.setup header.top,body.detail nav.tabbar,body.setup nav.tabbar{display:none}
+main{gap:24px}
+.panel,.card,.storebox,.tonight,.nudge,.scanlist,.plist,.ticket{border:0}
+.panel{background:var(--sunk);border-radius:16px}
+.card{background:var(--sunk);border-radius:16px}
+.storebox{background:var(--sunk);border-radius:16px}
+.ticket{background:none;padding:0}
+.week,.weekstrip{border:0;border-radius:0;background:none}
+.daybtn,.wrow,.item,.opt{border-top:1px solid var(--line)}
+.aisle .eyebrow,.pgroup .eyebrow{border-bottom:0;font-size:1rem;color:var(--ink);font-weight:800;padding-top:8px}
+.shoprow,.check,.ing li{border-bottom:1px solid var(--line)}
+button.btn,label.btn,a.btn{border-radius:12px;min-height:48px;font:700 1rem var(--f-body);padding:10px 18px}
+button.ghost,label.btn.ghost,a.btn.ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+button.link{text-decoration:none;color:var(--accent);font:700 .95rem var(--f-body)}
+input[type=text],input[type=url],input[type=search],select,textarea,input[type=number]{background:var(--sunk);border:1.5px solid transparent;border-radius:12px;padding:10px 12px}
+input:focus,select:focus,textarea:focus{border-color:var(--line);outline:none}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.pill{font:700 .75rem var(--f-body);padding:3px 9px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.ing .h.ok{color:var(--ok)}
+.bar i{background:var(--ok)}
+.note{background:var(--sunk)}
+.filters button{border:0;background:var(--sunk)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+nav.tabbar{background:color-mix(in srgb,var(--bg) 94%,transparent)}
+nav.tabbar .row{grid-template-columns:repeat(5,1fr)}
+nav.tabbar button{font:700 .7rem var(--f-body)}
+.servbox{border:0;background:var(--sunk)}
+.servbox .round{background:var(--surface)}
+.sheet{background:var(--bg);grid-template-rows:auto auto auto minmax(0,1fr)}
+.block{display:grid;gap:12px;align-content:start}
+#recView{display:grid;gap:28px}
+.shelf+.shelf{margin-top:4px}
+body.detail main{padding-top:0}
+.tonight .ph.wide{aspect-ratio:16/9}
+.tonight .ph.wide .food{font-size:16cqw}
+body[data-tab="settings"] .gear{visibility:hidden}
+.panel input[type=text],.panel input[type=url],.panel input[type=search],.panel select,.panel textarea,.panel input[type=number]{background:var(--surface)}
+.loclist.panel{background:none;padding:0;border-radius:0}
+.loclist>summary{font-size:1.25rem;font-weight:800;min-height:56px}
+.sheet .list{border:0;border-radius:0;background:none}
+.nudge{background:var(--sunk);border-radius:14px}
+.nudge.warm{background:var(--need-soft)}
+.details-quiet>summary{color:var(--ink)}
+
+/* placeholder photos: a plate on a tablecloth, colored per recipe; real photos go in recipe.img */
+.ph{display:block;position:relative;aspect-ratio:1;overflow:hidden;container-type:inline-size;background-color:var(--phbg,#f3e3c3);
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px),repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph .plate{position:absolute;left:50%;top:50%;height:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#fff;
+  box-shadow:0 8px 18px rgba(60,40,20,.16),inset 0 0 0 5px #fff,inset 0 0 0 7px #ecebe6;display:grid;place-items:center}
+.ph .food{font-size:28cqw;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.12))}
+.ph.wide{aspect-ratio:4/3}
+.ph.wide .food{font-size:22cqw}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph{filter:brightness(.88)}}
+
+/* Recipes: rows of photos, then a grid */
+.recbar{display:flex;gap:10px;align-items:center}
+.recbar input[type=search]{flex:1 1 auto}
+.mealseg{display:flex;gap:6px}
+.mealseg button{flex:1;min-height:44px;border:0;border-radius:999px;background:var(--sunk);color:var(--ink);font:700 .95rem var(--f-body);cursor:pointer}
+.mealseg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.shelf{display:grid;gap:12px}
+.shelf h2{font-size:1.25rem}
+.rowscroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,42%);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:0 16px 4px;scrollbar-width:none}
+.rowscroll::-webkit-scrollbar{display:none}
+.rowscroll .tile{scroll-snap-align:start}
+@media (min-width:700px){.rowscroll{grid-auto-columns:200px}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}
+@media (min-width:700px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{position:relative;display:grid;gap:8px;align-content:start;min-width:0}
+.tile .open{border:0;padding:0;background:none;color:var(--ink);text-align:left;cursor:pointer;display:grid;gap:8px;font:inherit}
+.tile .ph{border-radius:18px}
+.tile .tn{font:700 1rem/1.3 var(--f-body);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile .tm{font-size:.85rem;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.tile .tm .ready{color:var(--ok);font-weight:700}
+.tile .tm .warn{color:var(--need);font-weight:700}
+.tadd{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#22252a;font:500 1.5rem/1 var(--f-body);box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;display:grid;place-items:center}
+.tadd.on{background:var(--ok);color:#fff;font-size:1.1rem;font-weight:800}
+.searching .shelf.row{display:none}
+.quiet{color:var(--muted);font-size:.9rem}
+
+/* recipe page */
+.hero{position:relative;margin:0 -16px}
+.hero .ph{border-radius:0;max-height:52vh;width:100%}
+.hbtn{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#22252a;font:700 1.3rem/1 var(--f-body);box-shadow:0 2px 10px rgba(0,0,0,.18);cursor:pointer;display:grid;place-items:center}
+.hbtn.back{left:16px}
+.hbtn.edit{right:16px;width:auto;padding:0 16px;border-radius:999px;font-size:.95rem}
+.rhead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;padding-top:18px}
+.rhead h1{font-size:1.9rem;font-weight:800;letter-spacing:-.025em;line-height:1.12}
+.heart{width:48px;height:48px;border:0;border-radius:50%;background:var(--sunk);color:var(--ink);font-size:1.5rem;cursor:pointer}
+.heart.on{color:var(--accent);background:var(--accent-soft)}
+.rmeta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);margin:0}
+.rtabs{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;margin-inline:-16px;padding-inline:16px}
+.rtabs button{min-height:50px;border:0;background:none;color:var(--muted);font:700 1rem var(--f-body);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+.rtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.rlist{list-style:none;margin:0;padding:0}
+.rlist li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
+.rlist .q{color:var(--muted);text-align:right;white-space:nowrap}
+.rlist .mk{color:var(--ok);font-weight:800}
+.rlist .mk.no{color:var(--line)}
+.rsteps{list-style:none;margin:0;padding:0;counter-reset:st}
+.rsteps li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:16px 0;border-bottom:1px solid var(--line);counter-increment:st}
+.rsteps li::before{content:counter(st);font:800 1.4rem/1.2 var(--f-body);color:var(--muted)}
+.rsteps p{margin:0;font-size:1.08rem}
+.uses{margin:8px 0 0;padding:0;list-style:none;color:var(--muted);font-size:.95rem}
+.rbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);max-width:880px;margin:0 auto}
+.rbar .btn{min-height:54px;font-size:1.05rem;border-radius:14px}
+.stepper{display:flex;align-items:center;gap:4px;background:var(--sunk);border-radius:14px;padding:4px;min-height:54px}
+.stepper button{width:44px;height:44px;border:0;border-radius:10px;background:var(--surface);color:var(--ink);font:700 1.3rem var(--f-body);cursor:pointer}
+.stepper span{min-width:4.6em;text-align:center;font-weight:700;font-size:.95rem;line-height:1.1}
+.stepper small{display:block;font-weight:500;color:var(--muted);font-size:.72rem}
+body.detail{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+
+/* setup flow */
+.su{min-height:calc(100dvh - 40px);display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:18px;padding-bottom:110px}
+.sutop{display:flex;justify-content:space-between;align-items:center;min-height:52px;padding-top:env(safe-area-inset-top,0px)}
+.sutop button{border:0;background:none;color:var(--accent);font:700 1rem var(--f-body);min-height:44px;cursor:pointer;padding:0}
+.dots{display:flex;gap:6px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--ink);width:22px;border-radius:4px}
+.su h1{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.su .lede{color:var(--muted);font-size:1.05rem;margin:8px 0 0}
+.bigrows{display:grid;gap:10px}
+.bigrow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:62px;padding:12px 18px;border-radius:16px;border:2px solid transparent;background:var(--sunk);color:var(--ink);font:700 1.1rem var(--f-body);text-align:left;cursor:pointer}
+.bigrow small{font:500 .9rem var(--f-body);color:var(--muted);text-align:right}
+.bigrow[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.bigchips{display:flex;flex-wrap:wrap;gap:10px}
+.bigchips button{min-height:50px;padding:10px 18px;border-radius:14px;border:2px solid transparent;background:var(--sunk);color:var(--ink);font:600 1.05rem var(--f-body);cursor:pointer}
+.bigchips button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.whoseg{display:flex;gap:6px;overflow-x:auto}
+.whoseg button{min-height:40px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:700 .9rem var(--f-body);cursor:pointer;white-space:nowrap}
+.whoseg button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.suintro{display:grid;gap:22px;padding-top:4vh}
+.suintro .pt{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px;align-items:center;font-size:1.15rem;font-weight:600}
+.suintro .pt .ph{border-radius:50%}
+.sunext{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));background:var(--bg);max-width:880px;margin:0 auto}
+.sunext .btn{width:100%;min-height:56px;font-size:1.1rem;border-radius:16px}
+.alllist{max-height:50vh;overflow:auto;border-top:1px solid var(--line)}
+.alllist button{display:flex;justify-content:space-between;width:100%;min-height:50px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:500 1.05rem var(--f-body);text-align:left;cursor:pointer;padding:0 4px}
+.alllist button[aria-pressed="true"]{font-weight:800}
+.alllist button[aria-pressed="true"]::after{content:"✓";color:var(--accent)}
+
+/* settings */
+.sgroup{display:grid}
+.sgroup h2{font-size:1.05rem;color:var(--muted);font-weight:700;margin-bottom:4px}
+.srow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:58px;padding:8px 0;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);font:600 1.05rem var(--f-body);text-align:left;width:100%;cursor:pointer}
+.srow small{display:block;font-weight:500;color:var(--muted);font-size:.9rem}
+.srow .chev{color:var(--muted);font-size:1.4rem}
+.toggle{width:52px;height:32px;border-radius:16px;background:var(--line);position:relative;flex:0 0 auto}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
+[aria-pressed="true"]>.toggle{background:var(--ok)}
+[aria-pressed="true"]>.toggle::after{left:23px}
+#acctbox{display:grid;gap:12px;margin-top:12px}
+#acctbox #acct{justify-content:flex-start}
+
+/* Today / Plan with photos */
+.tonight{background:none;padding:0;gap:12px}
+.tonight .ph{border-radius:20px}
+.tonight h2{font-size:1.7rem}
+.thumb{width:52px;height:52px;flex:0 0 auto}
+.thumb .ph{border-radius:12px;width:52px;height:52px}
+.daybtn{grid-template-columns:52px 52px minmax(0,1fr) auto;min-height:72px;padding:10px 0}
+.week.multi .daybtn{grid-template-columns:72px 52px minmax(0,1fr) auto}
+.daybtn.today{background:none}
+.daybtn.today .dn{color:var(--accent)}
+.dayhd{background:none;padding:18px 0 4px;font-size:1.1rem;font-weight:800}
+.dayhd.today{background:none;color:var(--accent)}
+.wrow{grid-template-columns:48px 44px minmax(0,1fr) auto;padding:8px 0;min-height:60px}
+.wrow .thumb,.wrow .thumb .ph{width:44px;height:44px}
+.weekstrip.meals .wrow{grid-template-columns:5.5em 44px minmax(0,1fr) auto}
+.wrow.today{background:none}
+.wrow.today .dn{color:var(--accent)}
+.opt{grid-template-columns:52px minmax(0,1fr) auto;padding:10px 0}
+.opt.sel{background:var(--accent-soft);border-radius:12px;padding-inline:8px}
+.opt.plain{grid-template-columns:minmax(0,1fr) auto}
+.optnote{background:none;padding:14px 0 6px}
+.profbar{border:0}
+.cooknow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stepuses{margin:14px 0 0;padding:14px 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:4px;font-size:1.1rem}
+.stepuses b{font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <h1>Pantry to Plate</h1>
-    <div id="acct"><span class="who">Saved on this device</span></div>
+    <h1 id="title">Pantry to Plate</h1>
+    <button class="gear" data-act="tab" data-t="settings" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.4M12 18.8v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.8 12h2.4M18.8 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/><circle cx="12" cy="12" r="6.2"/></svg></button>
   </header>
-  <section class="panel hh" id="hh" hidden></section>
   <main id="view"></main>
+  <section id="acctbox" hidden><div id="acct"><span class="who">Saved on this device</span></div><section class="panel hh" id="hh" hidden></section></section>
 </div>
 <nav class="tabbar" aria-label="Sections"><div class="row" id="tabs"></div></nav>
 <div id="sheet"></div>
@@ -454,7 +647,8 @@ function load(){try{const s=JSON.parse(localStorage.getItem(K));if(s&&s.pantry)r
 let S=Object.assign(defaults(),load()||{});
 /* Screens from the old step-by-step layout map onto the new tabs. */
 const TABMAP={pantry:"kitchen",choose:"plan",week:"plan",meals:"plan",shop:"shop",prep:"prep",plan:"plan"};
-if(!["today","kitchen","plan","shop","pick","prep","cook"].includes(S.tab))S.tab=TABMAP[S.tab]||"today";
+if(S.planView==="recipes"){S.planView="week";if(S.tab==="plan")S.tab="recipes"}
+if(!["today","kitchen","plan","recipes","shop","pick","prep","cook","settings","add"].includes(S.tab))S.tab=TABMAP[S.tab]||"today";
 if(S.tab==="cook"&&!S.cook)S.tab="today";
 delete S.mode;delete S.order;
 function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}if(window.cloudPush)window.cloudPush()}
@@ -463,7 +657,7 @@ function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}if(windo
    The shared copy is saved field by field (one pantry item, one checkmark, one night of the plan)
    so two phones editing at the same time don't overwrite each other.
    Lists of things with ids are stored as maps keyed by id (pantryM, extrasM, customM). */
-const LOCAL=["tab","mode","now","storeTab","krMode","cook","planView","order","kOpen"];
+const LOCAL=["tab","mode","now","storeTab","krMode","cook","planView","order","kOpen","rid","rtab","rback","su"];
 const LISTF=["pantry","extras","custom"];
 const MAPF=["plan","checked","checkedBy","done","buyAnyway","fav","ratings","products","cookLog","cooked"];
 const SEP="\u0001";
@@ -560,7 +754,6 @@ V.kitchen=()=>{
   const low=S.pantry.filter(LOWS);
   return `
   <section class="block panel addbox">
-    <h2>What's in the kitchen</h2>
     <form class="form" id="addForm">
       <input type="text" id="addName" list="foodNames" placeholder="Add food: milk, 2 lb chicken, eggs" autocomplete="off" autocapitalize="none" enterkeyhint="done" aria-label="Food to add (separate several with commas)">
       <button class="btn" type="submit">Add</button>
@@ -668,7 +861,7 @@ const COMMONISH=/^(garlic|eggs?|butter|milk|olive oil|salt|black pepper)$/;
 function sharedWith(r,names){return r.ing.filter(i=>["Produce","Dairy & Eggs","Bakery"].includes(i[3])&&!COMMONISH.test(i[2])&&names.has(norm(i[2]).join(" "))).length}
 function plannedNames(){const s=new Set();planned().forEach(d=>d.r.ing.forEach(i=>s.add(norm(i[2]).join(" "))));return s}
 function leftoverPanel(){const LO=leftovers();if(!LO.length)return "";
-  return `<div class="nudge"><span class="ic" aria-hidden="true">♻</span><span><b>Use it up:</b> this week's groceries will leave ${LO.slice(0,4).map(l=>esc(l.amt)).join("; ")}${LO.length>4?` and ${LO.length-4} more`:""}.<br><span class="small muted">Tap an open or swappable meal; recipes marked ♻ use these.</span></span><span></span></div>`}
+  return `<details class="panel"><summary>♻ ${LO.length} leftover${LO.length>1?"s":""} to use up</summary><ul style="margin:0;padding-left:1.2rem">${LO.map(l=>`<li>${esc(l.amt)}</li>`).join("")}</ul><p class="quiet" style="margin:8px 0 0">When you pick a meal, recipes that use these are marked ♻ and listed first.</p></details>`}
 /* ---------- family ratings, favorites, rotation ---------- */
 const today=()=>new Date().toISOString().slice(0,10);
 const daysAgo=d=>d?Math.floor((Date.now()-new Date(d+"T12:00:00"))/864e5):null;
@@ -707,17 +900,20 @@ function traits(r){let t=_traits.get(r);if(t)return t;t=new Set();
   if(t.has("gluten"))t.add("grain");_traits.set(r,t);return t}
 const listOf=t=>String(t||"").split(/[,;\n]/).map(x=>x.trim().toLowerCase()).filter(Boolean);
 const FIT_OK={ok:true,why:[]};
+const NOT_THE_FOOD=new Set(["oil","powder","extract","sauce","broth","seasoning","juice","vinegar","stock"]);
+function dislikeHit(d,t){if(d.length>t.length)return false;const end=d.every((w,i)=>t[t.length-d.length+i]===w),start=d.every((w,i)=>t[i]===w);
+  return end||(start&&!NOT_THE_FOOD.has(t[t.length-1]))}
 function fit(r){const P=S.profile;if(!P||!r||!r.ing)return FIT_OK;const t=traits(r),why=[];
   (DIET_NO[P.diet]||[]).forEach(x=>{if(t.has(x))why.push(TLABEL[x])});
   const who=w=>w==="Everyone"?"":` (${w})`;
   Object.entries(P.allergies||{}).forEach(([w,list])=>(list||[]).forEach(a=>{if(t.has(a))why.push(TLABEL[a]+who(w))}));
-  Object.entries(P.dislikes||{}).forEach(([w,txt])=>listOf(txt).forEach(d=>{const dn=norm(d);if(dn.length&&r.ing.some(i=>sub(dn,norm(i[2]))))why.push(d+who(w))}));
+  Object.entries(P.dislikes||{}).forEach(([w,txt])=>listOf(txt).forEach(d=>{const dn=norm(d);if(dn.length&&r.ing.some(i=>dislikeHit(dn,norm(i[2]))))why.push(d+who(w))}));
   return why.length?{ok:false,why:[...new Set(why)]}:FIT_OK}
 let SHOWALL=false;
 const fits=r=>SHOWALL||fit(r).ok;
 function profileLine(){const P=S.profile;if(!P)return "";const d=(DIETS.find(x=>x[0]===P.diet)||DIETS[0])[1];
   const al=[...new Set(Object.values(P.allergies||{}).flat())].filter(a=>TLABEL[a]).map(a=>"no "+TLABEL[a]);const dl=Object.values(P.dislikes||{}).flatMap(listOf);
-  return [d].concat(al,dl.length?[`skip ${dl.slice(0,3).join(", ")}${dl.length>3?"…":""}`]:[]).join(" · ")}
+  return [d].concat(al,dl.length?[`skip ${dl.slice(0,3).join(", ")}${dl.length>3?"…":""}`]:[]).join(", ")}
 function profileBar(){
   if(!S.profile)return `<div class="nudge warm"><span class="ic" aria-hidden="true">🥗</span><span><b>Set your diet &amp; allergies</b><br><span class="small muted">One minute. Recipes and “Fill” will only suggest meals that fit.</span></span><button class="btn" data-act="profile">Set up</button></div>`;
   const hid=all().filter(r=>!fit(r).ok).length;
@@ -758,36 +954,30 @@ const statusPill=(r,k)=>{if(k&&isCooked(k))return `<span class="pill ok">cooked 
 V.pick=()=>{
   const list=all().filter(r=>mealOf(r)===MEALF&&fits(r)).map(r=>{const s=status(r);return {r,s,sc:score(r,s)}}).sort((a,b)=>a.s.missing.length-b.s.missing.length||b.sc-a.sc);
   return `${back("today","Today")}<section class="block">
-    <h2>What can I make now?</h2>
     <p class="muted small" style="margin:0">Top of the list needs the fewest things you don't have.</p>
     ${mealChips()}${profileBar()}
     <div class="cards">${list.map(({r,s})=>recipeCard(r,s,`<button class="btn" data-act="pickNow" data-id="${r.id}">Cook this</button>`,S.now===r.id)).join("")}</div>
   </section>`;
 };
-V.plan=()=>{
-  const view=S.planView==="recipes"?"recipes":"week";
-  return `<div class="seg" role="group" aria-label="Plan view"><button data-act="planView" data-v="week" aria-pressed="${view==="week"}">This week</button><button data-act="planView" data-v="recipes" aria-pressed="${view==="recipes"}">Recipes</button></div>
-  ${view==="week"?weekView():V.meals()}`;
-};
+V.plan=()=>weekView();
 const weekStart=()=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d};
 const md=k=>{const i=DAYS.findIndex(x=>x[0]===slotDay(k)),d=weekStart();d.setDate(d.getDate()+i);return d.toLocaleDateString(undefined,{month:"short",day:"numeric"})};
 let MEALF=(h=>h<10?"breakfast":h<14?"lunch":"dinner")(new Date().getHours());
-const mealChips=()=>`<div class="filters" role="group" aria-label="Meal">${MEALS.slice().reverse().map(([,l,mt])=>`<button data-act="mealF" data-v="${mt}" aria-pressed="${MEALF===mt}">${l}</button>`).join("")}</div>`;
+const mealChips=()=>`<div class="mealseg" role="group" aria-label="Meal">${MEALS.slice().reverse().map(([,l,mt])=>`<button data-act="mealF" data-v="${mt}" aria-pressed="${MEALF===mt}">${l}</button>`).join("")}</div>`;
 function weekView(){
   const tk=todayKey(),sl=slots(),open=sl.filter(x=>!S.plan[x.k]).length,multi=extraMeals();
   const row=(k,label,today)=>{const r=S.plan[k]?byId(S.plan[k]):null,ml=slotMeal(k)[1].toLowerCase();
-    return `<button class="daybtn${today?" today":""}" data-act="openDay" data-k="${k}" aria-label="${dayName(k)}: ${r?esc(r.name):"no "+ml+" planned"}. Tap to change."><span class="dn">${label}</span><span class="nm">${r?`<b>${esc(r.name)}</b><small>${esc(r.time||"")}${fit(r).ok?"":" · ⚠ "+esc(fit(r).why[0])}</small>`:`<b class="open">Tap to choose ${multi?"":"a dinner"}</b>`}</span>${r?statusPill(r,k):`<span class="pill muted">open</span>`}</button>`};
+    return `<button class="daybtn${today?" today":""}" data-act="openDay" data-k="${k}" aria-label="${dayName(k)}: ${r?esc(r.name):"no "+ml+" planned"}. Tap to change."><span class="dn">${label}</span>${r?thumb(r):`<span class="thumb"><span class="ph" style="--phbg:var(--sunk);background-image:none"></span></span>`}<span class="nm">${r?`<b>${esc(r.name)}</b><small>${esc(r.time||"")}${fit(r).ok?"":", has "+esc(fit(r).why[0])}</small>`:`<b class="open">Choose ${multi?ml:"a dinner"}</b>`}</span>${r?statusPill(r,k):""}</button>`};
   return `<section class="block">
-    <div class="head-row" style="align-items:center"><h2>This week's ${multi?"meals":"dinners"} <span class="small muted" style="font-family:var(--f-body);font-weight:400;white-space:nowrap">${md("mon")} – ${md("sun")}</span></h2>
-      <div class="servbox" aria-label="Servings"><span>Cooking for</span><button class="round" data-act="serv" data-d="-1" aria-label="Fewer people">−</button><b id="servN">${S.servings}</b><button class="round" data-act="serv" data-d="1" aria-label="More people">+</button></div></div>
-    <div class="filters" role="group" aria-label="Meals to plan"><span class="small muted" style="align-self:center">Plan:</span>${MEALS.map(([m,l])=>`<button data-act="mealOn" data-m="${m}" aria-pressed="${mealOn(m)}"${m?"":" disabled"}>${l}</button>`).join("")}</div>
-    ${profileBar()}
+    <div class="head-row" style="align-items:center"><span class="quiet">${md("mon")} to ${md("sun")}</span>
+      <div class="servbox" aria-label="Servings"><span>For</span><button class="round" data-act="serv" data-d="-1" aria-label="Fewer people">−</button><b id="servN">${S.servings}</b><button class="round" data-act="serv" data-d="1" aria-label="More people">+</button></div></div>
+    ${open?`<button class="btn" data-act="autofill" style="width:100%">Fill ${open} empty ${multi?"meal":"night"}${open>1?"s":""} for me</button>`:""}
     ${leftoverPanel()}
-    ${open?`<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn" data-act="autofill">Fill ${open} empty ${multi?"meal":"night"}${open>1?"s":""} for me</button><span class="small muted">Picks favorites${S.profile?", fits your diet,":""} and uses what's in your kitchen</span></div>`:""}
     <div class="week${multi?" multi":""}">${DAYS.map(([k,l])=>{const td=k===tk;
-      if(!multi)return row(k,`${l.slice(0,3)}<small style="display:block;font:700 .65rem var(--f-body);color:var(--${td?"accent":"muted"})">${td?"TODAY":md(k).toUpperCase()}</small>`,td);
-      return `<div class="dayhd${td?" today":""}">${l} <span class="small" style="font-family:var(--f-body);font-weight:400">${md(k)}</span>${td?" · today":""}</div>`+MEALS.filter(([m])=>mealOn(m)).map(([m,ml])=>row(k+m,ml,td)).join("")}).join("")}</div>
-    ${planned().length?`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><button class="btn ghost" data-act="tab" data-t="shop">Shopping list →</button><button class="link" data-act="clearWeek">Clear the week</button></div>`:""}
+      if(!multi)return row(k,`${l.slice(0,3)}<small style="display:block;font:600 .75rem var(--f-body);color:var(--${td?"accent":"muted"})">${td?"Today":md(k)}</small>`,td);
+      return `<div class="dayhd${td?" today":""}">${l}, ${md(k)}${td?" (today)":""}</div>`+MEALS.filter(([m])=>mealOn(m)).map(([m,ml])=>row(k+m,ml,td)).join("")}).join("")}</div>
+    ${planned().length?`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn ghost" data-act="tab" data-t="shop">See the shopping list</button><button class="link" data-act="clearWeek">Clear the week</button></div>`:""}
+    <p class="quiet" style="margin:0">Plan breakfast or lunch too in <button class="link" data-act="tab" data-t="settings">Settings</button>.</p>
   </section>`;
 }
 /* Bottom sheet: pick a dinner for a night, or a night for a recipe. */
@@ -810,11 +1000,11 @@ function sheetHTML(){
     const hid=S.profile&&!SHOWALL?all().filter(r=>!fit(r).ok).length:0;
     const list=sorted.filter(x=>mealOf(x.r)===mt),other=sorted.filter(x=>mealOf(x.r)!==mt);
     tools=`<input type="search" id="sheetFind" placeholder="Search recipes" autocomplete="off" aria-label="Search recipes">`;
-    if(cur)rows.push(`<button class="opt" data-act="setPlan" data-k="${k}" data-id=""><span><b>No ${ml.toLowerCase()} ${mt==="dinner"?"this night":"this day"}</b><small>Clear ${dayName(k)}</small></span><span></span></button>`);
+    if(cur)rows.push(`<button class="opt plain" data-act="setPlan" data-k="${k}" data-id=""><span><b>No ${ml.toLowerCase()} ${mt==="dinner"?"this night":"this day"}</b><small>Clear ${dayName(k)}</small></span><span></span></button>`);
     if(hid)rows.push(`<div class="optnote">${hid} recipes hidden because they don't fit your diet or allergies. <button class="link" data-act="showAll">Show them</button></div>`);
-    list.concat(other).forEach(({r,s,lo},i)=>rows.push((i===list.length&&other.length?`<div class="optnote" data-sep>Other recipes</div>`:"")+`<button class="opt${r.id===cur?" sel":""}" data-act="setPlan" data-k="${k}" data-id="${r.id}" data-name="${esc(r.name.toLowerCase())}"><span><b>${esc(r.name)}</b><small>${esc(r.time||"")}${(S.fav||{})[r.id]?" · ★ favorite":""}${lo&&lo.length?" · ♻ uses leftover "+esc(lo.map(l=>l.n).join(", ")):""}${fit(r).ok?"":" · ⚠ "+esc(fit(r).why.join(", "))}${s.missing.length?` · need ${s.missing.slice(0,3).map(m=>esc(m.n)).join(", ")}${s.missing.length>3?"…":""}`:" · everything on hand"}</small></span>${r.id===cur?`<span class="pill ok">✓</span>`:s.missing.length?`<span class="pill buy">buy ${s.missing.length}</span>`:`<span class="pill ok">ready</span>`}</button>`));
+    list.concat(other).forEach(({r,s,lo},i)=>rows.push((i===list.length&&other.length?`<div class="optnote" data-sep>Other recipes</div>`:"")+`<button class="opt${r.id===cur?" sel":""}" data-act="setPlan" data-k="${k}" data-id="${r.id}" data-name="${esc(r.name.toLowerCase())}">${thumb(r)}<span><b>${(S.fav||{})[r.id]?"♥ ":""}${esc(r.name)}</b><small>${esc(r.time||"")}${s.missing.length?`, need ${s.missing.length}`:", all in your kitchen"}${lo&&lo.length?`. ♻ Uses your leftover ${esc(lo.map(l=>l.n).join(", "))}`:""}${fit(r).ok?"":`. Has ${esc(fit(r).why.join(", "))}`}</small></span>${r.id===cur?`<span class="pill ok">✓</span>`:""}</button>`));
   }else if(SHEET.kind==="addTo"){const r=byId(SHEET.rid);if(!r){SHEET=null;return ""}const mt=mealOf(r),m=(MEALS.find(x=>x[2]===mt)||MEALS[2])[0];title=`Which ${m?"day":"night"} for ${esc(r.name)}?`;const tk=todayKey();
-    DAYS.forEach(([k0,l])=>{const k=k0+m;const cur=S.plan[k]?byId(S.plan[k]):null;rows.push(`<button class="opt${S.plan[k]===r.id?" sel":""}" data-act="setPlan" data-k="${k}" data-id="${r.id}"><span><b>${l}${k0===tk?" (today)":""}</b><small>${cur?"Replaces "+esc(cur.name):"Open"}</small></span>${cur?"":`<span class="pill muted">open</span>`}</button>`)});
+    DAYS.forEach(([k0,l])=>{const k=k0+m;const cur=S.plan[k]?byId(S.plan[k]):null;rows.push(`<button class="opt${S.plan[k]===r.id?" sel":""}" data-act="setPlan" data-k="${k}" data-id="${r.id}">${cur?thumb(cur):`<span class="thumb"><span class="ph" style="--phbg:var(--sunk);background-image:none"></span></span>`}<span><b>${l}, ${md(k0)}${k0===tk?" (today)":""}</b><small>${cur?(cur.id===r.id?"Already here":"Replaces "+esc(cur.name)):"Open"}</small></span><span></span></button>`)});
   }
   return `<div class="scrim" data-act="sheetClose"></div><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="grab"></div>
     <div class="shead"><h2 id="sheetTitle" style="font-size:1.2rem">${title}</h2><button class="btn ghost" data-act="sheetClose">Done</button></div>
@@ -867,6 +1057,145 @@ async function runImport(url,pasted,images){
   }catch(err){console.error(err);IMP={status:"error",url,r:null,msg:/busy|quota|429|500|503|demand|Failed to fetch|network/i.test(String(err.message))?"The import service is busy (or the connection dropped). Wait a minute and try again.":String(err.message||err).slice(0,200)}}
   render(true);
 }
+/* ---------- placeholder photos: a plate on a colored tablecloth (set recipe.img for a real photo) ---------- */
+const PH_BG=["#f7cfc4","#f6e0a4","#d0e8c6","#cde0f2","#e0d6f1","#f8d6ba","#cbeadf","#f2d0de"];
+const PH_FOOD=[[/taco|fajita|quesadilla|burrito|enchilada|nacho/,"🌮"],[/waffle/,"🧇"],[/pancake|french toast|breakfast for dinner/,"🥞"],[/pizza/,"🍕"],[/burger|sloppy/,"🍔"],
+  [/spaghetti|pasta|linguine|ziti|lasagna|alfredo|ravioli|tortellini|stroganoff|macaroni|helper/,"🍝"],[/curry/,"🍛"],[/ramen|noodle/,"🍜"],[/soup|chili|stew|minestrone/,"🍲"],
+  [/salad|cobb/,"🥗"],[/sandwich|\bsubs?\b|blt|wrap|pinwheel|grilled cheese|sloppy/,"🥪"],[/shrimp/,"🍤"],[/salmon|tilapia|fish|tuna|cod/,"🐟"],[/egg|shakshuka|huevos|frittata|omelet/,"🍳"],
+  [/oat|granola|parfait|cereal|yogurt|cottage/,"🥣"],[/smoothie/,"🥤"],[/muffin/,"🧁"],[/bagel/,"🥯"],[/toast|bread/,"🍞"],[/fried rice|rice|bowl|teriyaki|stir|cashew/,"🍚"],
+  [/steak|beef/,"🥩"],[/pork|sausage|bacon/,"🥓"],[/chicken|drumstick/,"🍗"],[/potato/,"🥔"],[/bean|lentil|chickpea/,"🫘"],[/pie|casserole|bake/,"🥘"],[/bento|snack/,"🧀"],[/pb&j|peanut/,"🥜"]];
+const hashStr=t=>{let h=7;for(const c of String(t))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
+function photo(r,cls=""){if(!r)return "";if(r.img)return `<span class="ph ${cls}"><img src="${esc(r.img)}" alt="" loading="lazy"></span>`;
+  const n=r.name.toLowerCase(),f=(PH_FOOD.find(([re])=>re.test(n))||[0,"🍽️"])[1];
+  return `<span class="ph ${cls}" style="--phbg:${PH_BG[hashStr(r.id)%PH_BG.length]}" aria-hidden="true"><span class="plate"><span class="food">${f}</span></span></span>`}
+const thumb=r=>`<span class="thumb">${photo(r)}</span>`;
+const minsOf=t=>{const h=String(t||"").match(/(\d+)\s*hr/),m=String(t||"").match(/(\d+)\s*min/);return (h?+h[1]*60:0)+(m?+m[1]:0)||999};
+const onPlan=id=>slots().filter(x=>S.plan[x.k]===id);
+function tile(r){const s=status(r),on=onPlan(r.id).length,f=fit(r);
+  return `<div class="tile" data-name="${esc(r.name.toLowerCase())}"><button class="open" data-act="openRecipe" data-id="${r.id}">${photo(r)}<span class="tn">${esc(r.name)}</span></button>
+    <span class="tm"><span>${esc(r.time||"")}</span>${!f.ok?`<span class="warn">Has ${esc(f.why[0])}</span>`:s.missing.length?"":`<span class="ready">All in your kitchen</span>`}</span>
+    <button class="tadd${on?" on":""}" data-act="addPlan" data-id="${r.id}" aria-label="${on?"Planned. Change the day for":"Add to the plan:"} ${esc(r.name)}">${on?"✓":"+"}</button></div>`}
+
+/* ---------- Recipes tab ---------- */
+V.recipes=()=>{
+  const pool=all().filter(r=>mealOf(r)===MEALF&&fits(r)).map(r=>({r,s:status(r),sc:score(r)}));
+  const byScore=(a,b)=>b.sc-a.sc;
+  const shelf=(title,list)=>list.length?`<section class="shelf row"><h2>${title}</h2><div class="rowscroll">${list.slice(0,10).map(x=>tile(x.r)).join("")}</div></section>`:"";
+  const rated=x=>(S.fav||{})[x.r.id]||Object.values((S.ratings||{})[x.r.id]||{}).some(v=>v>0);
+  const ml=MEALS.find(m=>m[2]===MEALF)[1].toLowerCase();
+  const hid=S.profile&&!SHOWALL?all().filter(r=>mealOf(r)===MEALF&&!fit(r).ok).length:0;
+  return `<div id="recView" class="block" style="gap:24px">
+    <div class="mealseg" role="group" aria-label="Meal">${MEALS.slice().reverse().map(([,l,mt])=>`<button data-act="mealF" data-v="${mt}" aria-pressed="${MEALF===mt}">${l}</button>`).join("")}</div>
+    <div class="recbar"><input type="search" id="recFind" placeholder="Search ${pool.length} ${ml} recipes" autocomplete="off" aria-label="Search recipes"><button class="btn" data-act="tab" data-t="add" aria-label="Add a recipe">+ Add</button></div>
+    ${shelf("Ready with what you have",pool.filter(x=>x.s.missing.length<=1).sort(byScore))}
+    ${shelf("Family favorites",pool.filter(rated).sort(byScore))}
+    ${shelf("20 minutes or less",pool.filter(x=>minsOf(x.r.time)<=20).sort(byScore))}
+    ${shelf("Make ahead",pool.filter(x=>(x.r.tags||[]).some(t=>/make-ahead|freezer|meal prep/.test(t))).sort(byScore))}
+    ${shelf("Your recipes",pool.filter(x=>x.r.custom&&!x.r.edited))}
+    <section class="shelf"><h2>All ${ml} recipes</h2>
+      <div class="grid" id="recCards">${pool.slice().sort((a,b)=>a.r.name.localeCompare(b.r.name)).map(x=>tile(x.r)).join("")||`<p class="quiet">No ${ml} recipes fit your diet yet. Try “Suggest new recipes” under + Add.</p>`}</div>
+      ${S.profile?`<p class="quiet">Showing recipes that fit: ${esc(profileLine())}. <button class="link" data-act="profile">Change</button>${hid?` <button class="link" data-act="showAll">${SHOWALL?"Hide":"Show"} ${hid} more</button>`:""}</p>`:`<p class="quiet"><button class="link" data-act="profile">Set your diet and allergies</button> to see only recipes that fit.</p>`}
+    </section></div>`;
+};
+
+/* ---------- recipe page ---------- */
+const TOOLS=[["Sheet pan",/sheet pan|baking sheet|lined pan|rack-lined/],["Large skillet",/skillet|frying pan|\bsear|brown the|stir-fry|in a hot|dry pan/],["Large pot",/large pot|\bpot\b|bring .*to a boil|boil the|pasta water|cook (the )?(pasta|noodles|spaghetti|linguine|ziti|rotini)/],
+  ["Saucepan",/saucepan|small pan|separate small pans|heat the soup/],["Baking dish",/baking dish|9×13|8×8|casserole/],["Slow cooker",/slow cooker/],["Blender",/blend/],["Muffin pan",/muffin pan|muffin cups|12-cup/],
+  ["Waffle iron",/waffle iron/],["Griddle",/griddle/],["Colander",/\bdrain|rinse/],["Mixing bowl",/bowl|\bmix |whisk|\btoss/],["Whisk",/whisk/],["Grater",/grate|zest/],
+  ["Meat thermometer",/1[46]5°F/],["Tongs",/\bflip|turn |tongs/],["Rice pot or cooker",/start (the )?rice|cook (the )?rice/],["Foil",/\bfoil/],["Parchment paper",/parchment/],["Toaster",/toast the|\btoast\b/],["Microwave",/microwave/],["Jars or containers",/jars?\b|containers?/]];
+function toolsOf(r){const t=(r.steps.concat(r.prep||[])).join(" ").toLowerCase(),out=[];
+  if(/chop|slice|dice|mince|cut|peel|halve|trim|shred|cube/.test(t))out.push("Cutting board","Chef's knife");
+  TOOLS.forEach(([n,re])=>{if(re.test(t))out.push(n)});
+  if(r.ing.some(i=>["cup","tbsp","tsp"].includes(i[1])))out.push("Measuring cups and spoons");
+  return [...new Set(out)]}
+const GENERIC=new Set(["shredded","fresh","frozen","dried","ground","large","small","sliced","baby","red","green","sweet","boneless","skinless","diced","crushed","chopped","cooked","plain","light","whole","mini","old","fashioned","dry","sharp","refrigerated","canned","grated","crumbled","smoked","italian","greek","mexican","cherry","heavy","hot","white","brown","black","yellow","rotisserie","breakfast","leftover","rolled","quick"]);
+function stepUses(r){const seen=new Set();
+  return r.steps.map(st=>{const words=norm(st);return r.ing.filter((i,k)=>{if(seen.has(k))return false;const t=norm(i[2]),keys=[t[t.length-1]].concat(t.filter(w=>w.length>3&&!GENERIC.has(w)));
+    const hit=keys.some(w=>words.includes(w));if(hit)seen.add(k);return hit})})}
+let RTAB="ing";
+V.recipe=()=>{
+  const r=byId(S.rid);if(!r)return V.recipes();const s=status(r),f=fit(r),on=onPlan(r.id),tab=["ing","steps","tools"].includes(S.rtab)?S.rtab:"ing";
+  let body;
+  if(tab==="ing")body=`<p class="quiet" style="margin:4px 0 0">${s.missing.length?`You have ${s.got} of ${s.total}. The rest go on your shopping list when you plan it.`:"Everything is in your kitchen."}</p>
+    <ul class="rlist">${r.ing.map(([q,u,n])=>{const h=have(n);return `<li><span class="mk${h?"":" no"}" aria-label="${h?"In your kitchen":"Need to buy"}">${h?"✓":"○"}</span><span>${esc(n)}</span><span class="q">${fq(scale(q,r),u)}</span></li>`}).join("")}</ul>
+    ${(r.prep||[]).length?`<h2 style="margin-top:22px">Make ahead</h2><ul class="rlist">${r.prep.map(t=>`<li style="grid-template-columns:22px minmax(0,1fr)"><span class="mk no">○</span><span>${esc(t)}</span></li>`).join("")}</ul>`:""}`;
+  else if(tab==="steps"){const uses=stepUses(r);body=`<ol class="rsteps">${r.steps.map((t,i)=>`<li><div><p>${esc(t)}</p>${uses[i].length?`<ul class="uses">${uses[i].map(([q,u,n])=>`<li>${fq(scale(q,r),u)} ${esc(n)}</li>`).join("")}</ul>`:""}</div></li>`).join("")}</ol>`}
+  else body=`<ul class="rlist">${toolsOf(r).map(t=>`<li style="grid-template-columns:minmax(0,1fr)"><span>${esc(t)}</span></li>`).join("")}</ul>`;
+  const ppl=S.people||[],rt=(S.ratings||{})[r.id]||{},fav=(S.fav||{})[r.id];
+  return `<div class="hero">${photo(r,"wide")}<button class="hbtn back" data-act="recBack" aria-label="Back">‹</button><button class="hbtn edit" data-act="editRecipe" data-id="${r.id}">Edit</button></div>
+  <div class="rhead"><h1>${esc(r.name)}</h1><button class="heart${fav?" on":""}" data-act="fav" data-id="${r.id}" aria-pressed="${!!fav}" aria-label="Family favorite">${fav?"♥":"♡"}</button></div>
+  <p class="rmeta">${r.time?`<span>${esc(r.time)}</span>`:""}<span>Recipe serves ${r.serves}</span>${on.length?`<span style="color:var(--ok);font-weight:700">On the plan: ${on.map(x=>esc(dayName(x.k))).join(", ")}</span>`:""}</p>
+  ${f.ok?"":`<p class="nofit" style="margin:0">Doesn't fit your profile: ${esc(f.why.join(", "))}</p>`}
+  ${r.source?`<p class="quiet" style="margin:0">From <a href="${esc(r.source.url)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc(r.source.label)}</a></p>`:""}
+  <div class="cooknow"><button class="btn ghost" data-act="pickNow" data-id="${r.id}">Cook it now</button>${r.edited?`<button class="link" data-act="unedit" data-id="${r.id}">Undo my edits</button>`:r.custom?`<button class="link" data-act="rmRecipe" data-id="${r.id}">Delete recipe</button>`:""}</div>
+  <div class="rtabs" role="tablist">${[["ing","Ingredients"],["steps","Steps"],["tools","Tools"]].map(([k,l])=>`<button role="tab" data-act="rtab" data-v="${k}" aria-selected="${tab===k}">${l}</button>`).join("")}</div>
+  <section>${body}</section>
+  ${ppl.length?`<section class="block" style="gap:8px"><h2>Who likes it?</h2><div class="rate">${ppl.map(pn=>{const v=rt[pn]||0;return `<button class="who${v>0?" up":v<0?" down":""}" data-act="rate" data-id="${r.id}" data-p="${esc(pn)}">${esc(pn)} ${v>0?"♥":v<0?"✕":""}</button>`}).join("")}</div><p class="quiet" style="margin:0">Tap a name: ♥, then ✕, then clear. Liked meals come up more often.</p></section>`:""}
+  <div class="rbar"><div class="stepper" aria-label="Servings"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}<small>servings</small></span><button data-act="serv" data-d="1" aria-label="More people">+</button></div>
+    <button class="btn" data-act="addPlan" data-id="${r.id}">${on.length?"Change the day":"Add to the plan"}</button></div>`;
+};
+
+/* ---------- setup, one question per screen ---------- */
+const SU_STEPS=["hello","who","diet","allergy","dislike","meals"];
+const POP_DISLIKES=["mushrooms","olives","bell peppers","onion","cilantro","tomatoes","avocado","beans","coconut","spinach","shrimp","salmon","tuna","pork","beef","eggs","cauliflower","zucchini","asparagus","sour cream"];
+function ingredientNames(){const m=new Map();all().forEach(r=>r.ing.forEach(i=>{const n=String(i[2]).toLowerCase().trim();const k=norm(n).join(" ");if(k&&!m.has(k))m.set(k,n)}));return [...m.values()].sort()}
+function suDraft(){const P=S.profile||{};return {diet:P.diet||"classic",people:(S.people||[]).slice(),allergies:JSON.parse(JSON.stringify(P.allergies||{})),dislikes:Object.assign({},P.dislikes||{}),meals:Object.assign({},S.meals||{}),who:"Everyone",all:false}}
+let SU=null;
+V.setup=()=>{
+  if(!SU)SU=suDraft();const i=Math.max(0,SU_STEPS.indexOf(S.su)),st=SU_STEPS[i],P=SU,who=["Everyone"].concat(P.people);
+  if(!who.includes(P.who))P.who="Everyone";
+  const whoSeg=P.people.length?`<div class="whoseg" role="group" aria-label="Whose list">${who.map(w=>`<button data-act="suWho" data-v="${esc(w)}" aria-pressed="${P.who===w}">${w==="Everyone"?"Everyone":esc(w)}</button>`).join("")}</div>`:"";
+  let h="",lede="",body="",next="Continue";
+  if(st==="hello"){h="Dinner, figured out";lede="Three steps each week:";next="Get started";
+    body=`<div class="suintro">${[["See what's in your kitchen",{id:"k1",name:"potato"}],["Pick meals for the week",{id:"k5",name:"pasta"}],["Shop one list, then cook step by step",{id:"k3",name:"salad"}]].map(([t,r])=>`<div class="pt">${photo(r)}<span>${t}</span></div>`).join("")}</div>`}
+  if(st==="who"){h="Who's eating?";lede="Add names to rate meals and set allergies per person. You can skip this.";
+    body=`<input type="text" id="suPeople" value="${esc(P.people.join(", "))}" placeholder="Names, separated by commas" aria-label="Names" autocomplete="off">
+      <div class="block" style="gap:8px"><b>Usually cooking for</b><div class="stepper" style="justify-self:start"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}<small>people</small></span><button data-act="serv" data-d="1" aria-label="More people">+</button></div></div>`}
+  if(st==="diet"){h="Pick your diet";lede="Recipes that don't fit are hidden.";
+    body=`<div class="bigrows">${DIETS.map(([k,l,d])=>`<button class="bigrow" data-act="suDiet" data-v="${k}" aria-pressed="${P.diet===k}">${l}<small>${d}</small></button>`).join("")}</div>`}
+  if(st==="allergy"){h="Any allergies?";lede="Also foods your family avoids.";
+    body=`${whoSeg}<div class="bigchips">${ALLERGENS.map(([k,l])=>`<button data-act="suAllergy" data-v="${k}" aria-pressed="${(P.allergies[P.who]||[]).includes(k)}">${l}</button>`).join("")}</div>`}
+  if(st==="dislike"){h="How about dislikes?";lede="Meals with these won't be suggested.";const cur=listOf(P.dislikes[P.who]);
+    const btn=(n,attr="")=>`<button data-act="suDislike" data-v="${esc(n)}" aria-pressed="${cur.includes(n)}"${attr}>${esc(n)}</button>`;
+    body=`${whoSeg}<div class="bigchips">${[...new Set(POP_DISLIKES.concat(cur))].map(n=>btn(n)).join("")}</div>
+      ${P.all?`<input type="search" id="dislikeFind" placeholder="Filter ingredients" aria-label="Filter ingredients" autocomplete="off"><div class="alllist" id="allList">${ingredientNames().map(n=>btn(n,` data-name="${esc(n)}"`)).join("")}</div>`:`<button class="link" data-act="suAll" style="justify-self:start">See every ingredient</button>`}`}
+  if(st==="meals"){h="Which meals do you plan?";lede="Dinner is always on. Add the others if you want them on the shopping list too.";next="Done";
+    body=`<div class="bigrows">${MEALS.map(([m,l])=>`<button class="bigrow" data-act="suMeal" data-v="${m}" aria-pressed="${!m||!!P.meals[m]}"${m?"":" disabled"}>${l}<small>${m?"":"Always"}</small></button>`).join("")}</div>`}
+  return `<div class="su"><div class="sutop">${i?`<button data-act="suGo" data-v="${i-1}">‹ Back</button>`:"<span></span>"}<span class="dots" aria-hidden="true">${SU_STEPS.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("")}</span><button data-act="suSkip">${S.profile?"Cancel":"Skip"}</button></div>
+    <div><h1>${h}</h1>${lede?`<p class="lede">${lede}</p>`:""}</div><div class="block" style="align-content:start;gap:16px">${body}</div></div>
+    <div class="sunext"><button class="btn" data-act="suGo" data-v="${i+1}">${next}</button></div>`;
+};
+function suReadDom(){const pp=document.getElementById("suPeople");if(pp&&SU)SU.people=[...new Set(listOf(pp.value).map(x=>x.replace(/\b\w/g,c=>c.toUpperCase())))].slice(0,12)}
+function suSave(){const P=SU,who=["Everyone"].concat(P.people),al={},dl={};who.forEach(w=>{if((P.allergies[w]||[]).length)al[w]=P.allergies[w];if(String(P.dislikes[w]||"").trim())dl[w]=String(P.dislikes[w]).trim()});
+  S.profile={diet:P.diet,allergies:al,dislikes:dl};S.people=P.people;S.meals={B:!!P.meals.B,L:!!P.meals.L};try{localStorage.setItem("pantry-to-plate.setup","1")}catch(e){}SU=null}
+function openSetup(step){SU=suDraft();S.su=step||"who";S.tab="setup";render();scrollTo({top:0})}
+
+/* ---------- settings ---------- */
+V.settings=()=>{const P=S.profile;
+  const row=(act,t,sub,extra="")=>`<button class="srow" data-act="${act}"${extra}><span>${t}${sub?`<small>${sub}</small>`:""}</span><span class="chev" aria-hidden="true">›</span></button>`;
+  return `<section class="sgroup"><h2>Your family</h2>
+    ${row("profile","Diet and allergies",P?esc(profileLine()):"Not set up yet")}
+    ${row("suPeopleOpen","Who's eating",(S.people||[]).length?esc(S.people.join(", ")):"No names yet")}
+    <div class="srow" style="cursor:default"><span>Cooking for<small>Scales every recipe and the shopping list</small></span><span class="stepper"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}</span><button data-act="serv" data-d="1" aria-label="More people">+</button></span></div></section>
+  <section class="sgroup"><h2>Meals to plan</h2>
+    ${MEALS.map(([m,l])=>`<button class="srow" data-act="mealOn" data-m="${m}" aria-pressed="${mealOn(m)}"${m?"":" disabled"}><span>${l}${m?"":"<small>Always planned</small>"}</span><span class="toggle" aria-hidden="true"></span></button>`).join("")}</section>
+  <section class="sgroup"><h2>Help</h2>${row("suIntro","Show the welcome again","")}</section>
+  <section class="sgroup" style="margin-bottom:-12px"><h2>Sync and sharing</h2></section>`};
+V.add=()=>`${back("recipes","Recipes")}${importPanel()}
+  <details class="panel" open><summary>Type one in yourself</summary>
+
+      <form id="recForm" style="display:grid;gap:10px">
+        <div class="form"><input type="text" id="rName" placeholder="Recipe name" aria-label="Recipe name" required><input type="number" id="rServes" value="4" min="1" max="20" style="width:6rem" aria-label="Serves"><input type="text" id="rTime" placeholder="Time, e.g. 30 min" aria-label="Time" style="flex:0 1 10rem">${mealSelect("rMeal",MEALF)}</div>
+        <label class="small muted" for="rIng">Ingredients, one per line: quantity, unit, item (e.g. <span class="mono">2 cups rice</span>, <span class="mono">1 lb ground pork</span>, <span class="mono">3 eggs</span>)</label>
+        <textarea id="rIng"></textarea>
+        <label class="small muted" for="rPrep">Make-ahead tasks, one per line (optional)</label>
+        <textarea id="rPrep" style="min-height:70px"></textarea>
+        <label class="small muted" for="rSteps">Cooking steps, one per line</label>
+        <textarea id="rSteps"></textarea>
+        <div><button class="btn" type="submit">Save recipe</button></div>
+      </form>
+    </details>
+  ${suggestPanel()}`;
 V.meals=()=>{
   const list=all().filter(r=>mealOf(r)===MEALF&&fits(r)).map(r=>{const s=status(r);return {r,s,sc:score(r,s)}}).sort(S.filter==="fav"?(a,b)=>b.sc-a.sc:(a,b)=>a.s.missing.length-b.s.missing.length||b.sc-a.sc);
   const shown=S.filter==="ready"?list.filter(x=>x.s.missing.length<=2):list;
@@ -937,14 +1266,14 @@ function shopCounts(){const {need}=shopping();const keys=need.map(i=>"k|"+i.key)
 V.shop=()=>{
   const {need,onHand}=shopping();
   const n=active().length;
-  const rowsOf=items=>items.map(i=>({key:"k|"+i.key,n:i.n,q:fq(i.q,i.u),sub:[...i.for].join(" · ")+(S.buyAnyway[i.key]?" · restock":""),cat:i.cat||"Other"}))
+  const rowsOf=items=>items.map(i=>({key:"k|"+i.key,n:i.n,q:fq(i.q,i.u),sub:[...i.for].join(", ")+(S.buyAnyway[i.key]?", restock":""),cat:i.cat||"Other"}))
     .concat(S.extras.map(e=>({key:"x:"+e.id,n:e.name,q:"",sub:"",cat:"Extras",xid:e.id})));
   const rows=rowsOf(need),todo=rows.filter(r=>!S.checked[r.key]),got=rows.filter(r=>S.checked[r.key]);
   const groups=CATS.concat(["Extras"]).map(c=>({c,items:todo.filter(r=>r.cat===c).sort((a,b)=>a.n.localeCompare(b.n))})).filter(g=>g.items.length);
-  const what=n?`${planned().length?`${planned().length} ${extraMeals()?"meal":"dinner"}${planned().length===1?"":"s"}`:""}${S.now&&active()[0].k==="now"?`${planned().length?" + ":""}${esc(active()[0].r.name)}`:""} for ${S.servings}`:"";
+  const what=n?`${planned().length?`${planned().length} ${extraMeals()?"meal":"dinner"}${planned().length===1?"":"s"}`:""}${S.now&&active()[0].k==="now"?`${planned().length?" + ":""}${esc(active()[0].r.name)}`:""}, cooking for ${S.servings}`:"";
   return `
   <section class="block">
-    <div class="head-row"><h2>Shopping list</h2><span class="small muted">${what}</span></div>
+    ${what?`<p class="quiet" style="margin:0">${what}</p>`:""}
     ${!rows.length?`<div class="panel"><b>${n?"Nothing to buy. Everything is in the kitchen.":"Nothing planned yet."}</b><p class="muted small" style="margin:6px 0 0">${n?"Add extras below if you need anything else.":"Choose dinners on the Plan tab and this list fills in with whatever's missing."}</p>${n?"":`<div style="margin-top:10px"><button class="btn" data-act="tab" data-t="plan">Plan the week</button></div>`}</div>`:""}
     <div class="ticket">
       ${groups.map(g=>`<div class="aisle"><div class="eyebrow"><span>${g.c}</span><span class="mono">${g.items.length}</span></div>${g.items.map(shopRow).join("")}</div>`).join("")}
@@ -1203,14 +1532,16 @@ V.today=()=>{
   const tonight=nowR?{k:"now",r:nowR}:planR?{k:tk,r:planR}:null;
   let card;
   if(tonight){const r=tonight.r,s=status(r),done=tonight.k!=="now"&&isCooked(tonight.k)&&daysAgo(S.cooked[tonight.k])===0;
-    card=`<section class="tonight" aria-label="Tonight's dinner"><div class="eyebrow">Tonight · ${dayName(tk)}</div><h2>${esc(r.name)}</h2>
-      <div class="small muted">${esc(r.time||"")}${r.time?" · ":""}for ${S.servings}${s.missing.length?"":" · everything's in the kitchen"}</div>
+    card=`<section class="tonight" aria-label="Tonight's dinner"><button class="open" data-act="openRecipe" data-id="${r.id}" style="border:0;padding:0;background:none;cursor:pointer">${photo(r,"wide")}</button><div class="eyebrow">Tonight, ${dayName(tk)}</div><h2>${esc(r.name)}</h2>
+      <div class="quiet">${esc(r.time||"")}${r.time?", ":""}for ${S.servings}${s.missing.length?"":". Everything's in the kitchen."}</div>
       ${s.missing.length&&!done?`<div class="missing">Still need: ${s.missing.map(m=>esc(m.n)).join(", ")}</div>`:""}
       <div class="acts">${done?`<span class="pill ok">Cooked today ✓</span>`:`<button class="btn big" data-act="startCook" data-k="${tonight.k}">Start cooking</button>`}
         ${s.missing.length&&!done?`<button class="btn ghost" data-act="tab" data-t="shop">Get ${s.missing.length} thing${s.missing.length>1?"s":""}</button>`:""}
         ${tonight.k==="now"?`<button class="link" data-act="clearNow">Not tonight</button>`:`<button class="link" data-act="openDay" data-k="${tk}">Swap</button>`}</div></section>`;
-  }else card=`<section class="tonight" aria-label="Tonight's dinner"><div class="eyebrow">Tonight · ${dayName(tk)}</div><h2>Nothing planned</h2>
-      <div class="acts"><button class="btn big" data-act="tab" data-t="pick">What can I make now?</button><button class="btn ghost" data-act="openDay" data-k="${tk}">Pick a dinner</button></div></section>`;
+  }else card=planned().length?`<section class="tonight" aria-label="Tonight's dinner"><div class="eyebrow">Tonight, ${dayName(tk)}</div><h2>Nothing planned</h2>
+      <div class="acts"><button class="btn big" data-act="openDay" data-k="${tk}">Pick a dinner</button><button class="btn ghost" data-act="tab" data-t="pick">What can I make now?</button></div></section>`
+    :`<section class="tonight" aria-label="Plan the week"><span class="ph wide" style="--phbg:#f6e0a4"><span class="plate"><span class="food">🗓️</span></span></span><h2>Plan this week's meals</h2><p class="quiet" style="margin:0">Pick a few dinners and the shopping list fills itself in from what's missing in your kitchen.</p>
+      <div class="acts"><button class="btn big" data-act="tab" data-t="plan" style="flex:1">Build the plan</button><button class="btn ghost" data-act="tab" data-t="pick">What can I make now?</button></div></section>`;
   const N=[];
   const freezerFor=r=>r?[...new Set(r.ing.map(i=>S.pantry.find(p=>p.loc==="Freezer"&&matches(i[2],p.name))).filter(Boolean))]:[];
   if(tonight&&tonight.k!=="now"&&!isCooked(tonight.k)&&now.getHours()<16){const fz=freezerFor(tonight.r);if(fz.length)N.push({ic:"🧊",warm:1,t:`Thaw the <b>${fz.map(p=>esc(p.name)).join(", ")}</b> for tonight if you haven't yet.`})}
@@ -1221,14 +1552,14 @@ V.today=()=>{
   const sc=shopCounts();if(sc.left)N.push({ic:"🛒",t:`<b>${sc.left}</b> thing${sc.left>1?"s":""} to buy${sc.got?` · ${sc.got} in the cart`:""}`,act:`<button class="btn ghost" data-act="tab" data-t="shop">List</button>`});
   const low=S.pantry.filter(LOWS).filter(p=>!S.extras.some(x=>norm(x.name).join(" ")===norm(p.name).join(" ")));
   if(low.length)N.push({ic:"⚠️",t:`Running low: ${low.slice(0,4).map(p=>esc(p.name)).join(", ")}${low.length>4?"…":""}`,act:`<button class="btn ghost" data-act="lowToList">Add to list</button>`});
-  if(!planned().length)N.push({ic:"🗓",t:"No dinners planned for this week yet.",act:`<button class="btn" data-act="tab" data-t="plan">Plan</button>`});
+  
   const other=MEALS.filter(([m])=>m&&mealOn(m)).map(([m,ml])=>{const k=tk+m,r=S.plan[k]&&byId(S.plan[k]);
-    return `<button class="wrow" data-act="${r?"startCook":"openDay"}" data-k="${k}" aria-label="${ml}: ${r?esc(r.name):"nothing planned"}"><span class="dn">${ml}</span><span class="nm${r?"":" open"}">${r?esc(r.name):"Open"}</span>${r?statusPill(r,k):""}</button>`}).join("");
+    return `<button class="wrow" data-act="${r?"startCook":"openDay"}" data-k="${k}" aria-label="${ml}: ${r?esc(r.name):"nothing planned"}"><span class="dn">${ml}</span>${r?thumb(r):"<span></span>"}<span class="nm${r?"":" open"}">${r?esc(r.name):"Open"}</span>${r?statusPill(r,k):""}</button>`}).join("");
   return `${card}
-  ${other?`<section class="block"><h2 style="font-size:1.15rem">Also today</h2><div class="weekstrip meals">${other}</div></section>`:""}
+  ${other?`<section class="block"><h2>Also today</h2><div class="weekstrip meals">${other}</div></section>`:""}
   ${N.length?`<section class="nudges" aria-label="To do">${N.map(n=>`<div class="nudge${n.warm?" warm":""}"><span class="ic" aria-hidden="true">${n.ic}</span><span>${n.t}</span>${n.act||"<span></span>"}</div>`).join("")}</section>`:""}
-  <section class="block"><div class="head-row" style="align-items:center"><h2 style="font-size:1.15rem">This week</h2><button class="link" data-act="tab" data-t="plan">Edit plan</button></div>
-    <div class="weekstrip">${DAYS.map(([k,l])=>{const r=S.plan[k]&&byId(S.plan[k]);return `<button class="wrow${k===tk?" today":""}" data-act="${r?"startCook":"openDay"}" data-k="${k}" aria-label="${l}: ${r?esc(r.name):"nothing planned"}"><span class="dn">${l.slice(0,3)}</span><span class="nm${r?"":" open"}">${r?esc(r.name):"Open"}</span>${r?statusPill(r,k):""}</button>`}).join("")}</div></section>
+  <section class="block"><div class="head-row" style="align-items:center"><h2>This week</h2><button class="link" data-act="tab" data-t="plan">Edit</button></div>
+    <div class="weekstrip">${DAYS.map(([k,l])=>{const r=S.plan[k]&&byId(S.plan[k]);return `<button class="wrow${k===tk?" today":""}" data-act="${r?"startCook":"openDay"}" data-k="${k}" aria-label="${l}: ${r?esc(r.name):"nothing planned"}"><span class="dn">${l.slice(0,3)}</span>${r?thumb(r):"<span></span>"}<span class="nm${r?"":" open"}">${r?esc(r.name):"Open"}</span>${r?statusPill(r,k):""}</button>`}).join("")}</div></section>
   <p class="small muted" style="text-align:center;margin:0">Hungry now? <button class="link" data-act="tab" data-t="pick">See what you can make with what's here</button></p>`;
 };
 
@@ -1242,7 +1573,7 @@ V.prep=()=>{
   const groups=PREPTYPES.map(x=>x[0]).concat(["Other"]).map(g=>({g,items:tasks.filter(t=>t.g===g)})).filter(x=>x.items.length);
   return `${back("today","Today")}${cookSheet()}
   <section class="block">
-    <div class="head-row"><h2>Prep session</h2><span class="muted small mono">${doneN}/${tasks.length} done</span></div>
+    <p class="quiet" style="margin:0">${doneN} of ${tasks.length} done</p>
     ${tasks.length?`<p class="muted small" style="margin:0">Do these in one sitting: all the chopping together, then sauces. Label containers with the night they're for.</p>
     <div class="ticket">${groups.map(x=>`<div class="pgroup"><div class="eyebrow"><span>${x.g}</span><span class="mono">${x.items.length}</span></div>${x.items.map(t=>chk(t.key,`${esc(t.t)}<span class="for">${t.d.l} · ${esc(t.d.r.name)}</span>`)).join("")}</div>`).join("")}</div>`
     :`<div class="panel"><b>No make-ahead tasks left for this week.</b></div>`}
@@ -1307,7 +1638,7 @@ V.cook=()=>{
     ${pr.length?`<section><h3 style="margin-bottom:6px">Make-ahead (skip any you've done)</h3>${pr.map((t,j)=>chk(`p:${d.k}:${j}`,esc(t))).join("")}</section>`:""}`;
     nav=`<button class="btn ghost" data-act="cookClose">Later</button><button class="btn" data-act="cookStep" data-d="1">Start: step 1 →</button>`;
   }else{const t=r.steps[i],mins=minutesIn(t);
-    body=`<div class="stepnum">Step ${i+1} of ${n}</div><p class="steptext">${esc(t)}</p>
+    const uses=stepUses(r)[i];body=`<div class="stepnum">Step ${i+1} of ${n}</div><p class="steptext">${esc(t)}</p>${uses.length?`<ul class="stepuses">${uses.map(([q,u,nm])=>`<li><b>${fq(scale(q,r),u)}</b> ${esc(nm)}</li>`).join("")}</ul>`:""}
     ${mins?timerHTML(mins):TIMER?timerHTML(0):""}
     <details class="panel"><summary>Ingredients</summary><div class="ingbig">${ingList(r,false)}</div></details>`;
     nav=`<button class="btn ghost" data-act="cookStep" data-d="-1">‹ Back</button>${i<n-1?`<button class="btn" data-act="cookStep" data-d="1">Next step →</button>`:`<button class="btn" data-act="cookFinish">Done cooking ✓</button>`}`;
@@ -1317,14 +1648,21 @@ V.cook=()=>{
 
 /* ---------- render ---------- */
 const TABS=[["today","Today",'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>'],
- ["kitchen","Kitchen",'<rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 9.5h13M9 5.5v2M9 12.5v3.5"/>'],
  ["plan","Plan",'<rect x="3.5" y="4.5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 2.5v4M16 2.5v4M7.5 13.5h3M7.5 16.5h6"/>'],
- ["shop","Shop",'<path d="M2.5 4h2.6l2.3 10.6h10.4L20.5 7.5H6.4"/><circle cx="9.5" cy="19.2" r="1.4"/><circle cx="16.5" cy="19.2" r="1.4"/>']];
-const TABOF={today:"today",pick:"today",prep:"today",cook:"today",kitchen:"kitchen",plan:"plan",shop:"shop"};
+ ["recipes","Recipes",'<circle cx="12" cy="13" r="7.5"/><circle cx="12" cy="13" r="4"/><path d="M3 4.5v5M5 4.5v5M3 9.5h2M4 9.5v11M20 4.5c-1.6 1-2 3-2 5h2v11"/>'],
+ ["shop","Shop",'<path d="M2.5 4h2.6l2.3 10.6h10.4L20.5 7.5H6.4"/><circle cx="9.5" cy="19.2" r="1.4"/><circle cx="16.5" cy="19.2" r="1.4"/>'],
+ ["kitchen","Kitchen",'<rect x="5.5" y="2.5" width="13" height="19" rx="2"/><path d="M5.5 9.5h13M9 5.5v2M9 12.5v3.5"/>']];
+const TABOF={today:"today",pick:"today",prep:"today",cook:"today",kitchen:"kitchen",plan:"plan",recipes:"recipes",recipe:"recipes",add:"recipes",shop:"shop",settings:"",setup:""};
+const TITLES={today:"Today",plan:"This week",recipes:"Recipes",shop:"Shopping list",kitchen:"Kitchen",pick:"What can I make?",prep:"Prep session",settings:"Settings",add:"Add a recipe"};
 let lastTab=null;
-function applyFinds(){[["recFind","#recCards>[data-name]"],["sheetFind","#sheetList [data-name]"]].forEach(([id,sel])=>{const f=document.getElementById(id);if(!f)return;const q=f.value.trim().toLowerCase();document.querySelectorAll(sel).forEach(el=>el.hidden=!!q&&!el.dataset.name.includes(q))})}
+function applyFinds(){[["recFind","#recCards>[data-name]"],["sheetFind","#sheetList [data-name]"],["dislikeFind","#allList [data-name]"]].forEach(([id,sel])=>{const f=document.getElementById(id);if(!f)return;const q=f.value.trim().toLowerCase();document.querySelectorAll(sel).forEach(el=>el.hidden=!!q&&!el.dataset.name.includes(q));
+    if(id==="recFind"){const v=document.getElementById("recView");if(v)v.classList.toggle("searching",!!q)}})}
 function render(quiet){
-  if(!V[S.tab]||["today","kitchen","plan","shop","pick","prep","cook"].indexOf(S.tab)<0)S.tab="today";
+  if(!V[S.tab]||["today","kitchen","plan","recipes","recipe","shop","pick","prep","cook","settings","add","setup"].indexOf(S.tab)<0)S.tab="today";
+  if(S.tab==="recipe"&&!byId(S.rid))S.tab="recipes";
+  document.getElementById("title").textContent=TITLES[S.tab]||"Pantry to Plate";
+  document.body.classList.toggle("detail",S.tab==="recipe");document.body.classList.toggle("setup",S.tab==="setup");
+  document.getElementById("acctbox").hidden=S.tab!=="settings";document.body.dataset.tab=S.tab;
   document.querySelectorAll("details.loclist").forEach(d=>{S.kOpen=S.kOpen||{};S.kOpen[d.dataset.loc]=d.open});
   const ae=document.activeElement,fid=ae&&ae!==document.body&&ae.id&&document.getElementById("view").contains(ae)?ae.id:null;
   const fv=fid&&ae.type!=="checkbox"&&"value" in ae?ae.value:null,sel=fid&&typeof ae.selectionStart==="number"?[ae.selectionStart,ae.selectionEnd]:null;
@@ -1403,7 +1741,21 @@ document.addEventListener("click",e=>{
   if(a==="planView"){S.planView=b.dataset.v;render();scrollTo({top:0});return}
   if(a==="openDay"){openSheet({kind:"day",k:b.dataset.k});return}
   if(a==="sheetClose"){closeSheet();return}
-  if(a==="profile"){const P=S.profile||{};PROF={diet:P.diet||"classic",people:(S.people||[]).slice(),allergies:JSON.parse(JSON.stringify(P.allergies||{})),dislikes:Object.assign({},P.dislikes||{})};openSheet({kind:"profile"});return}
+  if(a==="profile"){closeSheet();openSetup("diet");return}
+  if(a==="suPeopleOpen"){openSetup("who");return}
+  if(a==="suIntro"){openSetup("hello");return}
+  if(a==="openRecipe"){closeSheet();if(S.tab!=="recipe")S.rback=S.tab;S.rid=b.dataset.id;S.rtab="ing";S.tab="recipe";render();scrollTo({top:0});return}
+  if(a==="recBack"){S.tab=S.rback&&S.rback!=="recipe"?S.rback:"recipes";render();return}
+  if(a==="rtab"){S.rtab=b.dataset.v;render(true);return}
+  if(a==="suGo"){suReadDom();const i=+b.dataset.v;if(i>=SU_STEPS.length){const was=snap();suSave();S.tab="plan";render();scrollTo({top:0});const hid=all().filter(r=>!fit(r).ok).length;toast(hid?`Saved. ${hid} recipes that don't fit are hidden.`:"Saved",was);return}
+    S.su=SU_STEPS[Math.max(0,i)];render(true);scrollTo({top:0});return}
+  if(a==="suSkip"){SU=null;try{localStorage.setItem("pantry-to-plate.setup","1")}catch(e){}S.tab=S.profile?"settings":"today";render();return}
+  if(a==="suWho"){suReadDom();SU.who=b.dataset.v;render(true);return}
+  if(a==="suDiet"){SU.diet=b.dataset.v;render(true);return}
+  if(a==="suAllergy"){const l=SU.allergies[SU.who]=SU.allergies[SU.who]||[],v=b.dataset.v,i=l.indexOf(v);if(i<0)l.push(v);else l.splice(i,1);render(true);return}
+  if(a==="suDislike"){const l=listOf(SU.dislikes[SU.who]),v=b.dataset.v,i=l.indexOf(v);if(i<0)l.push(v);else l.splice(i,1);SU.dislikes[SU.who]=l.join(", ");render(true);return}
+  if(a==="suAll"){SU.all=true;render(true);setTimeout(()=>{const f=document.getElementById("dislikeFind");if(f)f.focus()},30);return}
+  if(a==="suMeal"){const m=b.dataset.v;if(m)SU.meals[m]=!SU.meals[m];render(true);return}
   if(a==="pDiet"){readProfDom();PROF.diet=b.dataset.v;renderSheet();return}
   if(a==="pAllergy"){readProfDom();const w=b.dataset.w,v=b.dataset.v,l=PROF.allergies[w]=PROF.allergies[w]||[];const i=l.indexOf(v);if(i<0)l.push(v);else l.splice(i,1);renderSheet();return}
   if(a==="pDislike"){readProfDom();const w=b.dataset.w,v=b.dataset.v,l=listOf(PROF.dislikes[w]);const i=l.indexOf(v);if(i<0)l.push(v);else l.splice(i,1);PROF.dislikes[w]=l.join(", ");document.querySelectorAll("[data-dislike]").forEach(i=>{if(i.dataset.dislike===w)i.value=PROF.dislikes[w]});renderSheet();return}
@@ -1436,7 +1788,7 @@ document.addEventListener("click",e=>{
   if(a==="amtCancel"){EDIT=null;render(true);return}
   if(a==="lowToggle"){const p=S.pantry.find(x=>x.id===b.dataset.id);if(!p)return;if(LOWS(p))delete p.left;else p.left="low";render();return}
   if(a==="pickNow"){S.now=b.dataset.id||null;Object.keys(S.done).forEach(k=>{if(/:now:/.test(k))delete S.done[k]});if(S.now){startCook(active().find(x=>x.r.id===S.now).k)}else render();return}
-  if(a==="serv"){S.servings=Math.min(20,Math.max(1,S.servings+ +b.dataset.d));render();return}
+  if(a==="serv"){suReadDom();S.servings=Math.min(20,Math.max(1,S.servings+ +b.dataset.d));render();return}
   if(a==="rm"){const p=S.pantry.find(x=>x.id===b.dataset.id);if(!p)return;const was=snap();S.pantry=S.pantry.filter(x=>x.id!==p.id);render();toast(`Removed ${p.name}`,was);return}
   if(a==="keepSample"){S.sample=false;render();return}
   if(a==="clearPantry"){const was=snap();S.pantry=[];S.sample=false;render();toast("Kitchen cleared",was);return}
@@ -1499,7 +1851,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("keydown",e=>{const f=e.target.getAttribute&&e.target.getAttribute("for");if((e.key==="Enter"||e.key===" ")&&(f==="scanFiles"||f==="impPhotos")){e.preventDefault();document.getElementById(f).click()}});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&SHEET)closeSheet()});
-document.addEventListener("input",e=>{const el=e.target;if(el.id==="recFind"||el.id==="sheetFind")applyFinds();if(el.dataset.scan==="name")SCAN.items[+el.dataset.i].name=el.value;if(el.dataset.scan==="qty")SCAN.items[+el.dataset.i].qty=el.value});
+document.addEventListener("input",e=>{const el=e.target;if(el.id==="recFind"||el.id==="sheetFind"||el.id==="dislikeFind")applyFinds();if(el.dataset.scan==="name")SCAN.items[+el.dataset.i].name=el.value;if(el.dataset.scan==="qty")SCAN.items[+el.dataset.i].qty=el.value});
 function fallback(txt){const ta=document.createElement("textarea");ta.value=txt;ta.style.minHeight="200px";ta.setAttribute("aria-label","Shopping list text");const v=document.getElementById("view");v.prepend(ta);ta.focus();ta.select();toast("Select all and copy the text above")}
 document.addEventListener("change",e=>{
   const el=e.target;const a=el.dataset.act;
@@ -1545,6 +1897,7 @@ document.addEventListener("submit",e=>{
     if(SHEET.draft){IMP={status:"idle",url:"",r:null,msg:""};if(e.submitter&&e.submitter.dataset.add){const m=(MEALS.find(x=>x[2]===meal)||MEALS[2])[0],d=DAYS.find(([k])=>!S.plan[k+m]);if(d){S.plan[d[0]+m]=rec.id;if(m)S.meals=Object.assign({},S.meals,{[m]:true});msg=`Saved and added to ${dayName(d[0]+m)}`}}}
     closeSheet();render();toast(msg,was);return}
 });
+try{if(!S.profile&&!localStorage.getItem("pantry-to-plate.setup")&&S.tab!=="cook"){S.tab="setup";S.su="hello"}}catch(e){}
 render();
 </script>
 <script>

@@ -28,17 +28,18 @@ A static site (no build step) with optional Google sign-in and Firebase sync, se
 
 ## How the app is laid out
 
-Four tabs along the bottom, sized for one-handed use on an iPhone:
+Five tabs along the bottom, plus Settings (gear, top right). New devices start with a short setup: who's eating, diet, allergies and foods to avoid (per person), dislikes, and which meals to plan.
 
 | Tab | What it's for |
 |---|---|
-| **Today** | Tonight's dinner with a big *Start cooking* button, reminders (thaw tomorrow's meat, prep tasks left, things to buy, running low), and the week at a glance. *Hungry now?* finds something you can make with what's here. |
-| **Kitchen** | What you have. Type several foods at once (`milk, 2 lb chicken, eggs`); each goes to its usual spot. Tap **Low** to flag something, × to remove (with Undo). Photo scan is here too. |
-| **Plan** | *This week*: tap a night to choose its dinner, or *Fill empty nights for me*. Servings live here. *Recipes*: search, filter, import a recipe from a link, photo or pasted text. |
-| **Shop** | Everything missing for the week, by aisle. Tap a row to check it; it moves to *In the cart* with the initial of whoever checked it. **Put away ✓** adds the groceries to the Kitchen. Send the list to Instacart, Walmart or Kroger from *Send the list…*. |
+| **Today** | Tonight's dinner with its photo and a big *Start cooking* button, breakfast and lunch if you plan them, reminders, and the week at a glance. With nothing planned it shows one button: *Build the plan*. |
+| **Plan** | The dated week. Tap a day to choose a meal (photos, leftovers marked ♻), or *Fill empty nights for me*. |
+| **Recipes** | Photo rows (ready with what you have, favorites, 20 minutes or less, make ahead, your recipes) and a grid of everything for the chosen meal. **+** adds to the plan; tapping opens the recipe page: big photo, Ingredients / Steps / Tools tabs, servings and *Add to the plan* at the bottom. *+ Add* imports from a link, photo or pasted text, or suggests new recipes. |
+| **Shop** | Everything missing for the week, by aisle. **Put away ✓** adds the groceries to the Kitchen. Send the list to Walmart, Kroger, Target, Amazon Fresh or Instacart. |
+| **Kitchen** | What you have, with amounts, low flags and photo scan. |
 
-Cook mode opens from Today: full screen, one step at a time, tap-to-start timers, and the screen stays awake.
-Prep (from Today) groups the week's make-ahead tasks so all the chopping happens together.
+Photos are placeholders (a plate on a colored tablecloth, picked from the recipe name). Give a recipe an `img` URL to show a real photo instead.
+Cook mode shows each step with the ingredients it uses, timers, hands-free voice control, and keeps the screen awake.
 
 ## How sync works
 
