@@ -15,12 +15,23 @@
       "ai": {
         "files": [
           "img/ai/fajitas-1.jpg",
-          "img/ai/fajitas-2.jpg"
+          "img/ai/fajitas-2.jpg",
+          "img/ai/fajitas-3.jpg",
+          "img/ai/fajitas-4.jpg"
         ],
         "pick": "img/ai/fajitas-2.jpg",
         "model": "gemini-3.1-flash-image",
         "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: sheet-pan chicken fajitas: seared strips of seasoned chicken with sliced red, yellow and green bell peppers and onions, two warm flour tortillas, a lime wedge, a small dish of salsa.",
-        "generated": "2026-10-04"
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Warm flour tortillas sit on a white ceramic plate alongside a colorful pile of roasted chicken breast strips, sliced bell peppers, and onions. The mixture is squeezed with lime and topped with dollops of sour cream and a sprinkling of shredded cheddar cheese."
+        },
+        "round2": [
+          "img/ai/fajitas-3.jpg",
+          "img/ai/fajitas-4.jpg"
+        ]
       },
       "chosen": "ai"
     },
@@ -38,12 +49,23 @@
       "ai": {
         "files": [
           "img/ai/spaghetti-1.jpg",
-          "img/ai/spaghetti-2.jpg"
+          "img/ai/spaghetti-2.jpg",
+          "img/ai/spaghetti-3.jpg",
+          "img/ai/spaghetti-4.jpg"
         ],
         "pick": "img/ai/spaghetti-1.jpg",
         "model": "gemini-3.1-flash-image",
         "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: spaghetti with a hearty ground-beef tomato meat sauce on top, a little grated parmesan and a basil leaf.",
-        "generated": "2026-10-04"
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A mound of spaghetti tossed with a rich marinara sauce containing crumbled ground beef, diced onions, garlic, and diced tomatoes, seasoned with Italian seasoning. The dish is finished with a dusting of parmesan cheese on top."
+        },
+        "round2": [
+          "img/ai/spaghetti-3.jpg",
+          "img/ai/spaghetti-4.jpg"
+        ]
       },
       "chosen": "ai"
     },
@@ -61,12 +83,23 @@
       "ai": {
         "files": [
           "img/ai/chili-1.jpg",
-          "img/ai/chili-2.jpg"
+          "img/ai/chili-2.jpg",
+          "img/ai/chili-3.jpg",
+          "img/ai/chili-4.jpg"
         ],
         "pick": "img/ai/chili-2.jpg",
         "model": "gemini-3.1-flash-image",
         "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: black bean and sweet potato chili in a bowl: cubed sweet potato, black beans, tomatoes, topped with a spoon of sour cream, sliced green onion and a little shredded cheddar.",
-        "generated": "2026-10-04"
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A steaming serving of thick chili filled with tender cubes of orange sweet potato, black beans, and diced tomatoes in a spiced broth, topped with melted shredded cheddar cheese."
+        },
+        "round2": [
+          "img/ai/chili-3.jpg",
+          "img/ai/chili-4.jpg"
+        ]
       },
       "chosen": "ai"
     },
@@ -84,12 +117,23 @@
       "ai": {
         "files": [
           "img/ai/overnightoats-1.jpg",
-          "img/ai/overnightoats-2.jpg"
+          "img/ai/overnightoats-2.jpg",
+          "img/ai/overnightoats-3.jpg",
+          "img/ai/overnightoats-4.jpg"
         ],
         "pick": null,
         "model": "gemini-3.1-flash-image",
         "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: overnight oats in a bowl, creamy oats topped with sliced banana, fresh berries, a drizzle of honey and a sprinkle of chia seeds.",
-        "generated": "2026-10-04"
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a clear glass jar",
+          "utensil": "a spoon",
+          "dish": "A chilled mixture of old-fashioned oats, milk, Greek yogurt, chia seeds, and maple syrup fills the jar, topped with a vibrant layer of sliced strawberries."
+        },
+        "round2": [
+          "img/ai/overnightoats-3.jpg",
+          "img/ai/overnightoats-4.jpg"
+        ]
       },
       "chosen": "real"
     },
@@ -107,12 +151,23 @@
       "ai": {
         "files": [
           "img/ai/turkeywraps-2.jpg",
-          "img/ai/turkeywraps-3.jpg"
+          "img/ai/turkeywraps-3.jpg",
+          "img/ai/turkeywraps-1.jpg",
+          "img/ai/turkeywraps-4.jpg"
         ],
         "pick": "img/ai/turkeywraps-3.jpg",
         "model": "gemini-3.1-flash-image",
         "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: two turkey club wraps cut in half on the diagonal showing sliced turkey, bacon, lettuce, tomato and a flour tortilla, with a few baby carrots on the side.",
-        "generated": "2026-10-04"
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Two tightly rolled flour tortilla halves are stacked, revealing a filling of sliced turkey, sliced cheddar, crispy bacon, romaine, sliced tomatoes, and mayonnaise."
+        },
+        "round2": [
+          "img/ai/turkeywraps-1.jpg",
+          "img/ai/turkeywraps-4.jpg"
+        ]
       },
       "chosen": "ai"
     },
@@ -130,12 +185,23 @@
       "ai": {
         "files": [
           "img/ai/salmon-1.jpg",
-          "img/ai/salmon-2.jpg"
+          "img/ai/salmon-2.jpg",
+          "img/ai/salmon-3.jpg",
+          "img/ai/salmon-4.jpg"
         ],
         "pick": "img/ai/salmon-1.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: a honey garlic glazed salmon fillet with a shiny glaze, a scoop of white rice and steamed broccoli florets, sesame seeds on the salmon.",
-        "generated": "2026-10-04"
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Honey Garlic Salmon, Rice & Broccoli. A bed of fluffy white rice topped with a baked salmon fillet coated in a glossy honey, soy sauce, and minced garlic glaze. Alongside the salmon are tender baked broccoli florets glistening with melted butter.",
+        "generated": "2026-10-04",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A bed of fluffy white rice topped with a baked salmon fillet coated in a glossy honey, soy sauce, and minced garlic glaze. Alongside the salmon are tender baked broccoli florets glistening with melted butter."
+        },
+        "round2": [
+          "img/ai/salmon-3.jpg",
+          "img/ai/salmon-4.jpg"
+        ]
       },
       "chosen": "ai"
     }

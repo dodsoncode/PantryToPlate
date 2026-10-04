@@ -1,92 +1,167 @@
 // Generates AI recipe photos to compare with the stock-photo picks in photos.json.
 //
-// Needs the dedicated Pantry to Plate Google Cloud project with billing on and the Vertex AI API enabled.
-// Sign in once with:  gcloud auth application-default login
-// Then, from the repo root:
-//   node scripts/gen-photos.mjs --project YOUR-PROJECT-ID            (all recipes in photos.json, 2 tries each)
-//   node scripts/gen-photos.mjs --project YOUR-PROJECT-ID --only chili --tries 3
-//   node scripts/gen-photos.mjs --project YOUR-PROJECT-ID --model gemini-3.1-flash-image
+// Each picture is built from the recipe itself: a text model reads the recipe's ingredients, prep and
+// directions and writes what the finished serving looks like (what it's served in, what's on top, and
+// whether you eat it with a spoon or a fork). That description goes into one fixed house style, so the
+// whole library looks like one set.
 //
-// Pictures land in img/ai/<recipe>-<n>.<ext>, and photos.json records them under "ai".
-// Every picture uses the same house style so the library looks like one set.
-// Rough cost: about $0.07 per picture, so the 6 starter recipes at 2 tries each is about $0.85.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+// Needs the Pantry to Plate Google Cloud project with billing on and the Vertex AI API enabled.
+// Sign in once with `gcloud auth application-default login`, or set ACCESS_TOKEN to a short-lived token.
+// From the repo root:
+//   node scripts/gen-photos.mjs --project pantry-to-plate-f728c                 (recipes in photos.json, 2 each)
+//   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --only chili,salmon --tries 3
+//   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --only friedrice  (any recipe id; adds it)
+//   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --describe-only   (print descriptions, no pictures)
+//
+// New pictures are added as img/ai/<recipe>-<n>.<ext> after any earlier ones, and listed in photos.json
+// under "ai.files" along with the description used. Shrink them to 640px before committing.
+// Rough cost: about $0.07 per picture plus a fraction of a cent per description.
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
+import vm from "node:vm";
 const require = createRequire(new URL("../functions/package.json", import.meta.url));
 const { GoogleGenAI } = require("@google/genai");
 
 const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ? process.argv[i + 1] : d; };
+const flag = k => process.argv.includes("--" + k);
 const project = arg("project", process.env.GOOGLE_CLOUD_PROJECT);
-const model = arg("model", "gemini-3.1-flash-image");
+const imageModel = arg("model", "gemini-3.1-flash-image");
+const textModel = arg("text-model", "gemini-3.5-flash");
 const tries = Math.max(1, Math.min(4, +arg("tries", 2)));
 const only = arg("only", "");
-const start = Math.max(1, +arg("start", 1)); // e.g. --start 3 adds more tries without replacing earlier ones
 if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1); }
 
-export const STYLE = "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) " +
-  "centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, " +
-  "not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.";
+// The house style. {utensil} and {vessel} come from the recipe.
+export const STYLE = [
+  "Square 1:1 top-down (directly overhead) food photograph of a single serving.",
+  "The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
+  "Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
+  "Exactly one utensil: {utensil}, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
+  "Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description.",
+  "No text, no logos, no hands, no people, no brand packaging, no watermark.",
+].join(" ");
 
-// What each dish should look like, so the picture matches the recipe rather than a generic version.
-export const DISHES = {
-  fajitas: "sheet-pan chicken fajitas: seared strips of seasoned chicken with sliced red, yellow and green bell peppers and onions, two warm flour tortillas, a lime wedge, a small dish of salsa",
-  spaghetti: "spaghetti with a hearty ground-beef tomato meat sauce on top, a little grated parmesan and a basil leaf",
-  chili: "black bean and sweet potato chili in a bowl: cubed sweet potato, black beans, tomatoes, topped with a spoon of sour cream, sliced green onion and a little shredded cheddar",
-  overnightoats: "overnight oats in a bowl, creamy oats topped with sliced banana, fresh berries, a drizzle of honey and a sprinkle of chia seeds",
-  turkeywraps: "two turkey club wraps cut in half on the diagonal showing sliced turkey, bacon, lettuce, tomato and a flour tortilla, with a few baby carrots on the side",
-  salmon: "a honey garlic glazed salmon fillet with a shiny glaze, a scoop of white rice and steamed broccoli florets, sesame seeds on the salmon",
-};
-
-// Uses your gcloud sign-in by default; or set ACCESS_TOKEN to a short-lived Google Cloud access token.
-const opts = { vertexai: true, project, location: arg("location", "global") };
-if (process.env.ACCESS_TOKEN) {
-  const { OAuth2Client } = require("google-auth-library");
-  const authClient = new OAuth2Client();
-  authClient.setCredentials({ access_token: process.env.ACCESS_TOKEN });
-  opts.googleAuthOptions = { authClient };
+// ---------- recipes ----------
+function loadRecipes() {
+  const window = {};
+  vm.runInNewContext(readFileSync("recipes.js", "utf8"), { window });
+  const html = readFileSync("index.html", "utf8");
+  const a = html.indexOf("const RECIPES=[");
+  const b = html.indexOf("\n];", a);
+  const builtIn = vm.runInNewContext(html.slice(a + "const RECIPES=".length, b + 2));
+  const byId = {};
+  for (const r of [...builtIn, ...(window.LIBRARY || [])]) byId[r.id] = r;
+  return byId;
 }
-const ai = new GoogleGenAI(opts);
+
+const ai = (() => {
+  const opts = { vertexai: true, project, location: arg("location", "global") };
+  if (process.env.ACCESS_TOKEN) {
+    const { OAuth2Client } = require("google-auth-library");
+    const authClient = new OAuth2Client();
+    authClient.setCredentials({ access_token: process.env.ACCESS_TOKEN });
+    opts.googleAuthOptions = { authClient };
+  }
+  return new GoogleGenAI(opts);
+})();
+
+// New projects get a small per-minute allowance; on "429 busy" wait and try again.
+async function withRetry(fn) {
+  for (let wait = 20; ; wait *= 2) {
+    try { return await fn(); }
+    catch (e) {
+      if (e.status !== 429 || wait > 160) throw e;
+      console.log(`  busy, waiting ${wait}s...`);
+      await new Promise(r => setTimeout(r, wait * 1000));
+    }
+  }
+}
+
+/** Reads the recipe and describes the finished single serving, so the picture matches what we cook. */
+async function describe(r) {
+  const recipe = [
+    `Name: ${r.name}`,
+    r.meal ? `Meal: ${r.meal}` : "",
+    `Ingredients: ${(r.ing || []).map(i => i[2]).join(", ")}`,
+    r.prep && r.prep.length ? `Prep: ${r.prep.join(" ")}` : "",
+    `Directions: ${(r.steps || []).join(" ")}`,
+  ].filter(Boolean).join("\n");
+  const res = await withRetry(() => ai.models.generateContent({
+    model: textModel,
+    contents: `You describe how one serving of a home-cooked recipe looks when it's served, for a food photographer.
+
+Rules:
+- Follow the recipe's prep and directions for how it is served. If they say jars, it's in a glass jar; a bowl, a bowl; a sheet pan or skillet, then plated on a plate unless they say to serve from the pan.
+- Show only foods in the ingredients or named in the directions. Toppings and sides only if the recipe has them. Don't add herbs, garnishes or sides the recipe doesn't have.
+- Show the food as the directions finish it (sliced, rolled and halved, stirred, topped, etc.).
+- Utensil: "a spoon" for anything eaten with a spoon (soups, chili, stews, oatmeal, overnight oats, cereal, yogurt). Otherwise "a fork".
+- Vessel: plain white ceramic for plates and bowls; clear glass for jars.
+
+Recipe:
+"""
+${recipe}
+"""`,
+    config: {
+      responseMimeType: "application/json",
+      responseJsonSchema: {
+        type: "object",
+        properties: {
+          vessel: { type: "string", description: "What one serving is in or on, e.g. 'a clear glass jar', 'a white ceramic bowl', 'a white ceramic plate'" },
+          utensil: { type: "string", enum: ["a spoon", "a fork"] },
+          dish: { type: "string", description: "One or two sentences on what the serving looks like, using only the recipe's foods" },
+        },
+        required: ["vessel", "utensil", "dish"],
+      },
+    },
+  }));
+  return JSON.parse(res.text);
+}
+
+// ---------- run ----------
+const recipes = loadRecipes();
 const prefs = JSON.parse(readFileSync("photos.json", "utf8"));
+const ids = only ? only.split(",").map(s => s.trim()).filter(Boolean) : Object.keys(prefs.recipes);
 mkdirSync("img/ai", { recursive: true });
 
-for (const [id, rec] of Object.entries(prefs.recipes)) {
-  if (only && !only.split(",").includes(id)) continue;
-  const dish = DISHES[id] || rec.name;
-  const prompt = `${STYLE}\nThe dish: ${dish}.`;
-  const files = [];
-  for (let n = start; n < start + tries; n++) {
+for (const id of ids) {
+  const r = recipes[id];
+  if (!r) { console.warn(`${id}: no recipe with that id`); continue; }
+  const rec = prefs.recipes[id] || (prefs.recipes[id] = { name: r.name, real: null, ai: null, chosen: null });
+  let d;
+  try { d = await describe(r); }
+  catch (e) { console.error(`${id}: couldn't describe the recipe: ${e.status || ""} ${e.message}`); continue; }
+  const prompt = `${STYLE.replace("{utensil}", d.utensil)}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}`;
+  console.log(`${id}: ${d.vessel}, ${d.utensil}. ${d.dish}`);
+  if (flag("describe-only")) continue;
+
+  const made = [];
+  let n = 1;
+  for (let t = 0; t < tries; t++) {
+    while (["png", "jpg"].some(x => existsSync(`img/ai/${id}-${n}.${x}`))) n++;
     try {
-      // New projects get a small per-minute allowance; on "429 busy" wait and try again.
-      let res;
-      for (let wait = 20; ; wait *= 2) {
-        try {
-          res = await ai.models.generateContent({
-            model, contents: prompt,
-            config: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1" } },
-          });
-          break;
-        } catch (e) {
-          if (e.status !== 429 || wait > 160) throw e;
-          console.log(`  busy, waiting ${wait}s...`);
-          await new Promise(r => setTimeout(r, wait * 1000));
-        }
-      }
+      const res = await withRetry(() => ai.models.generateContent({
+        model: imageModel, contents: prompt,
+        config: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1" } },
+      }));
       const part = (res.candidates?.[0]?.content?.parts || []).find(p => p.inlineData);
-      if (!part) { console.warn(`${id} #${n}: no picture came back`); continue; }
+      if (!part) { console.warn(`  #${n}: no picture came back`); n++; continue; }
       const ext = (part.inlineData.mimeType || "image/png").includes("jpeg") ? "jpg" : "png";
       const file = `img/ai/${id}-${n}.${ext}`;
       writeFileSync(file, Buffer.from(part.inlineData.data, "base64"));
-      files.push(file);
-      console.log(`${id} #${n}: ${file}`);
+      made.push(file);
+      console.log(`  #${n}: ${file}`);
     } catch (e) {
-      console.error(`${id} #${n}: ${e.status || ""} ${e.message}`);
+      console.error(`  #${n}: ${e.status || ""} ${e.message}`);
       if (e.status === 403) { console.error("403 usually means billing or the Vertex AI API isn't on for this project yet."); process.exit(1); }
     }
   }
-  if (files.length) {
-    const earlier = start > 1 && rec.ai ? rec.ai.files.filter(f => !files.includes(f)) : [];
-    rec.ai = { files: [...earlier, ...files], pick: null, model, prompt, generated: new Date().toISOString().slice(0, 10) };
+  if (made.length) {
+    const prev = rec.ai || { files: [], pick: null };
+    rec.ai = { ...prev, files: [...prev.files, ...made], model: imageModel, prompt, described: d, generated: new Date().toISOString().slice(0, 10) };
+    writeFileSync("photos.json", JSON.stringify(prefs, null, 2) + "\n"); // save as we go, so a stopped run keeps what it made
   }
 }
-writeFileSync("photos.json", JSON.stringify(prefs, null, 2) + "\n");
-console.log("Saved to photos.json. Next: compare with the stock picks and set each recipe's \"chosen\".");
+if (!flag("describe-only")) {
+  writeFileSync("photos.json", JSON.stringify(prefs, null, 2) + "\n");
+  console.log("Saved to photos.json. Compare, then set each recipe's \"chosen\" (and \"ai.pick\").");
+}
