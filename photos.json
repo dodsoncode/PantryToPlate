@@ -1,0 +1,89 @@
+{
+  "_about": "Photo choices per recipe. 'real' = Jacob's stock-photo pick (saved 2026-10-04). 'ai' = generated candidate (scripts/gen-photos.mjs). 'chosen' = final pick ('real' or 'ai'); null until the final comparison. The app only shows a photo once 'chosen' is set.",
+  "recipes": {
+    "fajitas": {
+      "name": "Sheet-Pan Chicken Fajitas",
+      "real": {
+        "file": "img/real/fajitas.jpg",
+        "source": "Pexels",
+        "photographer": "Vinkay",
+        "page": "https://www.pexels.com/photo/grilled-chicken-fajita-with-colorful-peppers-33332968/",
+        "original": "https://images.pexels.com/photos/33332968/pexels-photo-33332968.jpeg",
+        "license": "Pexels License",
+        "licenseUrl": "https://www.pexels.com/license/"
+      },
+      "ai": null,
+      "chosen": null
+    },
+    "spaghetti": {
+      "name": "Spaghetti with Meat Sauce",
+      "real": {
+        "file": "img/real/spaghetti.jpg",
+        "source": "Pexels",
+        "photographer": "Ketut Subiyanto",
+        "page": "https://www.pexels.com/photo/pasta-bolognaise-served-on-plate-on-table-4349774/",
+        "original": "https://images.pexels.com/photos/4349774/pexels-photo-4349774.jpeg",
+        "license": "Pexels License",
+        "licenseUrl": "https://www.pexels.com/license/"
+      },
+      "ai": null,
+      "chosen": null
+    },
+    "chili": {
+      "name": "Black Bean & Sweet Potato Chili",
+      "real": {
+        "file": "img/real/chili.jpg",
+        "source": "Unsplash",
+        "photographer": "Holly Spangler",
+        "page": "https://unsplash.com/photos/lrtfNWl3dsE",
+        "original": "https://images.unsplash.com/photo-1664339031004-9cfdf88b8017",
+        "license": "Unsplash License",
+        "licenseUrl": "https://unsplash.com/license"
+      },
+      "ai": null,
+      "chosen": null
+    },
+    "overnightoats": {
+      "name": "Overnight Oats",
+      "real": {
+        "file": "img/real/overnightoats.jpg",
+        "source": "Unsplash",
+        "photographer": "Alisha Hieb",
+        "page": "https://unsplash.com/photos/LzrMzmVWhJw",
+        "original": "https://images.unsplash.com/photo-1490371475955-4cb3bfc72f71",
+        "license": "Unsplash License",
+        "licenseUrl": "https://unsplash.com/license"
+      },
+      "ai": null,
+      "chosen": null
+    },
+    "turkeywraps": {
+      "name": "Turkey Club Wraps",
+      "real": {
+        "file": "img/real/turkeywraps.jpg",
+        "source": "Pexels",
+        "photographer": "Novkov Visuals",
+        "page": "https://www.pexels.com/photo/close-up-of-fresh-wrap-sandwich-in-lunch-box-34644340/",
+        "original": "https://images.pexels.com/photos/34644340/pexels-photo-34644340.jpeg",
+        "license": "Pexels License",
+        "licenseUrl": "https://www.pexels.com/license/"
+      },
+      "ai": null,
+      "chosen": null
+    },
+    "salmon": {
+      "name": "Honey Garlic Salmon, Rice & Broccoli",
+      "real": {
+        "file": "img/real/salmon.jpg",
+        "source": "Unsplash",
+        "photographer": "Daniela Crucez",
+        "page": "https://unsplash.com/photos/1115tTZofMs",
+        "original": "https://images.unsplash.com/photo-1633632811707-41a5e0aa5934",
+        "license": "Unsplash License",
+        "licenseUrl": "https://unsplash.com/license"
+      },
+      "ai": null,
+      "chosen": null
+    }
+  }
+}

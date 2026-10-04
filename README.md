@@ -134,3 +134,10 @@ Uses Kroger's public API through a Cloudflare Worker (`kroger-worker.js`) that h
    `KROGER_CLIENT_ID` (variable) and `KROGER_CLIENT_SECRET` (secret).
 3. Set `window.KROGER_ENDPOINT` in `firebase-config.js` to the worker address. A Kroger tab appears in **Send to a store**:
    pick a store by ZIP, connect your Kroger account once per device, then **Add N items to Kroger cart** (pickup or delivery).
+
+## Recipe photos
+
+`photos.json` keeps the photo choice for each recipe:
+- `real` is the stock photo picked on 2026-10-04. Each one is saved in `img/real/` with its photographer, source page and license (Unsplash or Pexels; neither requires credit, but the app will show it anyway).
+- `ai` is filled in by `scripts/gen-photos.mjs`. That script makes AI pictures in one house style for comparison. It needs the new project with billing and Vertex AI turned on; the script's top comment explains how to run it.
+- `chosen` is the final pick (`"real"` or `"ai"`). The app keeps showing placeholder plates until a recipe has one.
