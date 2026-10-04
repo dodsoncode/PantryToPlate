@@ -1091,7 +1091,10 @@ const PH_FOOD=[[/taco|fajita|quesadilla|burrito|enchilada|nacho/,"🌮"],[/waffl
   [/oat|granola|parfait|cereal|yogurt|cottage/,"🥣"],[/smoothie/,"🥤"],[/muffin/,"🧁"],[/bagel/,"🥯"],[/toast|bread/,"🍞"],[/fried rice|rice|bowl|teriyaki|stir|cashew/,"🍚"],
   [/steak|beef/,"🥩"],[/pork|sausage|bacon/,"🥓"],[/chicken|drumstick/,"🍗"],[/potato/,"🥔"],[/bean|lentil|chickpea/,"🫘"],[/pie|casserole|bake/,"🥘"],[/bento|snack/,"🧀"],[/pb&j|peanut/,"🥜"]];
 const hashStr=t=>{let h=7;for(const c of String(t))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)};
-function photo(r,cls=""){if(!r)return "";if(r.img)return `<span class="ph ${cls}"><img src="${esc(r.img)}" alt="" loading="lazy"></span>`;
+/* Chosen recipe photos (photos.json: real stock photo or AI photo per recipe). A recipe's own img wins. */
+let PHOTOS={};
+function photoOf(r){if(r.img)return r.img;const p=PHOTOS[r.id];if(!p||!p.chosen)return "";return p.chosen==="real"?p.real&&p.real.file:p.ai&&p.ai.pick}
+function photo(r,cls=""){if(!r)return "";const src=photoOf(r);if(src)return `<span class="ph ${cls}"><img src="${esc(src)}" alt="" loading="lazy"></span>`;
   const n=r.name.toLowerCase(),f=(PH_FOOD.find(([re])=>re.test(n))||[0,"🍽️"])[1];
   return `<span class="ph ${cls}" style="--phbg:${PH_BG[hashStr(r.id)%PH_BG.length]}" aria-hidden="true"><span class="plate"><span class="food">${f}</span></span></span>`}
 const thumb=r=>`<span class="thumb">${photo(r)}</span>`;
@@ -1393,6 +1396,7 @@ const WMD=Object.fromEntries(Object.entries(WM_DEFAULTS).map(([n,v])=>[norm(n).j
 /* More suggestions come from walmart-products.json, which the daily product-link check fills in
    for ingredients of recipes people add or edit (see productRequests below). */
 function addCatalog(obj){let n=0;Object.entries(obj||{}).forEach(([name,v])=>{const k=norm(name).join(" ");if(!WMD[k]&&v&&v.id){WMD[k]={id:String(v.id),title:v.title||"",per:v.per||0,suggested:true};n++}});return n}
+fetch("photos.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():{}).then(j=>{if(j&&j.recipes){PHOTOS=j.recipes;render(true)}}).catch(()=>{});
 fetch("walmart-products.json?v="+Math.floor(Date.now()/36e5)).then(r=>r.ok?r.json():{}).then(j=>{if(addCatalog(j.products))render(true)}).catch(()=>{});
 function unmappedIngredients(){const out=new Map();all().forEach(r=>(r.ing||[]).forEach(([q,u,n,cat])=>{if(!n)return;const k=ik(n),p=(S.products||{})[k];
   if(!k||WMD[k]||(p&&(p.walmart||p.walmart===false)))return;if(!out.has(k))out.set(k,{name:String(n).toLowerCase().trim().slice(0,70),section:cat||""})}));return [...out.values()]}
