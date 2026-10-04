@@ -7,11 +7,17 @@ service cloud.firestore {
 
     function signedIn() { return request.auth != null; }
     function me() { return request.auth.uid; }
+    // During the private test (appConfig/access.inviteOnly), only people let in with an invite code can save.
+    function hasAccess() {
+      return !exists(/databases/$(database)/documents/appConfig/access)
+        || get(/databases/$(database)/documents/appConfig/access).data.get('inviteOnly', false) == false
+        || exists(/databases/$(database)/documents/members/$(request.auth.uid));
+    }
 
     // A person's own planner. `household` is the code of the household they joined, if any.
     match /pantryToPlate/{uid} {
       allow read, delete: if signedIn() && me() == uid;
-      allow create, update: if signedIn() && me() == uid
+      allow create, update: if signedIn() && me() == uid && hasAccess()
         && request.resource.data.keys().hasOnly(['state', 'updated', 'household'])
         && (!('household' in request.resource.data)
             || (request.resource.data.household is string && request.resource.data.household.matches('^[A-Z0-9]{4,20}$')));
@@ -27,7 +33,7 @@ service cloud.firestore {
       allow read: if isMember();
 
       // Starting a household: you are its only member.
-      allow create: if signedIn()
+      allow create: if signedIn() && hasAccess()
         && code.matches('^[A-Z0-9]{4,20}$')
         && newMembers() == [me()]
         && request.resource.data.keys().hasOnly(['members', 'names', 'state', 'created', 'updated'])
@@ -41,7 +47,7 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['members', 'names', 'state', 'created', 'updated']);
 
       // Joining with the invite code: add only yourself, and your own name, nothing else.
-      allow update: if signedIn() && !(me() in members())
+      allow update: if signedIn() && hasAccess() && !(me() in members())
         && changed().hasOnly(['members', 'names'])
         && newMembers().toSet() == members().toSet().union([me()].toSet())
         && newMembers().size() <= 12
@@ -54,6 +60,14 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+
+    // Private test. The app may read whether it's invite-only, and each person may check their own membership.
+    match /appConfig/{id} { allow read: if true; allow write: if false; }
+    match /members/{uid} { allow read: if signedIn() && me() == uid; allow write: if false; }
+    match /waitlist/{id} { allow read, write: if false; }
+    match /invites/{id} { allow read, write: if false; }
+    match /feedback/{id} { allow read, write: if false; }
+    match /rate/{id} { allow read, write: if false; }
 
     // Server-only: AI limits, lockouts, spend and settings.
     match /aiUsage/{id} { allow read, write: if false; }

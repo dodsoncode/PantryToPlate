@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Join the Pantry to Plate test: a family meal planner that starts from what's in your kitchen.">
+<title>Join the Pantry to Plate test</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --sunk:#f3f4f2; --ink:#22252a; --muted:#6a6f77; --line:#e5e6e3;
+  --accent:#1f6fd1; --accent-ink:#ffffff; --accent-soft:#e4eefb; --ok:#2c7a4c; --ok-soft:#e2f2e8; --need:#9c5600; --need-soft:#fff0d6;
+  --f:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17191d; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#6aa8ff; --accent-ink:#08182f; --accent-soft:#172a45; --ok:#6cc892; --ok-soft:#1c3326; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17191d; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#6aa8ff; --accent-ink:#08182f; --accent-soft:#172a45; --ok:#6cc892; --ok-soft:#1c3326; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--f);padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(40px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:560px;margin:0 auto;display:grid;gap:28px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800}
+.brand img{width:32px;height:32px;border-radius:8px}
+h1{font-size:clamp(2rem,7vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin:0;text-wrap:balance}
+h2{font-size:1.25rem;font-weight:800;margin:0}
+.lede{color:var(--muted);font-size:1.1rem;margin:10px 0 0}
+.plates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ph{display:block;position:relative;aspect-ratio:1;overflow:hidden;border-radius:18px;container-type:inline-size;background-color:var(--phbg);
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px),repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px)}
+.ph .plate{position:absolute;left:50%;top:50%;height:70%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 8px 18px rgba(60,40,20,.16),inset 0 0 0 5px #fff,inset 0 0 0 7px #ecebe6;display:grid;place-items:center}
+.ph .food{font-size:28cqw;line-height:1}
+.points{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.points li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start}
+.points b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.9rem}
+form{display:grid;gap:22px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:10px;min-width:0}
+legend{font-weight:700;padding:0;margin-bottom:10px}
+label.f{display:grid;gap:6px;font-weight:700}
+.hint{font-weight:400;color:var(--muted);font-size:.9rem}
+input[type=text],input[type=email],textarea{font:inherit;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:12px;padding:12px 14px;min-height:50px;width:100%}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:90px;resize:vertical}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{position:relative}
+.opts input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opts span{display:inline-flex;align-items:center;min-height:46px;padding:8px 16px;border-radius:12px;background:var(--sunk);border:2px solid transparent;font-weight:600}
+.opts input:checked+span{background:var(--accent-soft);border-color:var(--accent)}
+.opts input:focus-visible+span{outline:3px solid #f2b233;outline-offset:2px}
+.check{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start;font-weight:500}
+.check input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent)}
+.btn{font:700 1.1rem var(--f);min-height:56px;border:0;border-radius:16px;background:var(--accent);color:var(--accent-ink);cursor:pointer;width:100%}
+.btn:disabled{opacity:.55;cursor:default}
+.btn:focus-visible,a:focus-visible{outline:3px solid #f2b233;outline-offset:2px}
+.err{margin:0;padding:12px 14px;border-radius:12px;background:var(--need-soft);color:var(--need);font-weight:600}
+.done{display:grid;gap:14px;padding:22px;border-radius:20px;background:var(--ok-soft)}
+.done h2{color:var(--ok);font-size:1.5rem}
+.done p{margin:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.foot{color:var(--muted);font-size:.9rem;margin:0}
+.foot a,.lede a,.done a{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><img src="icon-192.png" alt="">Pantry to Plate</div>
+
+  <section>
+    <h1>Plan the week from what's already in your kitchen</h1>
+    <p class="lede">We're opening a free test for families. Join the waitlist and we'll send an invite code as spots open.</p>
+  </section>
+
+  <div class="plates" aria-hidden="true">
+    <span class="ph" style="--phbg:#d0e8c6"><span class="plate"><span class="food">🌮</span></span></span>
+    <span class="ph" style="--phbg:#cde0f2"><span class="plate"><span class="food">🍝</span></span></span>
+    <span class="ph" style="--phbg:#f6e0a4"><span class="plate"><span class="food">🥞</span></span></span>
+  </div>
+
+  <ul class="points">
+    <li><b>1</b><span>Snap the fridge and shelves; the app lists what you have, with amounts.</span></li>
+    <li><b>2</b><span>Pick meals that fit your family's diet and allergies, or let it fill the week.</span></li>
+    <li><b>3</b><span>Get one shopping list of only what's missing, ready for Walmart pickup.</span></li>
+  </ul>
+
+  <form id="wl" novalidate>
+    <h2>Join the waitlist</h2>
+    <label class="f" for="name">First name<input type="text" id="name" autocomplete="given-name" maxlength="60" required></label>
+    <label class="f" for="email">Email<span class="hint">Your invite code comes here. Nothing else.</span><input type="email" id="email" autocomplete="email" inputmode="email" maxlength="200" required></label>
+
+    <fieldset><legend>How many people do you usually cook for?</legend><div class="opts" data-name="household"></div></fieldset>
+    <fieldset><legend>Any diets or allergies at home? <span class="hint">Pick all that apply</span></legend><div class="opts" data-name="diets" data-multi></div></fieldset>
+    <fieldset><legend>Where do you buy most groceries?</legend><div class="opts" data-name="store"></div></fieldset>
+    <fieldset><legend>Your phone</legend><div class="opts" data-name="phone"></div></fieldset>
+    <fieldset><legend>How do you plan meals today?</legend><div class="opts" data-name="planning"></div></fieldset>
+
+    <label class="f" for="zip">ZIP code <span class="hint">Optional. Helps us match nearby stores.</span><input type="text" id="zip" inputmode="numeric" maxlength="5" autocomplete="postal-code"></label>
+    <label class="f" for="note">Anything else? <span class="hint">Optional. What would make meal planning easier for you?</span><textarea id="note" maxlength="500"></textarea></label>
+    <label class="hp" aria-hidden="true">Website<input type="text" id="website" tabindex="-1" autocomplete="off"></label>
+
+    <label class="check"><input type="checkbox" id="survey" checked><span>I'm happy to answer a 2-minute survey once a week during the test.</span></label>
+    <label class="check"><input type="checkbox" id="consent"><span>Email me about the Pantry to Plate test. You can ask to be removed any time.</span></label>
+
+    <p class="err" id="err" role="alert" hidden></p>
+    <button class="btn" type="submit" id="go">Join the waitlist</button>
+  </form>
+
+  <section class="done" id="done" hidden aria-live="polite">
+    <h2 id="doneTitle">You're on the list</h2>
+    <p id="doneText"></p>
+    <p>Already have a code? <a href="index.html">Open the app</a> and enter it after signing in.</p>
+  </section>
+
+  <p class="foot">Free during the test. We only use your answers to pick a mix of families and to contact you about the test. Already invited? <a href="index.html">Open the app</a>.</p>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+(function(){
+  const OPTS = {
+    household: ["1", "2", "3-4", "5-6", "7+"],
+    diets: ["none", "vegetarian", "vegan", "pescatarian", "low carb / keto", "paleo", "gluten-free", "dairy-free", "nut allergy", "other allergy"],
+    store: ["Walmart", "Kroger family", "Target", "Aldi", "Publix", "Costco", "H-E-B", "Other"],
+    phone: ["iPhone", "Android", "Both"],
+    planning: ["I don't plan", "In my head", "Paper or notes", "Another app", "Mealime"],
+  };
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  document.querySelectorAll(".opts").forEach(box => {
+    const name = box.dataset.name, multi = box.hasAttribute("data-multi");
+    box.innerHTML = OPTS[name].map((v, i) => `<label><input type="${multi ? "checkbox" : "radio"}" name="${name}" value="${esc(v)}" id="${name}-${i}"><span>${esc(v === "none" ? "None" : v)}</span></label>`).join("");
+  });
+
+  const emu = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has("emu");
+  const cfg = window.FIREBASE_CONFIG;
+  let call = null;
+  if (cfg && cfg.apiKey && window.firebase && (window.USE_SERVER || emu)) {
+    firebase.initializeApp(cfg);
+    if (window.APP_CHECK_SITE_KEY && !emu) { try { firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(window.APP_CHECK_SITE_KEY), true); } catch (e) { console.warn(e); } }
+    const fns = firebase.app().functions("us-central1");
+    if (emu) fns.useEmulator("127.0.0.1", 5001);
+    call = fns.httpsCallable("joinWaitlist");
+  }
+
+  const $ = id => document.getElementById(id);
+  const val = n => { const c = document.querySelector(`input[name="${n}"]:checked`); return c ? c.value : ""; };
+  const err = m => { $("err").textContent = m; $("err").hidden = !m; if (m) $("err").scrollIntoView({ block: "center", behavior: "smooth" }); };
+
+  $("wl").addEventListener("submit", async e => {
+    e.preventDefault(); err("");
+    const data = {
+      name: $("name").value.trim(), email: $("email").value.trim(),
+      household: val("household"), store: val("store"), phone: val("phone"), planning: val("planning"),
+      diets: [...document.querySelectorAll('input[name="diets"]:checked')].map(x => x.value),
+      zip: $("zip").value.trim(), note: $("note").value.trim(), website: $("website").value,
+      survey: $("survey").checked, consent: $("consent").checked,
+      source: (new URLSearchParams(location.search).get("src") || "").slice(0, 60),
+    };
+    if (!data.name) return err("Enter your first name.");
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(data.email)) return err("Enter a valid email address.");
+    if (!data.household || !data.store || !data.phone || !data.planning) return err("Answer each of the questions with a choice.");
+    if (!data.consent) return err("Check the box agreeing to email about the test, so we can send your invite.");
+    if (!call) return err("The waitlist opens in a few days. Please check back soon.");
+    $("go").disabled = true; $("go").textContent = "Joining…";
+    try {
+      const r = (await call(data)).data || {};
+      $("wl").hidden = true; $("done").hidden = false;
+      $("doneTitle").textContent = r.again ? "You're already on the list" : "You're on the list";
+      $("doneText").textContent = r.again
+        ? "We updated your answers. We'll email your invite code as spots open."
+        : `Thanks, ${data.name}. ${r.position ? `You're number ${r.position} in line. ` : ""}We'll email your invite code as spots open.`;
+      $("done").scrollIntoView({ block: "center", behavior: "smooth" });
+    } catch (ex) {
+      err(String(ex && ex.message || "That didn't go through. Please try again.").replace(/\s*\[\d{3}\]\s*$/, ""));
+    } finally { $("go").disabled = false; $("go").textContent = "Join the waitlist"; }
+  });
+})();
+</script>
+</body>
+</html>

@@ -18,6 +18,7 @@ const { GoogleGenAI } = require("@google/genai");
 const guard = require("./src/guard");
 const validate = require("./src/validate");
 const ai = require("./src/ai");
+const access = require("./src/access");
 
 initializeApp();
 setGlobalOptions({ region: "us-central1", maxInstances: 20 });
@@ -26,6 +27,8 @@ setGlobalOptions({ region: "us-central1", maxInstances: 20 });
 const ENFORCE_APP_CHECK = defineBoolean("ENFORCE_APP_CHECK", { default: true });
 // Where Vertex AI runs the Gemini models. "global" gives the widest model choice.
 const AI_LOCATION = defineString("AI_LOCATION", { default: "global" });
+// Who can use the admin page (waitlist, invites, feedback), comma-separated Google account emails.
+const ADMIN_EMAILS = defineString("ADMIN_EMAILS", { description: "Google account emails allowed on the admin page, comma-separated" });
 
 let client = null;
 const genai = () => client || (client = new GoogleGenAI({
@@ -41,6 +44,7 @@ function toHttps(e) {
   if (e instanceof guard.Denied) return new HttpsError(e.code, e.message, e.details);
   if (e instanceof validate.BadInput) return new HttpsError("invalid-argument", e.message);
   if (e instanceof ai.ServiceBusy) return new HttpsError("unavailable", e.message);
+  if (e instanceof access.AccessError) return new HttpsError(e.code, e.message);
   return new HttpsError("internal", "Something went wrong on our side. Please try again.");
 }
 
@@ -59,7 +63,7 @@ async function runFeature(req, feature, check) {
     throw toHttps(e);
   }
   let ticket;
-  try { ticket = await guard.begin(db, { uid, feature }); }
+  try { await access.requireAccess(db, uid); ticket = await guard.begin(db, { uid, feature }); }
   catch (e) { throw toHttps(e); }
   try {
     const { result, usage, model } = await ai.run(genai(), feature, input, ticket.cfg.models);
@@ -102,7 +106,7 @@ exports.requestProducts = onCall({ ...callOpts, timeoutSeconds: 20, memory: "256
     throw toHttps(e);
   }
   if (!items.length) return { saved: 0 };
-  try { await guard.begin(db, { uid, feature: "products", count: items.length }); }
+  try { await access.requireAccess(db, uid); await guard.begin(db, { uid, feature: "products", count: items.length }); }
   catch (e) { throw toHttps(e); }
   const batch = db.batch();
   for (const it of items) {
@@ -112,3 +116,61 @@ exports.requestProducts = onCall({ ...callOpts, timeoutSeconds: 20, memory: "256
   await batch.commit();
   return { saved: items.length };
 });
+
+// ---------- private test: waitlist, invites, feedback ----------
+const wrap = fn => async req => { try { return await fn(req); } catch (e) { if (!(e instanceof access.AccessError) && !(e instanceof HttpsError)) logger.error(e); throw toHttps(e); } };
+const ipOf = req => (req.rawRequest && (req.rawRequest.headers["x-forwarded-for"] || "").split(",")[0].trim()) || (req.rawRequest && req.rawRequest.ip) || "";
+const small = { ...callOpts, timeoutSeconds: 20, memory: "256MiB" };
+
+/** Waitlist page sign-up. No account needed; App Check and a per-address daily cap keep bots out. */
+exports.joinWaitlist = onCall(small, wrap(req => access.joinWaitlist(getFirestore(), req.data, { ip: ipOf(req), FieldValue })));
+
+/** Whether the app is invite-only and whether this person is already in. */
+exports.accessStatus = onCall(small, wrap(async req => {
+  const db = getFirestore();
+  const s = await access.settings(db);
+  const uid = req.auth && req.auth.uid;
+  return { inviteOnly: s.inviteOnly, member: uid ? await access.isMember(db, uid) : false, admin: isAdmin(req) };
+}));
+
+/** Lets a signed-in person in with their invite code. */
+exports.redeemInvite = onCall(small, wrap(req => access.redeemInvite(getFirestore(), {
+  uid: req.auth && req.auth.uid, email: req.auth && req.auth.token && req.auth.token.email, code: req.data && req.data.code,
+})));
+
+/** Feedback from the app. Works signed in or out. */
+exports.sendFeedback = onCall(small, wrap(req => access.sendFeedback(getFirestore(), req.data, {
+  uid: req.auth && req.auth.uid, email: req.auth && req.auth.token && req.auth.token.email, ip: ipOf(req),
+})));
+
+function isAdmin(req) {
+  const t = req.auth && req.auth.token;
+  if (!t || !t.email || t.email_verified === false) return false;
+  return ADMIN_EMAILS.value().split(",").map(x => x.trim().toLowerCase()).filter(Boolean).includes(String(t.email).toLowerCase());
+}
+const adminOnly = fn => wrap(async req => {
+  if (!isAdmin(req)) throw new HttpsError("permission-denied", "This page is for the app's owner.");
+  return fn(req, getFirestore(), req.auth.token.email);
+});
+
+exports.adminOverview = onCall(small, adminOnly((req, db) => access.adminOverview(db)));
+exports.adminCreateInvites = onCall(small, adminOnly((req, db, by) => access.createInvites(db, { ...(req.data || {}), by }).then(codes => ({ codes }))));
+exports.adminInviteWaitlist = onCall(small, adminOnly((req, db, by) => access.inviteFromWaitlist(db, { ...(req.data || {}), by }).then(invited => ({ invited }))));
+exports.adminSetAccess = onCall(small, adminOnly(async (req, db) => {
+  const inviteOnly = !!(req.data && req.data.inviteOnly);
+  await db.doc("appConfig/access").set({ inviteOnly, updated: new Date() }, { merge: true });
+  return { inviteOnly };
+}));
+exports.adminUpdateFeedback = onCall(small, adminOnly(async (req, db) => {
+  const id = String(req.data && req.data.id || "").replace(/[^\w-]/g, "");
+  const status = ["new", "seen", "done"].includes(req.data && req.data.status) ? req.data.status : "seen";
+  if (!id) throw new HttpsError("invalid-argument", "Missing feedback id.");
+  await db.doc(`feedback/${id}`).set({ status }, { merge: true });
+  return { ok: true };
+}));
+exports.adminSetInvite = onCall(small, adminOnly(async (req, db) => {
+  const code = access.normCode(req.data && req.data.code);
+  if (code.length !== 8) throw new HttpsError("invalid-argument", "Missing invite code.");
+  await db.doc(`invites/${code}`).set({ disabled: !!(req.data && req.data.disabled) }, { merge: true });
+  return { ok: true };
+}));

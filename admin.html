@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pantry to Plate admin</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#ffffff; --sunk:#f3f4f2; --ink:#22252a; --muted:#6a6f77; --line:#e5e6e3;
+  --accent:#1f6fd1; --accent-ink:#ffffff; --accent-soft:#e4eefb; --ok:#2c7a4c; --ok-soft:#e2f2e8; --need:#9c5600; --need-soft:#fff0d6;
+  --f:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17191d; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#6aa8ff; --accent-ink:#08182f; --accent-soft:#172a45; --ok:#6cc892; --ok-soft:#1c3326; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17191d; --sunk:#25282e; --ink:#f1f2f4; --muted:#a3a8b0; --line:#30343b;
+  --accent:#6aa8ff; --accent-ink:#08182f; --accent-soft:#172a45; --ok:#6cc892; --ok-soft:#1c3326; --need:#f0b05a; --need-soft:#3a2a12; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--f);padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(40px + env(safe-area-inset-bottom,0px));font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:1.8rem;font-weight:800;letter-spacing:-.02em;margin:0}
+h2{font-size:1.15rem;font-weight:800;margin:0}
+.muted{color:var(--muted)} .small{font-size:.9rem}
+button,.btn{font:700 .95rem var(--f);min-height:44px;padding:8px 16px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button.ghost{background:var(--sunk);color:var(--ink)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #f2b233;outline-offset:2px}
+input[type=text],input[type=number],select{font:inherit;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:8px 10px;min-height:44px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{background:var(--sunk);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:1.6rem;font-weight:800;line-height:1.1}
+.stat span{color:var(--muted);font-size:.9rem}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-radius:14px;background:var(--sunk)}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{background:none;color:var(--muted);border-radius:0;border-bottom:3px solid transparent;padding:8px 12px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.list{display:grid}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.row.nocheck{grid-template-columns:minmax(0,1fr)}
+.row input[type=checkbox]{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent)}
+.row .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.row .meta{color:var(--muted);font-size:.9rem;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--sunk)}
+.tag.waiting{background:var(--need-soft);color:var(--need)} .tag.invited,.tag.done{background:var(--ok-soft);color:var(--ok)} .tag.new,.tag.bug{background:var(--need-soft);color:var(--need)} .tag.love{background:var(--ok-soft);color:var(--ok)}
+.msgbox{display:grid;gap:10px;padding:14px;border-radius:14px;background:var(--accent-soft)}
+textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px;width:100%;min-height:160px}
+.err{padding:12px 14px;border-radius:12px;background:var(--need-soft);color:var(--need);font-weight:600;margin:0}
+.fbtext{white-space:pre-wrap;margin:6px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Test admin</h1><div class="bar"><span class="muted small" id="who"></span><button class="ghost" id="signout" hidden>Sign out</button></div></header>
+
+  <section id="signin" class="msgbox" hidden>
+    <h2>Sign in</h2>
+    <p class="muted" style="margin:0">Use the Google account set as the app's admin.</p>
+    <div><button id="signinBtn">Sign in with Google</button></div>
+  </section>
+  <p class="err" id="err" role="alert" hidden></p>
+
+  <main id="app" hidden>
+    <div class="stats" id="stats"></div>
+    <div class="switch"><div><b>Invite-only</b><div class="muted small" id="accessNote"></div></div><button id="accessBtn"></button></div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="waitlist" aria-selected="true">Waitlist</button>
+      <button role="tab" data-tab="invites" aria-selected="false">Invite codes</button>
+      <button role="tab" data-tab="feedback" aria-selected="false">Feedback</button>
+    </div>
+
+    <section id="tab-waitlist" style="display:grid;gap:12px">
+      <div class="bar">
+        <select id="wlFilter" aria-label="Show"><option value="waiting">Waiting</option><option value="invited">Invited</option><option value="">Everyone</option></select>
+        <label class="small">People per code <input type="number" id="wlUses" value="6" min="1" max="20" style="width:5rem"></label>
+        <input type="text" id="wlWave" placeholder="Wave, e.g. beta1" aria-label="Wave name" style="width:9rem">
+        <button id="wlInvite" disabled>Invite selected</button>
+        <button class="ghost" id="wlCsv">Download CSV</button>
+      </div>
+      <div class="msgbox" id="wlOut" hidden></div>
+      <div class="list" id="wlList"></div>
+    </section>
+
+    <section id="tab-invites" style="display:grid;gap:12px" hidden>
+      <div class="bar">
+        <label class="small">How many <input type="number" id="invCount" value="5" min="1" max="100" style="width:5rem"></label>
+        <label class="small">People per code <input type="number" id="invUses" value="6" min="1" max="50" style="width:5rem"></label>
+        <input type="text" id="invWave" placeholder="Wave or note, e.g. alpha friends" aria-label="Wave" style="width:12rem">
+        <button id="invCreate">Create codes</button>
+      </div>
+      <div class="msgbox" id="invOut" hidden></div>
+      <div class="list" id="invList"></div>
+    </section>
+
+    <section id="tab-feedback" style="display:grid;gap:12px" hidden>
+      <div class="bar"><select id="fbFilter" aria-label="Show"><option value="open">New and seen</option><option value="new">New</option><option value="done">Done</option><option value="">All</option></select></div>
+      <div class="list" id="fbList"></div>
+    </section>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const when = iso => iso ? new Date(iso).toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "";
+  const err = m => { $("err").textContent = m || ""; $("err").hidden = !m; };
+  const clean = e => String(e && e.message || e).replace(/\s*\[\d{3}\]\s*$/, "");
+  const APP_URL = location.href.replace(/admin\.html.*$/, "");
+
+  const cfg = window.FIREBASE_CONFIG;
+  if (!cfg || !window.firebase) { err("Firebase isn't configured."); return; }
+  const emu = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && new URLSearchParams(location.search).has("emu");
+  firebase.initializeApp(cfg);
+  if (window.APP_CHECK_SITE_KEY && !emu) { try { firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(window.APP_CHECK_SITE_KEY), true); } catch (e) { console.warn(e); } }
+  const auth = firebase.auth(), fns = firebase.app().functions("us-central1");
+  if (emu) { auth.useEmulator("http://127.0.0.1:9099"); fns.useEmulator("127.0.0.1", 5001); window.__emuSignIn = (e, p) => auth.signInWithEmailAndPassword(e, p); }
+  const call = (name, data) => fns.httpsCallable(name)(data || {}).then(r => r.data);
+
+  let D = null, tab = "waitlist";
+  $("signinBtn").onclick = () => { const p = new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(p).catch(e => { if (/popup/.test(e.code || "")) auth.signInWithRedirect(p); else err(clean(e)); }); };
+  $("signout").onclick = () => auth.signOut();
+  auth.onAuthStateChanged(async u => {
+    $("who").textContent = u ? (u.email || "") : ""; $("signout").hidden = !u; $("signin").hidden = !!u; $("app").hidden = true; err("");
+    if (u) await load();
+  });
+
+  async function load() {
+    try { D = await call("adminOverview"); $("app").hidden = false; draw(); }
+    catch (e) { err(clean(e)); }
+  }
+
+  function draw() {
+    const wl = D.waitlist, waiting = wl.filter(w => w.status === "waiting").length;
+    const used = D.invites.reduce((n, i) => n + (i.uses || 0), 0);
+    const fbNew = D.feedback.filter(f => f.status === "new").length;
+    $("stats").innerHTML = [[wl.length, "on the waitlist"], [waiting, "waiting for a code"], [used, "people let in"], [fbNew, "new feedback"]]
+      .map(([n, l]) => `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join("");
+    $("accessNote").textContent = D.access.inviteOnly ? "On. Only people with an invite code can use the app." : "Off. Anyone with the link can use the app.";
+    $("accessBtn").textContent = D.access.inviteOnly ? "Open to everyone" : "Turn on invite-only";
+    document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+    ["waitlist", "invites", "feedback"].forEach(t => $("tab-" + t).hidden = t !== tab);
+    drawWaitlist(); drawInvites(); drawFeedback();
+  }
+
+  function drawWaitlist() {
+    const f = $("wlFilter").value, rows = D.waitlist.filter(w => !f || w.status === f);
+    $("wlList").innerHTML = rows.map(w => `<label class="row"><input type="checkbox" data-wl="${esc(w.id)}" ${w.status === "invited" ? "" : ""} aria-label="Select ${esc(w.name)}">
+      <div><div class="top"><b>${esc(w.name)} <span class="muted" style="font-weight:500">${esc(w.email)}</span></b><span class="tag ${esc(w.status)}">${esc(w.status)}${w.code ? " · " + esc(w.code) : ""}</span></div>
+      <div class="meta">Cooks for ${esc(w.household)} · ${esc((w.diets || []).join(", "))} · ${esc(w.store)} · ${esc(w.phone)} · plans: ${esc(w.planning)}${w.survey ? " · will do surveys" : ""}${w.zip ? " · " + esc(w.zip) : ""}${w.source ? " · from " + esc(w.source) : ""} · joined ${when(w.created)}</div>
+      ${w.note ? `<div class="fbtext small">“${esc(w.note)}”</div>` : ""}</div></label>`).join("") || `<p class="muted">Nobody here yet.</p>`;
+    sel();
+  }
+  const sel = () => { const n = document.querySelectorAll("[data-wl]:checked").length; $("wlInvite").disabled = !n; $("wlInvite").textContent = n ? `Invite ${n} selected` : "Invite selected"; };
+  $("wlList").addEventListener("change", sel);
+  $("wlFilter").onchange = drawWaitlist;
+
+  const message = (name, code, uses) => `Hi ${name}! You're in the Pantry to Plate test. Your invite code is ${code}.\n\n1. Open ${APP_URL}?invite=${code.replace("-", "")}\n2. Sign in with Google\n3. The code fills in; tap Continue\n\n${uses > 1 ? `Up to ${uses} people in your family can use this same code.\n\n` : ""}Use "Send feedback" in Settings anytime. Thank you for testing!`;
+  const showMsgs = (box, items) => {
+    box.hidden = false;
+    const all = items.map(i => i.msg).join("\n\n----------\n\n");
+    box.innerHTML = `<b>Invites ready. Copy each message into an email or text.</b><textarea readonly aria-label="Invite messages">${esc(all)}</textarea><div class="bar"><button class="ghost" data-copy>Copy all</button></div>`;
+    box.querySelector("[data-copy]").onclick = () => { const t = box.querySelector("textarea"); (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).then(() => box.querySelector("[data-copy]").textContent = "Copied", () => { t.select(); }); };
+  };
+
+  $("wlInvite").onclick = async () => {
+    const ids = [...document.querySelectorAll("[data-wl]:checked")].map(x => x.dataset.wl), uses = +$("wlUses").value || 6;
+    $("wlInvite").disabled = true; err("");
+    try {
+      const r = await call("adminInviteWaitlist", { ids, maxUses: uses, wave: $("wlWave").value.trim() });
+      showMsgs($("wlOut"), r.invited.map(i => ({ msg: `To: ${i.email}\n\n` + message(i.name, i.code, uses) })));
+      D = await call("adminOverview"); draw();
+    } catch (e) { err(clean(e)); sel(); }
+  };
+
+  $("wlCsv").onclick = () => {
+    const cols = ["name", "email", "status", "code", "household", "diets", "store", "phone", "planning", "survey", "zip", "source", "note", "created"];
+    const q = v => `"${String(Array.isArray(v) ? v.join("; ") : v == null ? "" : v).replace(/"/g, '""')}"`;
+    const csv = [cols.join(",")].concat(D.waitlist.map(w => cols.map(c => q(w[c])).join(","))).join("\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "pantry-to-plate-waitlist.csv"; a.click();
+  };
+
+  function drawInvites() {
+    $("invList").innerHTML = D.invites.map(i => `<div class="row nocheck"><div><div class="top"><b style="letter-spacing:.06em">${esc(i.code)}</b><span class="tag ${i.disabled ? "" : (i.uses >= i.maxUses ? "done" : "waiting")}">${i.disabled ? "turned off" : `${i.uses || 0} of ${i.maxUses} used`}</span></div>
+      <div class="meta">${i.wave ? esc(i.wave) + " · " : ""}${i.note ? esc(i.note) + " · " : ""}made ${when(i.created)} · expires ${when(i.expires)}</div>
+      <div class="bar" style="margin-top:6px"><button class="ghost" data-code="${esc(i.code)}" data-off="${i.disabled ? "0" : "1"}">${i.disabled ? "Turn back on" : "Turn off"}</button></div></div></div>`).join("") || `<p class="muted">No codes yet.</p>`;
+  }
+  $("invList").addEventListener("click", async e => {
+    const b = e.target.closest("[data-code]"); if (!b) return; b.disabled = true;
+    try { await call("adminSetInvite", { code: b.dataset.code, disabled: b.dataset.off === "1" }); D = await call("adminOverview"); draw(); } catch (ex) { err(clean(ex)); b.disabled = false; }
+  });
+  $("invCreate").onclick = async () => {
+    $("invCreate").disabled = true; err("");
+    const uses = +$("invUses").value || 6;
+    try {
+      const r = await call("adminCreateInvites", { count: +$("invCount").value || 1, maxUses: uses, wave: $("invWave").value.trim(), note: $("invWave").value.trim() });
+      showMsgs($("invOut"), r.codes.map(c => ({ msg: message("there", c, uses) })));
+      D = await call("adminOverview"); draw();
+    } catch (e) { err(clean(e)); } finally { $("invCreate").disabled = false; }
+  };
+
+  function drawFeedback() {
+    const f = $("fbFilter").value, rows = D.feedback.filter(x => !f || (f === "open" ? x.status !== "done" : x.status === f));
+    const label = { bug: "Something broke", confusing: "Confusing", idea: "Idea", love: "Likes it" };
+    $("fbList").innerHTML = rows.map(x => `<div class="row nocheck"><div><div class="top"><span><span class="tag ${esc(x.kind)}">${esc(label[x.kind] || x.kind)}</span> <span class="muted small">${esc(x.email || "signed out")} · ${when(x.created)}</span></span><span class="tag ${esc(x.status)}">${esc(x.status)}</span></div>
+      <p class="fbtext">${esc(x.text)}</p>
+      <div class="meta">Screen: ${esc(x.context && x.context.screen)} · version ${esc(x.context && x.context.version)} · ${esc(x.context && x.context.width)}px · ${esc(x.context && x.context.device)}</div>
+      <div class="bar" style="margin-top:6px">${x.status !== "seen" ? `<button class="ghost" data-fb="${esc(x.id)}" data-st="seen">Mark seen</button>` : ""}${x.status !== "done" ? `<button class="ghost" data-fb="${esc(x.id)}" data-st="done">Mark done</button>` : ""}</div></div></div>`).join("") || `<p class="muted">Nothing here.</p>`;
+  }
+  $("fbFilter").onchange = drawFeedback;
+  $("fbList").addEventListener("click", async e => {
+    const b = e.target.closest("[data-fb]"); if (!b) return; b.disabled = true;
+    try { await call("adminUpdateFeedback", { id: b.dataset.fb, status: b.dataset.st }); D.feedback.find(x => x.id === b.dataset.fb).status = b.dataset.st; draw(); } catch (ex) { err(clean(ex)); }
+  });
+
+  document.querySelector(".tabs").addEventListener("click", e => { const b = e.target.closest("[data-tab]"); if (!b) return; tab = b.dataset.tab; draw(); });
+  $("accessBtn").onclick = async () => {
+    $("accessBtn").disabled = true;
+    try { const r = await call("adminSetAccess", { inviteOnly: !D.access.inviteOnly }); D.access.inviteOnly = r.inviteOnly; draw(); } catch (e) { err(clean(e)); } finally { $("accessBtn").disabled = false; }
+  };
+})();
+</script>
+</body>
+</html>

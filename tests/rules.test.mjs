@@ -79,3 +79,25 @@ test("AI limit, lock, spend and settings documents are closed to the app", async
     await assertFails(setDoc(doc(as("alice"), path), { scan: 0 }));
   }
 });
+
+test("invite-only: without a membership you can't save; with one you can", async () => {
+  await seed(db => setDoc(doc(db, "appConfig/access"), { inviteOnly: true }));
+  await assertSucceeds(getDoc(doc(anon(), "appConfig/access")));
+  await assertFails(setDoc(doc(as("alice"), "pantryToPlate/alice"), { state: {} }));
+  await assertFails(setDoc(doc(as("alice"), `households/${HOUSE}`), { members: ["alice"], state: {} }));
+  await seed(db => setDoc(doc(db, "members/alice"), { code: "ABCDEF23" }));
+  await assertSucceeds(setDoc(doc(as("alice"), "pantryToPlate/alice"), { state: {} }));
+  await assertSucceeds(getDoc(doc(as("alice"), "members/alice")));
+  await assertFails(getDoc(doc(as("bob"), "members/alice")));
+  await assertFails(setDoc(doc(as("bob"), "members/bob"), { code: "x" }));
+  await seed(db => setDoc(doc(db, "appConfig/access"), { inviteOnly: false }));
+  await assertSucceeds(setDoc(doc(as("bob"), "pantryToPlate/bob"), { state: {} }));
+});
+
+test("waitlist, invites, feedback and rate counters are closed to the app", async () => {
+  for (const path of ["waitlist/abc", "invites/ABCDEF23", "feedback/x", "rate/x_2026-10-04"]) {
+    await assertFails(getDoc(doc(as("alice"), path)));
+    await assertFails(setDoc(doc(as("alice"), path), { a: 1 }));
+  }
+  await assertFails(setDoc(doc(as("alice"), "appConfig/access"), { inviteOnly: false }));
+});

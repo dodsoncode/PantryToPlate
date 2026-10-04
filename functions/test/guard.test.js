@@ -10,7 +10,7 @@ const guard = require("../src/guard");
 let db;
 before(() => {
   if (!process.env.FIRESTORE_EMULATOR_HOST) throw new Error("Start the Firestore emulator first (npm run test:functions).");
-  initializeApp({ projectId: "demo-ptp" });
+  if (!require("firebase-admin/app").getApps().length) initializeApp({ projectId: "demo-ptp" });
   db = getFirestore();
 });
 beforeEach(async () => {

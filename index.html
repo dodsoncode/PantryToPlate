@@ -429,6 +429,21 @@ body[data-tab="settings"] .gear{visibility:hidden}
 .nudge.warm{background:var(--need-soft)}
 .details-quiet>summary{color:var(--ink)}
 
+/* private-test gate */
+.gate{position:fixed;inset:0;z-index:60;background:var(--bg);overflow:auto;padding:calc(24px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.gatebox{max-width:460px;margin:0 auto;display:grid;gap:16px}
+.gatebox .ph{border-radius:20px}
+.gatebox h1{font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.gatebox .lede{margin:0;color:var(--muted);font-size:1.05rem}
+.gatebox .btn{width:100%;min-height:54px}
+.gateform{display:grid;gap:10px}
+.gateform input{font-size:1.4rem;letter-spacing:.12em;text-align:center;text-transform:uppercase}
+.gateerr{margin:0;padding:10px 14px;border-radius:12px;background:var(--need-soft);color:var(--need);font-weight:600}
+.gatebox a{color:var(--accent);font-weight:700}
+body.gated nav.tabbar,body.gated header.top,body.gated main{visibility:hidden}
+.fbkinds{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.fbkinds button{min-height:48px;border:2px solid transparent;border-radius:12px;background:var(--sunk);color:var(--ink);font:600 .9rem var(--f-body);cursor:pointer}
+.fbkinds button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
 /* placeholder photos: a plate on a tablecloth, colored per recipe; real photos go in recipe.img */
 .ph{display:block;position:relative;aspect-ratio:1;overflow:hidden;container-type:inline-size;background-color:var(--phbg,#f3e3c3);
   background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px),repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 7px,transparent 7px 20px)}
@@ -984,10 +999,18 @@ function weekView(){
 }
 /* Bottom sheet: pick a dinner for a night, or a night for a recipe. */
 let SHEET=null;
+const APP_VERSION="0.9.0";
+let FB={kind:"idea",text:"",busy:false,from:"today"};
 function sheetHTML(){
   if(!SHEET)return "";
   const rows=[];let title="",tools="";
   if(SHEET.kind==="profile"){title="Diet & allergies";rows.push(profileSheet())}
+  else if(SHEET.kind==="feedback"){title="Send feedback";
+    rows.push(`<div class="profsheet" id="fbForm"><div class="fbkinds" role="group" aria-label="What kind of feedback">${[["bug","Something broke"],["confusing","Confusing"],["idea","Idea"],["love","I like it"]].map(([k,l])=>`<button data-act="fbKind" data-v="${k}" aria-pressed="${FB.kind===k}">${l}</button>`).join("")}</div>
+      <label class="small muted" for="fbText">${FB.kind==="bug"?"What happened, and what did you expect?":FB.kind==="confusing"?"What was confusing?":FB.kind==="love"?"What do you like?":"What would make it better?"}</label>
+      <textarea id="fbText" maxlength="2000" style="min-height:140px">${esc(FB.text||"")}</textarea>
+      <button class="btn" data-act="fbSend"${FB.busy?" disabled":""}>${FB.busy?"Sending…":"Send"}</button>
+      <p class="small muted" style="margin:0">Sends what you write, the screen you were on and your device type. Thank you!</p></div>`)}
   else if(SHEET.kind==="edit"){const r=SHEET.draft||byId(SHEET.rid);if(!r){SHEET=null;return ""}title=SHEET.draft?"Check the recipe":"Edit recipe";
     const it=x=>`${+(+x[0]).toFixed(2)} ${x[1]==="each"?"":x[1]+" "}${x[2]}`;
     rows.push(`<form class="profsheet" id="editForm">
@@ -1013,7 +1036,8 @@ function sheetHTML(){
     <div class="tools">${tools}</div><div class="list" id="sheetList">${rows.join("")}</div></div>`;
 }
 function openSheet(s){SHEET=s;renderSheet();setTimeout(()=>{const f=document.getElementById("sheetFind");const o=document.querySelector("#sheetList .opt.sel")||document.querySelector("#sheetList .opt");if(o&&!f)o.focus()},30)}
-function renderSheet(){if(SHEET&&SHEET.kind==="edit"&&document.getElementById("editForm"))return;if(SHEET&&SHEET.kind==="profile")readProfDom();document.getElementById("sheet").innerHTML=sheetHTML();document.body.style.overflow=SHEET?"hidden":""}
+function renderSheet(){if(SHEET&&SHEET.kind==="edit"&&document.getElementById("editForm"))return;
+  if(SHEET&&SHEET.kind==="feedback"){const t=document.getElementById("fbText");if(t)FB.text=t.value}if(SHEET&&SHEET.kind==="profile")readProfDom();document.getElementById("sheet").innerHTML=sheetHTML();document.body.style.overflow=SHEET?"hidden":""}
 function closeSheet(){SHEET=null;renderSheet()}
 /* ---------- import a recipe from a link ---------- */
 let IMP={status:"idle",url:"",r:null,msg:""};
@@ -1181,7 +1205,7 @@ V.settings=()=>{const P=S.profile;
     <div class="srow" style="cursor:default"><span>Cooking for<small>Scales every recipe and the shopping list</small></span><span class="stepper"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}</span><button data-act="serv" data-d="1" aria-label="More people">+</button></span></div></section>
   <section class="sgroup"><h2>Meals to plan</h2>
     ${MEALS.map(([m,l])=>`<button class="srow" data-act="mealOn" data-m="${m}" aria-pressed="${mealOn(m)}"${m?"":" disabled"}><span>${l}${m?"":"<small>Always planned</small>"}</span><span class="toggle" aria-hidden="true"></span></button>`).join("")}</section>
-  <section class="sgroup"><h2>Help</h2>${row("suIntro","Show the welcome again","")}</section>
+  <section class="sgroup"><h2>Help</h2>${row("feedback","Send feedback","Something broke, confused you, or could be better")}${row("suIntro","Show the welcome again","")}</section>
   <section class="sgroup" style="margin-bottom:-12px"><h2>Sync and sharing</h2></section>`};
 V.add=()=>`${back("recipes","Recipes")}${importPanel()}
   <details class="panel" open><summary>Type one in yourself</summary>
@@ -1562,6 +1586,7 @@ V.today=()=>{
   ${N.length?`<section class="nudges" aria-label="To do">${N.map(n=>`<div class="nudge${n.warm?" warm":""}"><span class="ic" aria-hidden="true">${n.ic}</span><span>${n.t}</span>${n.act||"<span></span>"}</div>`).join("")}</section>`:""}
   <section class="block"><div class="head-row" style="align-items:center"><h2>This week</h2><button class="link" data-act="tab" data-t="plan">Edit</button></div>
     <div class="weekstrip">${DAYS.map(([k,l])=>{const r=S.plan[k]&&byId(S.plan[k]);return `<button class="wrow${k===tk?" today":""}" data-act="${r?"startCook":"openDay"}" data-k="${k}" aria-label="${l}: ${r?esc(r.name):"nothing planned"}"><span class="dn">${l.slice(0,3)}</span>${r?thumb(r):"<span></span>"}<span class="nm${r?"":" open"}">${r?esc(r.name):"Open"}</span>${r?statusPill(r,k):""}</button>`}).join("")}</div></section>
+  <p class="small muted" style="text-align:center;margin:0"><button class="link" data-act="feedback">Something not right? Send feedback</button></p>
   <p class="small muted" style="text-align:center;margin:0">Hungry now? <button class="link" data-act="tab" data-t="pick">See what you can make with what's here</button></p>`;
 };
 
@@ -1770,6 +1795,15 @@ document.addEventListener("click",e=>{
   if(a==="mealOn"){const m=b.dataset.m;if(!m)return;S.meals=Object.assign({},S.meals,{[m]:!mealOn(m)});render();return}
   if(a==="mealF"){MEALF=b.dataset.v;if(SUG.status!=="working")SUG={status:"idle",items:[],msg:""};render(true);return}
   if(a==="sugGo"){runSuggest();return}
+  if(a==="feedback"){FB={kind:FB.kind||"idea",text:FB.text||"",busy:false,from:S.tab==="settings"?(S.rback||"settings"):S.tab};openSheet({kind:"feedback"});setTimeout(()=>{const t=document.getElementById("fbText");if(t)t.focus()},60);return}
+  if(a==="fbKind"){const t=document.getElementById("fbText");if(t)FB.text=t.value;FB.kind=b.dataset.v;renderSheet();return}
+  if(a==="fbSend"){const t=document.getElementById("fbText");FB.text=t?t.value:FB.text;
+    if(FB.text.trim().length<3){toast("Write a few words first");return}
+    if(!window.sendFeedback){toast("Feedback opens with the next update. Thanks for trying!");return}
+    FB.busy=true;renderSheet();
+    window.sendFeedback({kind:FB.kind,text:FB.text.trim(),context:{version:APP_VERSION,screen:FB.from,device:navigator.userAgent.slice(0,200),width:innerWidth}})
+      .then(()=>{FB={kind:"idea",text:"",busy:false};closeSheet();toast("Thanks! Your feedback was sent.")})
+      .catch(err=>{FB.busy=false;renderSheet();toast(err.message||"That didn't send. Try again.")});return}
   if(a==="editRecipe"){openSheet({kind:"edit",rid:b.dataset.id});return}
   if(a==="impEdit"){const r=IMP.r,nm=(document.getElementById("impName")||{}).value;openSheet({kind:"edit",draft:Object.assign({},r,{name:(nm||r.name).trim(),meal:(document.getElementById("impMeal")||{}).value||"dinner"})});return}
   if(a==="unedit"){const was=snap();S.custom=S.custom.filter(r=>r.id!==b.dataset.id);render();toast("Back to the original recipe",was);return}
@@ -2056,16 +2090,53 @@ render();
     for(const x of todo){const id=x.name.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"item";
       try{await db.collection("productRequests").doc(id).set({name:x.name,section:x.section||"",requestedAt:FV.serverTimestamp()});sent.push(x.name)}catch(e){console.warn("product request not saved",e);break}}
     try{localStorage.setItem("pantry-to-plate.req",JSON.stringify(sent.slice(-500)))}catch(e){}};
-  auth.onAuthStateChanged(async u=>{
+  /* ---------- private test: invite-only gate (only when the server is on and appConfig/access.inviteOnly) ---------- */
+  const inviteParam=(new URLSearchParams(location.search).get("invite")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,8);
+  try{if(inviteParam)sessionStorage.setItem("ptp.invite",inviteParam)}catch(e){}
+  const savedInvite=()=>{try{return sessionStorage.getItem("ptp.invite")||""}catch(e){return ""}};
+  let gateEl=null,gateBusy=false;
+  async function inviteOnly(){if(!window.USE_SERVER)return false;try{const s=await db.doc("appConfig/access").get();return s.exists&&!!s.get("inviteOnly")}catch(e){return false}}
+  async function isMember(u){try{return (await db.doc("members/"+u.uid).get()).exists}catch(e){return false}}
+  function ungate(){if(gateEl){gateEl.remove();gateEl=null}document.body.classList.remove("gated")}
+  function gate(mode,msg){
+    if(!gateEl){gateEl=document.createElement("div");gateEl.className="gate";gateEl.setAttribute("role","dialog");gateEl.setAttribute("aria-modal","true");gateEl.setAttribute("aria-labelledby","gateTitle");document.body.appendChild(gateEl);
+      gateEl.addEventListener("click",onGate);gateEl.addEventListener("submit",e=>{e.preventDefault();redeem()})}
+    document.body.classList.add("gated");const c=fmtInvite(document.getElementById("gateCode")?document.getElementById("gateCode").value:savedInvite());
+    gateEl.innerHTML=`<div class="gatebox"><span class="ph wide" style="--phbg:#cde0f2" aria-hidden="true"><span class="plate"><span class="food">🍽️</span></span></span>
+      <h1 id="gateTitle">${mode==="signin"?"Pantry to Plate is in a private test":"Enter your invite code"}</h1>
+      ${mode==="signin"?`<p class="lede">Sign in, then enter the invite code you were sent. A family can share one code.</p>
+        <button class="btn" data-gate="in">Sign in with Google</button>`
+      :`<p class="lede">Signed in as ${esc(user&&(user.email||user.displayName)||"you")}. <button class="link" data-gate="out">Use a different account</button></p>
+        <form id="gateForm" class="gateform"><input type="text" id="gateCode" value="${esc(c)}" placeholder="ABCD-EF23" autocomplete="one-time-code" autocapitalize="characters" aria-label="Invite code" maxlength="9"><button class="btn" type="submit"${gateBusy?" disabled":""}>${gateBusy?"Checking…":"Continue"}</button></form>`}
+      ${msg?`<p class="gateerr" role="alert">${esc(msg)}</p>`:""}
+      <p class="quiet">No code yet? <a href="join.html">Join the waitlist</a> and we'll send one.</p></div>`;
+    const f=document.getElementById("gateCode");if(f)setTimeout(()=>f.focus(),50)}
+  const fmtInvite=v=>{v=String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,8);return v.length>4?v.slice(0,4)+"-"+v.slice(4):v};
+  function onGate(e){const b=e.target.closest("[data-gate]");if(!b)return;
+    if(b.dataset.gate==="in"){const p=new firebase.auth.GoogleAuthProvider();auth.signInWithPopup(p).catch(err=>{if(/popup/.test(err.code||""))auth.signInWithRedirect(p);else gate("signin","Sign-in didn't finish. Try again.")})}
+    if(b.dataset.gate==="out")auth.signOut()}
+  async function redeem(){const code=(document.getElementById("gateCode")||{}).value||"";if(gateBusy)return;gateBusy=true;gate("code");
+    try{await firebase.app().functions("us-central1").httpsCallable("redeemInvite")({code});try{sessionStorage.removeItem("ptp.invite")}catch(e){}
+      gateBusy=false;ungate();toast("You're in. Welcome to the test!");await onUser(user)}
+    catch(err){gateBusy=false;gate("code",String(err&&err.message||err).replace(/\s*\[\d{3}\]\s*$/,""))}}
+  if(window.USE_SERVER)window.sendFeedback=d=>firebase.app().functions("us-central1").httpsCallable("sendFeedback")(d).then(r=>r.data).catch(e=>{throw new Error(String(e&&e.message||e).replace(/\s*\[\d{3}\]\s*$/,""))});
+
+  auth.onAuthStateChanged(u=>onUser(u));
+  async function onUser(u){
     if(unsub){unsub();unsub=null}user=u;ref=null;lastF=null;house=null;hdata=null;
     window.ME=u&&u.displayName?u.displayName.split(" ")[0]:"";
+    if(await inviteOnly()){
+      if(!u){panelOpen=false;show();gate("signin");return}
+      if(!(await isMember(u))){show();gate("code");return}
+    }
+    ungate();
     if(!u){panelOpen=false;show();return}
     userRef=db.collection("pantryToPlate").doc(u.uid);
     try{const us=await userRef.get();const code=us.exists?us.data().household:null;
       if(joinParam&&!code)panelOpen=true;
       try{await attach(code||null)}catch(e){console.error(e);if(code){await attach(null)}else throw e}
     }catch(e){console.error(e);syncState="err";show()}
-  });
+  }
 })();
 </script>
 <script type="module">

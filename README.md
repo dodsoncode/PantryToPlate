@@ -62,6 +62,15 @@ Turning it on: deploy the functions and rules (`firebase deploy --only functions
 
 Tests: `npm install` in the repo root and in `functions/`, then `npm test` (needs Java for the Firestore emulator). It covers the security rules (8 tests) and the limits, lockouts, safety valve and AI runner (19 tests). Open `http://localhost:8765/?emu` with the emulators running to try the app against them.
 
+## Private test: waitlist, invite codes and feedback
+
+- **`join.html`** is the waitlist page: a short screener (household size, diets, store, phone, how they plan today), stored in `waitlist/`. Add `?src=reddit` (or similar) to links to see where sign-ups come from. Bots are caught by a hidden field and a per-address daily cap.
+- **Invite-only** is controlled by `appConfig/access.inviteOnly`. When on, the app shows an invite-code screen after sign-in, and the database rules only let people listed in `members/` save anything. One code can be shared by a family (6 people by default). Invite links look like `index.html?invite=ABCDEF23` and fill the code in.
+- **`admin.html`** (for the emails in `ADMIN_EMAILS`, set when deploying the functions): see the waitlist, invite selected people (each gets a code and a ready-to-send message), make codes for friends, turn codes off, turn invite-only on or off, download the waitlist as CSV, and read feedback.
+- **Feedback:** Settings → Send feedback, and a link on Today. It saves the message, the kind (something broke, confusing, idea, likes it), the screen, app version and device to `feedback/`.
+
+All of this runs through the server functions, so it switches on with `USE_SERVER`.
+
 ## How sync works
 
 - Signed in, your planner lives in Firestore: `pantryToPlate/{uid}`, or `households/{code}` once you share with a household.
