@@ -41,6 +41,27 @@ Five tabs along the bottom, plus Settings (gear, top right). New devices start w
 Photos are placeholders (a plate on a colored tablecloth, picked from the recipe name). Give a recipe an `img` URL to show a real photo instead.
 Cook mode shows each step with the ingredients it uses, timers, hands-free voice control, and keeps the screen awake.
 
+## Server functions (AI limits and abuse protection)
+
+The `functions/` folder holds the server side. Once deployed and switched on, every AI feature (pantry photo scan, recipe import, recipe suggestions) runs through it instead of the browser calling the AI directly.
+
+- **Sign-in required**, and with App Check on, only requests from the real app are accepted.
+- **Daily limits**, reset at midnight Central:
+
+  | Feature | Per person | Per household |
+  |---|---|---|
+  | Pantry photo scan | 5 | 10 |
+  | Recipe import | 10 | 20 |
+  | Suggest new recipes (3 per run) | 5 | 10 |
+
+- **Abuse protection:** at most 6 photos of 1.5 MB each, pasted text up to 20,000 characters, and only JPEG/PNG/WebP. Five bad requests in a day lock that account's AI features for 24 hours.
+- **Safety valve:** AI pauses for everyone once the day's estimated spend passes $20. A failed AI call gives the use back.
+- **Settings without redeploying:** create the Firestore document `aiConfig/main` and set any of `paused` (true/false), `dailyBudgetUsd`, `limits` (for example `limits.scan.person`), `models`, `prices.inputPerMillion`, `prices.outputPerMillion`. Changes apply within a minute.
+
+Turning it on: deploy the functions and rules (`firebase deploy --only functions,firestore:rules`), add the reCAPTCHA Enterprise site key as `APP_CHECK_SITE_KEY` in `firebase-config.js`, and set `USE_SERVER = true`.
+
+Tests: `npm install` in the repo root and in `functions/`, then `npm test` (needs Java for the Firestore emulator). It covers the security rules (8 tests) and the limits, lockouts, safety valve and AI runner (19 tests). Open `http://localhost:8765/?emu` with the emulators running to try the app against them.
+
 ## How sync works
 
 - Signed in, your planner lives in Firestore: `pantryToPlate/{uid}`, or `households/{code}` once you share with a household.

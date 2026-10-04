@@ -17,3 +17,10 @@ window.INSTACART_ENDPOINT = "";
 // Kroger ordering: the address of your Kroger Cloudflare Worker (see kroger-worker.js).
 // Leave empty to hide the Kroger tab.
 window.KROGER_ENDPOINT = "";
+
+// Server-side AI (sign-in, daily limits, abuse protection). Turn on after the functions are deployed
+// to the new Pantry to Plate Firebase project; until then the app uses the older direct AI calls.
+window.USE_SERVER = false;
+
+// App Check site key (reCAPTCHA Enterprise) for abuse protection. Fill in once it's registered.
+window.APP_CHECK_SITE_KEY = "";

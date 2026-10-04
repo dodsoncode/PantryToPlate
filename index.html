@@ -583,6 +583,8 @@ body.detail{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script src="recipes.js"></script>
 <script>
@@ -1910,6 +1912,27 @@ render();
   const cfg=window.FIREBASE_CONFIG;
   if(!cfg||!cfg.apiKey||!window.firebase){el.innerHTML='<span class="who">Saved on this device</span>';return}
   firebase.initializeApp(cfg);
+  /* Local testing only: ?emu on localhost talks to the Firebase emulators instead of the live project. */
+  if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)&&new URLSearchParams(location.search).has("emu")){
+    firebase.auth().useEmulator("http://127.0.0.1:9099");firebase.firestore().useEmulator("127.0.0.1",8080);
+    firebase.app().functions("us-central1").useEmulator("127.0.0.1",5001);window.USE_SERVER=true;window.APP_CHECK_SITE_KEY="";window.EMU=true}
+  /* Abuse protection: App Check proves requests come from this app, not a script. */
+  if(window.APP_CHECK_SITE_KEY&&firebase.appCheck){try{firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(window.APP_CHECK_SITE_KEY),true)}catch(e){console.warn("App Check not started",e)}}
+  /* AI features run on the server (sign-in, daily limits, abuse checks). Turned on with USE_SERVER in firebase-config.js. */
+  if(window.USE_SERVER&&firebase.functions){
+    const fns=firebase.app().functions("us-central1");
+    const NAMES={scan:"pantry scans",import:"recipe imports",suggest:"recipe suggestions"};
+    const callAI=async(name,feature,data)=>{
+      if(!firebase.auth().currentUser)throw new Error("Sign in first (Settings → Sync and sharing) to use this feature.");
+      try{const r=await fns.httpsCallable(name,{timeout:130000})(data);const d=r.data||{};
+        const left=d.left&&d.left.person;if(typeof left==="number"&&left<=2)setTimeout(()=>toast(left?`${left} ${NAMES[feature]} left today`:`That was your last ${NAMES[feature].replace(/s$/,"")} for today`),600);
+        return d.result}
+      catch(e){const m=String(e&&e.message||e).replace(/\s*\[\d{3}\]\s*$/,"");const err=new Error(m);err.code=e&&e.code;throw err}};
+    window.scanPantryPhotos=(images,hint,vocab)=>callAI("aiScan","scan",{images,hint:hint||"",vocab:(vocab||[]).slice(0,400)});
+    window.importRecipeFromUrl=(url,cats,pasted,images)=>callAI("aiImport","import",images?{images}:pasted?{pasted,url:url||""}:{url});
+    window.suggestRecipes=q=>callAI("aiSuggest","suggest",q);
+    window.AI_ON_SERVER=true;
+  }
   const auth=firebase.auth(), db=firebase.firestore(), FV=firebase.firestore.FieldValue;
   const FP=firebase.firestore.FieldPath;
   let user=null,userRef=null,ref=null,unsub=null,timer=null,lastF=null,house=null,hdata=null,panelOpen=false,leaveArm=false,syncState="sync";
@@ -2024,7 +2047,11 @@ render();
   }
 
   // Ingredients without a Walmart product are listed for the daily product-link check.
-  window.requestProducts=async list=>{if(!user||!list||!list.length)return;let sent=[];try{sent=JSON.parse(localStorage.getItem("pantry-to-plate.req")||"[]")}catch(e){}
+  window.requestProducts=async list=>{if(!user||!list||!list.length)return;
+    if(window.AI_ON_SERVER){let sent=[];try{sent=JSON.parse(localStorage.getItem("pantry-to-plate.req")||"[]")}catch(e){}
+      const todo=list.filter(x=>!sent.includes(x.name)).slice(0,25);if(!todo.length)return;
+      try{await firebase.app().functions("us-central1").httpsCallable("requestProducts")({items:todo.map(x=>({name:x.name,section:x.section||""}))});sent.push(...todo.map(x=>x.name));
+        localStorage.setItem("pantry-to-plate.req",JSON.stringify(sent.slice(-500)))}catch(e){console.warn("product requests not saved",e)}return}let sent=[];try{sent=JSON.parse(localStorage.getItem("pantry-to-plate.req")||"[]")}catch(e){}
     const todo=list.filter(x=>!sent.includes(x.name)).slice(0,25);
     for(const x of todo){const id=x.name.replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"item";
       try{await db.collection("productRequests").doc(id).set({name:x.name,section:x.section||"",requestedAt:FV.serverTimestamp()});sent.push(x.name)}catch(e){console.warn("product request not saved",e);break}}
@@ -2046,7 +2073,7 @@ render();
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAI, getGenerativeModel, GoogleAIBackend, Schema } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
 const cfg = window.FIREBASE_CONFIG;
-if (cfg && cfg.apiKey) {
+if (cfg && cfg.apiKey && !window.USE_SERVER) {
   const app = initializeApp(cfg, "pantry-scan");
   const ai = getAI(app, { backend: new GoogleAIBackend() });
   const schema = Schema.object({ properties: { items: Schema.array({ items: Schema.object({ properties: {

@@ -1,25 +1,64 @@
 rules_version = '2';
+// Pantry to Plate security rules.
+// People can reach only their own planner and households they belong to.
+// Everything the server keeps for limits and safety (aiUsage, aiLocks, aiGlobal, aiConfig) is closed to the app.
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Pantry to Plate: each signed-in person can read and write only their own planner.
+
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+
+    // A person's own planner. `household` is the code of the household they joined, if any.
     match /pantryToPlate/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, delete: if signedIn() && me() == uid;
+      allow create, update: if signedIn() && me() == uid
+        && request.resource.data.keys().hasOnly(['state', 'updated', 'household'])
+        && (!('household' in request.resource.data)
+            || (request.resource.data.household is string && request.resource.data.household.matches('^[A-Z0-9]{4,20}$')));
     }
-    // Shared households: members read and write; someone with the invite code can add themselves.
+
+    // Shared households, keyed by invite code.
     match /households/{code} {
-      allow read: if request.auth != null && request.auth.uid in resource.data.members;
-      allow create: if request.auth != null && request.auth.uid in request.resource.data.members;
-      allow update: if request.auth != null
-        && (request.auth.uid in resource.data.members || request.auth.uid in request.resource.data.members);
+      function members() { return resource.data.members; }
+      function newMembers() { return request.resource.data.members; }
+      function isMember() { return signedIn() && me() in members(); }
+      function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+
+      allow read: if isMember();
+
+      // Starting a household: you are its only member.
+      allow create: if signedIn()
+        && code.matches('^[A-Z0-9]{4,20}$')
+        && newMembers() == [me()]
+        && request.resource.data.keys().hasOnly(['members', 'names', 'state', 'created', 'updated'])
+        && (!('names' in request.resource.data) || request.resource.data.names.keys().hasOnly([me()]));
+
+      // Members edit the shared planner. On the member list they can only remove themselves (leaving).
+      allow update: if isMember()
+        && newMembers() is list
+        && newMembers().toSet().hasAll(members().toSet().difference([me()].toSet()))
+        && members().toSet().hasAll(newMembers().toSet())
+        && request.resource.data.keys().hasOnly(['members', 'names', 'state', 'created', 'updated']);
+
+      // Joining with the invite code: add only yourself, and your own name, nothing else.
+      allow update: if signedIn() && !(me() in members())
+        && changed().hasOnly(['members', 'names'])
+        && newMembers().toSet() == members().toSet().union([me()].toSet())
+        && newMembers().size() <= 12
+        && (!('names' in changed()) || request.resource.data.names.diff(resource.data.get('names', {})).affectedKeys().hasOnly([me()]));
     }
-    // If this project also serves Anchor, keep Anchor's existing rules alongside this block.
-    // Ingredient names that still need a Walmart link. Read by the daily product-link check.
+
+    // Ingredient names waiting for a store link. Anyone may read them (the daily link check does);
+    // only the server writes them, through the requestProducts function.
     match /productRequests/{id} {
       allow read: if true;
-      allow create, update: if request.auth != null
-        && request.resource.data.keys().hasOnly(['name', 'section', 'requestedAt'])
-        && request.resource.data.name is string
-        && request.resource.data.name.size() < 80;
+      allow write: if false;
     }
+
+    // Server-only: AI limits, lockouts, spend and settings.
+    match /aiUsage/{id} { allow read, write: if false; }
+    match /aiLocks/{id} { allow read, write: if false; }
+    match /aiGlobal/{id} { allow read, write: if false; }
+    match /aiConfig/{id} { allow read, write: if false; }
   }
 }
