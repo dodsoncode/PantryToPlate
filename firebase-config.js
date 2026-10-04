@@ -10,6 +10,17 @@ window.FIREBASE_CONFIG = {
   measurementId: "G-77891QBWK9"
 };
 
+// The new dedicated Pantry to Plate project. Not in use yet: the live app keeps using the config above
+// until the data is copied over and the rules and functions are deployed, then this replaces it.
+window.FIREBASE_CONFIG_NEXT = {
+  apiKey: "AIzaSyCQd0Y_LtKkVH9zle7UmAmO2okwZxXPAvY",
+  authDomain: "pantry-to-plate-f728c.firebaseapp.com",
+  projectId: "pantry-to-plate-f728c",
+  storageBucket: "pantry-to-plate-f728c.firebasestorage.app",
+  messagingSenderId: "215627006626",
+  appId: "1:215627006626:web:105544e74a0d8f32984dfb"
+};
+
 // Instacart ordering: the address of your Cloudflare Worker (see instacart-worker.js).
 // Leave empty to hide the "Order on Instacart" button.
 window.INSTACART_ENDPOINT = "";
