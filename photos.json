@@ -12,7 +12,16 @@
         "license": "Pexels License",
         "licenseUrl": "https://www.pexels.com/license/"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/fajitas-1.jpg",
+          "img/ai/fajitas-2.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: sheet-pan chicken fajitas: seared strips of seasoned chicken with sliced red, yellow and green bell peppers and onions, two warm flour tortillas, a lime wedge, a small dish of salsa.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     },
     "spaghetti": {
@@ -26,7 +35,16 @@
         "license": "Pexels License",
         "licenseUrl": "https://www.pexels.com/license/"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/spaghetti-1.jpg",
+          "img/ai/spaghetti-2.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: spaghetti with a hearty ground-beef tomato meat sauce on top, a little grated parmesan and a basil leaf.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     },
     "chili": {
@@ -40,7 +58,16 @@
         "license": "Unsplash License",
         "licenseUrl": "https://unsplash.com/license"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/chili-1.jpg",
+          "img/ai/chili-2.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: black bean and sweet potato chili in a bowl: cubed sweet potato, black beans, tomatoes, topped with a spoon of sour cream, sliced green onion and a little shredded cheddar.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     },
     "overnightoats": {
@@ -54,7 +81,16 @@
         "license": "Unsplash License",
         "licenseUrl": "https://unsplash.com/license"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/overnightoats-1.jpg",
+          "img/ai/overnightoats-2.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: overnight oats in a bowl, creamy oats topped with sliced banana, fresh berries, a drizzle of honey and a sprinkle of chia seeds.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     },
     "turkeywraps": {
@@ -68,7 +104,16 @@
         "license": "Pexels License",
         "licenseUrl": "https://www.pexels.com/license/"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/turkeywraps-2.jpg",
+          "img/ai/turkeywraps-3.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: two turkey club wraps cut in half on the diagonal showing sliced turkey, bacon, lettuce, tomato and a flour tortilla, with a few baby carrots on the side.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     },
     "salmon": {
@@ -82,7 +127,16 @@
         "license": "Unsplash License",
         "licenseUrl": "https://unsplash.com/license"
       },
-      "ai": null,
+      "ai": {
+        "files": [
+          "img/ai/salmon-1.jpg",
+          "img/ai/salmon-2.jpg"
+        ],
+        "pick": null,
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: a honey garlic glazed salmon fillet with a shiny glaze, a scoop of white rice and steamed broccoli florets, sesame seeds on the salmon.",
+        "generated": "2026-10-04"
+      },
       "chosen": null
     }
   }

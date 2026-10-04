@@ -20,6 +20,7 @@ const project = arg("project", process.env.GOOGLE_CLOUD_PROJECT);
 const model = arg("model", "gemini-3.1-flash-image");
 const tries = Math.max(1, Math.min(4, +arg("tries", 2)));
 const only = arg("only", "");
+const start = Math.max(1, +arg("start", 1)); // e.g. --start 3 adds more tries without replacing earlier ones
 if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1); }
 
 export const STYLE = "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) " +
@@ -36,7 +37,15 @@ export const DISHES = {
   salmon: "a honey garlic glazed salmon fillet with a shiny glaze, a scoop of white rice and steamed broccoli florets, sesame seeds on the salmon",
 };
 
-const ai = new GoogleGenAI({ vertexai: true, project, location: arg("location", "global") });
+// Uses your gcloud sign-in by default; or set ACCESS_TOKEN to a short-lived Google Cloud access token.
+const opts = { vertexai: true, project, location: arg("location", "global") };
+if (process.env.ACCESS_TOKEN) {
+  const { OAuth2Client } = require("google-auth-library");
+  const authClient = new OAuth2Client();
+  authClient.setCredentials({ access_token: process.env.ACCESS_TOKEN });
+  opts.googleAuthOptions = { authClient };
+}
+const ai = new GoogleGenAI(opts);
 const prefs = JSON.parse(readFileSync("photos.json", "utf8"));
 mkdirSync("img/ai", { recursive: true });
 
@@ -45,12 +54,23 @@ for (const [id, rec] of Object.entries(prefs.recipes)) {
   const dish = DISHES[id] || rec.name;
   const prompt = `${STYLE}\nThe dish: ${dish}.`;
   const files = [];
-  for (let n = 1; n <= tries; n++) {
+  for (let n = start; n < start + tries; n++) {
     try {
-      const res = await ai.models.generateContent({
-        model, contents: prompt,
-        config: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1" } },
-      });
+      // New projects get a small per-minute allowance; on "429 busy" wait and try again.
+      let res;
+      for (let wait = 20; ; wait *= 2) {
+        try {
+          res = await ai.models.generateContent({
+            model, contents: prompt,
+            config: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "1:1" } },
+          });
+          break;
+        } catch (e) {
+          if (e.status !== 429 || wait > 160) throw e;
+          console.log(`  busy, waiting ${wait}s...`);
+          await new Promise(r => setTimeout(r, wait * 1000));
+        }
+      }
       const part = (res.candidates?.[0]?.content?.parts || []).find(p => p.inlineData);
       if (!part) { console.warn(`${id} #${n}: no picture came back`); continue; }
       const ext = (part.inlineData.mimeType || "image/png").includes("jpeg") ? "jpg" : "png";
@@ -63,7 +83,10 @@ for (const [id, rec] of Object.entries(prefs.recipes)) {
       if (e.status === 403) { console.error("403 usually means billing or the Vertex AI API isn't on for this project yet."); process.exit(1); }
     }
   }
-  if (files.length) rec.ai = { files, pick: null, model, prompt, generated: new Date().toISOString().slice(0, 10) };
+  if (files.length) {
+    const earlier = start > 1 && rec.ai ? rec.ai.files.filter(f => !files.includes(f)) : [];
+    rec.ai = { files: [...earlier, ...files], pick: null, model, prompt, generated: new Date().toISOString().slice(0, 10) };
+  }
 }
 writeFileSync("photos.json", JSON.stringify(prefs, null, 2) + "\n");
 console.log("Saved to photos.json. Next: compare with the stock picks and set each recipe's \"chosen\".");
