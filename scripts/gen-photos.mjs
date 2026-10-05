@@ -148,7 +148,9 @@ for (const id of ids) {
   let d;
   try { d = await describe(r); }
   catch (e) { console.error(`${id}: couldn't describe the recipe: ${e.status || ""} ${e.message}`); continue; }
-  const prompt = `${STYLE.replace("{utensil}", UTENSIL[d.utensil] || UTENSIL["a fork"])}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}`;
+  // photos.json "fix" on a recipe: extra direction from a review, e.g. "the chicken should be the main thing you see".
+  const fix = rec.fix ? `\nMake sure: ${rec.fix}` : "";
+  const prompt = `${STYLE.replace("{utensil}", UTENSIL[d.utensil] || UTENSIL["a fork"])}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}${fix}`;
   console.log(`${id}: ${d.vessel}, ${d.utensil}. ${d.dish}`);
   if (flag("describe-only")) continue;
 

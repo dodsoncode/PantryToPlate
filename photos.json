@@ -85,23 +85,30 @@
           "img/ai/chili-1.jpg",
           "img/ai/chili-2.jpg",
           "img/ai/chili-3.jpg",
-          "img/ai/chili-4.jpg"
+          "img/ai/chili-4.jpg",
+          "img/ai/chili-5.jpg",
+          "img/ai/chili-6.jpg"
         ],
-        "pick": "img/ai/chili-2.jpg",
+        "pick": "img/ai/chili-5.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: black bean and sweet potato chili in a bowl: cubed sweet potato, black beans, tomatoes, topped with a spoon of sour cream, sliced green onion and a little shredded cheddar.",
-        "generated": "2026-10-04",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Black Bean & Sweet Potato Chili. A thick, steaming bowl of chili filled with tender cubes of sweet potatoes, black beans, and diced tomatoes in a savory reddish-brown broth. The hearty mixture is topped with a layer of melted shredded cheddar cheese.\nMake sure: only the one spoon, no fork; only the toppings in the recipe (shredded cheddar), no sour cream or green onions; a thick, hearty chili, not soupy.",
+        "generated": "2026-10-05",
         "described": {
           "vessel": "a white ceramic bowl",
           "utensil": "a spoon",
-          "dish": "A steaming serving of thick chili filled with tender cubes of orange sweet potato, black beans, and diced tomatoes in a spiced broth, topped with melted shredded cheddar cheese."
+          "dish": "A thick, steaming bowl of chili filled with tender cubes of sweet potatoes, black beans, and diced tomatoes in a savory reddish-brown broth. The hearty mixture is topped with a layer of melted shredded cheddar cheese."
         },
         "round2": [
           "img/ai/chili-3.jpg",
           "img/ai/chili-4.jpg"
+        ],
+        "redo": [
+          "img/ai/chili-5.jpg",
+          "img/ai/chili-6.jpg"
         ]
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "fix": "only the one spoon, no fork; only the toppings in the recipe (shredded cheddar), no sour cream or green onions; a thick, hearty chili, not soupy."
     },
     "overnightoats": {
       "name": "Overnight Oats",
@@ -119,23 +126,30 @@
           "img/ai/overnightoats-1.jpg",
           "img/ai/overnightoats-2.jpg",
           "img/ai/overnightoats-3.jpg",
-          "img/ai/overnightoats-4.jpg"
+          "img/ai/overnightoats-4.jpg",
+          "img/ai/overnightoats-5.jpg",
+          "img/ai/overnightoats-6.jpg"
         ],
-        "pick": null,
+        "pick": "img/ai/overnightoats-5.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: overnight oats in a bowl, creamy oats topped with sliced banana, fresh berries, a drizzle of honey and a sprinkle of chia seeds.",
-        "generated": "2026-10-04",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a clear glass jar.\nThe dish: Overnight Oats. A chilled mixture of oats, milk, Greek yogurt, chia seeds, and maple syrup fills the jar. The overnight oats are topped with freshly sliced strawberries.\nMake sure: a single clear glass jar of creamy overnight oats with visible oats and chia seeds, topped with sliced fresh strawberries (strawberries only, no other berries); the jar sits on the oak table, nothing else in the frame.",
+        "generated": "2026-10-05",
         "described": {
           "vessel": "a clear glass jar",
           "utensil": "a spoon",
-          "dish": "A chilled mixture of old-fashioned oats, milk, Greek yogurt, chia seeds, and maple syrup fills the jar, topped with a vibrant layer of sliced strawberries."
+          "dish": "A chilled mixture of oats, milk, Greek yogurt, chia seeds, and maple syrup fills the jar. The overnight oats are topped with freshly sliced strawberries."
         },
         "round2": [
           "img/ai/overnightoats-3.jpg",
           "img/ai/overnightoats-4.jpg"
+        ],
+        "redo": [
+          "img/ai/overnightoats-5.jpg",
+          "img/ai/overnightoats-6.jpg"
         ]
       },
-      "chosen": "real"
+      "chosen": "ai",
+      "fix": "a single clear glass jar of creamy overnight oats with visible oats and chia seeds, topped with sliced fresh strawberries (strawberries only, no other berries); the jar sits on the oak table, nothing else in the frame."
     },
     "turkeywraps": {
       "name": "Turkey Club Wraps",
@@ -896,19 +910,26 @@
       "real": null,
       "ai": {
         "files": [
-          "img/ai/chickenquesadillas-1.jpg"
+          "img/ai/chickenquesadillas-1.jpg",
+          "img/ai/chickenquesadillas-2.jpg",
+          "img/ai/chickenquesadillas-3.jpg"
         ],
-        "pick": "img/ai/chickenquesadillas-1.jpg",
+        "pick": "img/ai/chickenquesadillas-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken & Cheese Quesadillas. Golden-brown flour tortilla wedges are stacked to reveal a filling of shredded rotisserie chicken, black beans, and melted cheddar cheese. They are served alongside a dollop of sour cream and a small spoonful of salsa.",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken & Cheese Quesadillas. Golden-brown flour tortilla wedges, showing melted cheddar cheese, shredded rotisserie chicken, and black beans inside, are stacked on the plate. A portion of salsa and a spoonful of sour cream are served on the side.\nMake sure: three or four neat triangular wedges of a folded, pan-crisped flour tortilla quesadilla, golden brown with toasted spots, melted cheese, chicken and black beans visible at the cut edges; small neat dollops of salsa and sour cream beside them.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "dish": "Golden-brown flour tortilla wedges are stacked to reveal a filling of shredded rotisserie chicken, black beans, and melted cheddar cheese. They are served alongside a dollop of sour cream and a small spoonful of salsa."
+          "dish": "Golden-brown flour tortilla wedges, showing melted cheddar cheese, shredded rotisserie chicken, and black beans inside, are stacked on the plate. A portion of salsa and a spoonful of sour cream are served on the side."
         },
-        "generated": "2026-10-05"
+        "generated": "2026-10-05",
+        "redo": [
+          "img/ai/chickenquesadillas-2.jpg",
+          "img/ai/chickenquesadillas-3.jpg"
+        ]
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "fix": "three or four neat triangular wedges of a folded, pan-crisped flour tortilla quesadilla, golden brown with toasted spots, melted cheese, chicken and black beans visible at the cut edges; small neat dollops of salsa and sour cream beside them."
     },
     "minestrone": {
       "name": "Hearty Minestrone",
@@ -1067,19 +1088,26 @@
       "real": null,
       "ai": {
         "files": [
-          "img/ai/chickenpotpie-1.jpg"
+          "img/ai/chickenpotpie-1.jpg",
+          "img/ai/chickenpotpie-2.jpg",
+          "img/ai/chickenpotpie-3.jpg"
         ],
-        "pick": "img/ai/chickenpotpie-1.jpg",
+        "pick": "img/ai/chickenpotpie-2.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Shortcut Chicken Pot Pie. A serving of creamy chicken pot pie features shredded rotisserie chicken and colorful mixed vegetables bound in a thick, pepper-flecked cream soup sauce. A single golden-brown, puffed biscuit sits on top of the warm filling.",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Shortcut Chicken Pot Pie. A serving of hot chicken pot pie, showing a creamy filling of shredded rotisserie chicken and mixed vegetables. A single golden-brown, baked biscuit sits resting on top of the bubbling mixture.\nMake sure: a generous scoop served from a baked casserole: a thick, creamy chicken and vegetable filling (not thin or watery) with one or two golden baked biscuits on top, the filling bubbling up around them.",
         "described": {
           "vessel": "a white ceramic bowl",
-          "utensil": "a spoon",
-          "dish": "A serving of creamy chicken pot pie features shredded rotisserie chicken and colorful mixed vegetables bound in a thick, pepper-flecked cream soup sauce. A single golden-brown, puffed biscuit sits on top of the warm filling."
+          "utensil": "a fork",
+          "dish": "A serving of hot chicken pot pie, showing a creamy filling of shredded rotisserie chicken and mixed vegetables. A single golden-brown, baked biscuit sits resting on top of the bubbling mixture."
         },
-        "generated": "2026-10-05"
+        "generated": "2026-10-05",
+        "redo": [
+          "img/ai/chickenpotpie-2.jpg",
+          "img/ai/chickenpotpie-3.jpg"
+        ]
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "fix": "a generous scoop served from a baked casserole: a thick, creamy chicken and vegetable filling (not thin or watery) with one or two golden baked biscuits on top, the filling bubbling up around them."
     },
     "tacosoup": {
       "name": "Taco Soup",
@@ -1219,19 +1247,26 @@
       "real": null,
       "ai": {
         "files": [
-          "img/ai/cashewchicken-1.jpg"
+          "img/ai/cashewchicken-1.jpg",
+          "img/ai/cashewchicken-2.jpg",
+          "img/ai/cashewchicken-3.jpg"
         ],
-        "pick": "img/ai/cashewchicken-1.jpg",
+        "pick": "img/ai/cashewchicken-2.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Cashew Chicken. A bed of fluffy white rice topped with stir-fried cubed chicken breast and sliced bell peppers, all coated in a glossy soy-hoisin sauce. Whole cashews are scattered throughout the dish.",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Cashew Chicken. A bed of fluffy rice is topped with stir-fried cubed chicken breast and sliced bell peppers coated in a glossy soy-hoisin sauce, with cashews scattered over the top.\nMake sure: bite-size pieces of glossy stir-fried chicken are the main thing you see, with strips of bell pepper and a modest scattering of cashews (fewer cashews than chicken pieces), over white rice.",
         "described": {
-          "vessel": "a white ceramic plate",
+          "vessel": "a white ceramic bowl",
           "utensil": "a fork",
-          "dish": "A bed of fluffy white rice topped with stir-fried cubed chicken breast and sliced bell peppers, all coated in a glossy soy-hoisin sauce. Whole cashews are scattered throughout the dish."
+          "dish": "A bed of fluffy rice is topped with stir-fried cubed chicken breast and sliced bell peppers coated in a glossy soy-hoisin sauce, with cashews scattered over the top."
         },
-        "generated": "2026-10-05"
+        "generated": "2026-10-05",
+        "redo": [
+          "img/ai/cashewchicken-2.jpg",
+          "img/ai/cashewchicken-3.jpg"
+        ]
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "fix": "bite-size pieces of glossy stir-fried chicken are the main thing you see, with strips of bell pepper and a modest scattering of cashews (fewer cashews than chicken pieces), over white rice."
     },
     "eggrollbowl": {
       "name": "Egg Roll in a Bowl",
@@ -1504,19 +1539,26 @@
       "real": null,
       "ai": {
         "files": [
-          "img/ai/hashbrowncasserole-1.jpg"
+          "img/ai/hashbrowncasserole-1.jpg",
+          "img/ai/hashbrowncasserole-2.jpg",
+          "img/ai/hashbrowncasserole-3.jpg"
         ],
-        "pick": "img/ai/hashbrowncasserole-1.jpg",
+        "pick": "img/ai/hashbrowncasserole-2.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Hash Brown Breakfast Casserole. A thick square slice of the baked casserole shows golden shredded hash browns and crumbled browned breakfast sausage set within a fluffy baked egg and milk mixture. The top of the slice is covered in a melted layer of shredded cheddar cheese.",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Hash Brown Breakfast Casserole. A square slice of the baked casserole shows layers of shredded hash browns and browned breakfast sausage bound in a fluffy baked egg mixture. The top is covered with a melted, bubbly layer of golden-brown shredded cheddar cheese.\nMake sure: a thick, tall square of baked breakfast casserole with visible layers: crispy golden shredded hash browns, crumbled browned sausage and set fluffy egg, with melted cheddar browned on top; clearly shows the hash browns and sausage at the cut sides.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "a fork",
-          "dish": "A thick square slice of the baked casserole shows golden shredded hash browns and crumbled browned breakfast sausage set within a fluffy baked egg and milk mixture. The top of the slice is covered in a melted layer of shredded cheddar cheese."
+          "dish": "A square slice of the baked casserole shows layers of shredded hash browns and browned breakfast sausage bound in a fluffy baked egg mixture. The top is covered with a melted, bubbly layer of golden-brown shredded cheddar cheese."
         },
-        "generated": "2026-10-05"
+        "generated": "2026-10-05",
+        "redo": [
+          "img/ai/hashbrowncasserole-2.jpg",
+          "img/ai/hashbrowncasserole-3.jpg"
+        ]
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "fix": "a thick, tall square of baked breakfast casserole with visible layers: crispy golden shredded hash browns, crumbled browned sausage and set fluffy egg, with melted cheddar browned on top; clearly shows the hash browns and sausage at the cut sides."
     },
     "peanutbutterbanana": {
       "name": "Peanut Butter Banana Toast",
