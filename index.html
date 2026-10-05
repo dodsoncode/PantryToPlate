@@ -1208,7 +1208,7 @@ V.settings=()=>{const P=S.profile;
     <div class="srow" style="cursor:default"><span>Cooking for<small>Scales every recipe and the shopping list</small></span><span class="stepper"><button data-act="serv" data-d="-1" aria-label="Fewer people">−</button><span>${S.servings}</span><button data-act="serv" data-d="1" aria-label="More people">+</button></span></div></section>
   <section class="sgroup"><h2>Meals to plan</h2>
     ${MEALS.map(([m,l])=>`<button class="srow" data-act="mealOn" data-m="${m}" aria-pressed="${mealOn(m)}"${m?"":" disabled"}><span>${l}${m?"":"<small>Always planned</small>"}</span><span class="toggle" aria-hidden="true"></span></button>`).join("")}</section>
-  <section class="sgroup"><h2>Help</h2>${row("feedback","Send feedback","Something broke, confused you, or could be better")}${row("suIntro","Show the welcome again","")}</section>
+  <section class="sgroup"><h2>Help</h2>${row("feedback","Send feedback","Something broke, confused you, or could be better")}${row("suIntro","Show the welcome again","")}<div class="srow" style="cursor:default"><span>Store links<small>Feed the Nest may earn a commission when you shop at a store through the app. Your prices are the same.</small></span></div></section>
   <section class="sgroup" style="margin-bottom:-12px"><h2>Sync and sharing</h2></section>`};
 V.add=()=>`${back("recipes","Recipes")}${importPanel()}
   <details class="panel" open><summary>Type one in yourself</summary>
@@ -1464,7 +1464,7 @@ function storePanel(){
     if(KR.status==="error")body+=`<div class="scanerr">${esc(KR.msg)}</div>`;
     if(KR.status==="done")body+=`<div class="note icready"><span>${esc(KR.msg)}</span><a class="btn" href="https://www.kroger.com/cart" target="_blank" rel="noopener">Open Kroger cart ↗</a></div>`;
   }
-  return `${pickPanel()}<div class="storebox"><div class="head-row"><h3>Send to a store</h3><div class="filters">${tabs.map(([k,l])=>`<button data-act="storeTab" data-s="${k}" aria-pressed="${k===tab}">${l}</button>`).join("")}</div></div>${body}</div>`;
+  return `${pickPanel()}<div class="storebox"><div class="head-row"><h3>Send to a store</h3><div class="filters">${tabs.map(([k,l])=>`<button data-act="storeTab" data-s="${k}" aria-pressed="${k===tab}">${l}</button>`).join("")}</div></div>${body}<p class="small muted disclose" style="margin:0">Feed the Nest may earn a commission when you shop through these store links. Your prices are the same.</p></div>`;
 }
 async function krPickSearch(){if(!PICK||!S.krStore||!window.KROGER_ENDPOINT)return;PICK.loading=true;render(true);
   try{const j=await kr(`/products?term=${encodeURIComponent(PICK.n)}&locationId=${encodeURIComponent(S.krStore.id)}`);if(PICK)PICK.res=j.products}catch(e){if(PICK)PICK.res=[];toast(e.message)}
