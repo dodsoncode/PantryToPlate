@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Pantry to Plate admin</title>
+<title>Feed the Nest admin</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,7 +169,7 @@ textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid v
   $("wlList").addEventListener("change", sel);
   $("wlFilter").onchange = drawWaitlist;
 
-  const message = (name, code, uses) => `Hi ${name}! You're in the Pantry to Plate test. Your invite code is ${code}.\n\n1. Open ${APP_URL}?invite=${code.replace("-", "")}\n2. Sign in with Google\n3. The code fills in; tap Continue\n\n${uses > 1 ? `Up to ${uses} people in your family can use this same code.\n\n` : ""}Use "Send feedback" in Settings anytime. Thank you for testing!`;
+  const message = (name, code, uses) => `Hi ${name}! You're in the Feed the Nest test. Your invite code is ${code}.\n\n1. Open ${APP_URL}?invite=${code.replace("-", "")}\n2. Sign in with Google\n3. The code fills in; tap Continue\n\n${uses > 1 ? `Up to ${uses} people in your family can use this same code.\n\n` : ""}Use "Send feedback" in Settings anytime. Thank you for testing!`;
   const showMsgs = (box, items) => {
     box.hidden = false;
     const all = items.map(i => i.msg).join("\n\n----------\n\n");
