@@ -41,7 +41,7 @@ async function isMember(db, uid) {
 async function requireAccess(db, uid) {
   const s = await settings(db);
   if (s.inviteOnly && !(await isMember(db, uid))) {
-    throw new AccessError("permission-denied", "Pantry to Plate is in a private test. Enter your invite code first.");
+    throw new AccessError("permission-denied", "Feed the Nest is in a private test. Enter your invite code first.");
   }
 }
 

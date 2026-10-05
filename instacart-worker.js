@@ -56,7 +56,7 @@ export default {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        title: String(body.title || "Pantry to Plate groceries").slice(0, 100),
+        title: String(body.title || "Feed the Nest groceries").slice(0, 100),
         link_type: "shopping_list",
         expires_in: 30,
         line_items: items,

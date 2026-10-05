@@ -1,4 +1,6 @@
-# Pantry to Plate
+# Feed the Nest
+
+_App name: Feed the Nest. The repo, code, Firebase project and file names still use the working name Pantry to Plate._
 
 Weekly dinner planner: pantry check → plan → shopping list → prep & cook.
 A static site (no build step) with optional Google sign-in and Firebase sync, set up the same way as Anchor.
