@@ -38,7 +38,7 @@ if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1);
 // so you can see both the layers up the side and the toppings.
 const VIEW = {
   overhead: "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width.",
-  angled: "Square 1:1 food photograph of a single serving, shot from a 45-degree angle so both the height and layers of the jar or glass and the toppings on top are visible. The jar or glass is large in the frame, filling most of its height.",
+  angled: "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass or burger is large in the frame, filling most of its height, and stands upright the way it is served.",
 };
 const UTENSIL = {
   "a spoon": "Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks.",
@@ -49,6 +49,7 @@ export const STYLE = [
   "{view}",
   "Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
   "Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
+  "Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image.",
   "{utensil}",
   "Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description.",
   "No text, no logos, no hands, no people, no brand packaging, no watermark.",
@@ -118,7 +119,7 @@ async function describe(r) {
 Rules:
 - Follow the recipe's prep and directions for how it is served. If they say jars, it's in a glass jar; a bowl, a bowl; a sheet pan or skillet, then plated on a plate unless they say to serve from the pan.
 - Show only foods in the ingredients or named in the directions. Toppings and sides only if the recipe has them. Don't add herbs, garnishes or sides the recipe doesn't have.
-- Show the food as the directions finish it (sliced, rolled and halved, stirred, topped, etc.).
+- Show the food as the directions finish it (sliced, rolled and halved, stirred, topped, etc.). Burgers and sandwiches are assembled and upright, never lying on their side.
 - Utensil: "none" for food eaten by hand (wraps, sandwiches, burgers, tacos, quesadillas, burritos, pitas, pizza, muffins, bagels, toast eaten by hand, bars, cookies, finger snacks). "a spoon" for anything eaten with a spoon (soups, chili, stews, oatmeal, overnight oats, cereal, yogurt, smoothie bowls). Otherwise "a fork" (plated meals, salads, pasta, bowls of rice or grains, French toast, pancakes).
 - Vessel: plain white ceramic for plates and bowls; clear glass for jars.
 
@@ -134,7 +135,7 @@ ${recipe}
         properties: {
           vessel: { type: "string", description: "What one serving is in or on, e.g. 'a clear glass jar', 'a white ceramic bowl', 'a white ceramic plate'" },
           utensil: { type: "string", enum: ["none", "a spoon", "a fork"] },
-          tall: { type: "boolean", description: "true when served in a tall jar or glass (overnight oats, parfaits, smoothies, layered drinks) whose height and layers matter" },
+          tall: { type: "boolean", description: "true when the food is tall and its height and layers matter: served in a jar or glass (overnight oats, parfaits, smoothies, layered drinks), or a burger" },
           dish: { type: "string", description: "One or two sentences on what the serving looks like, using only the recipe's foods" },
         },
         required: ["vessel", "utensil", "tall", "dish"],
