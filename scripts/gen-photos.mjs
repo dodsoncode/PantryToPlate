@@ -12,6 +12,8 @@
 //   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --only chili,salmon --tries 3
 //   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --only friedrice  (any recipe id; adds it)
 //   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --describe-only   (print descriptions, no pictures)
+//   node scripts/gen-photos.mjs --project pantry-to-plate-f728c --all --missing --tries 1 --firebase-login
+//                                    (one photo for every recipe still without one, using your `firebase login`)
 //
 // New pictures are added as img/ai/<recipe>-<n>.<ext> after any earlier ones, and listed in photos.json
 // under "ai.files" along with the description used. Shrink them to 640px before committing.
@@ -31,12 +33,17 @@ const tries = Math.max(1, Math.min(4, +arg("tries", 2)));
 const only = arg("only", "");
 if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1); }
 
-// The house style. {utensil} and {vessel} come from the recipe.
+// The house style. {utensil} becomes the utensil line below; the vessel and dish come from the recipe.
+const UTENSIL = {
+  "a spoon": "Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
+  "a fork": "Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
+  "none": "This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine.",
+};
 export const STYLE = [
   "Square 1:1 top-down (directly overhead) food photograph of a single serving.",
   "The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
   "Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
-  "Exactly one utensil: {utensil}, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
+  "{utensil}",
   "Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description.",
   "No text, no logos, no hands, no people, no brand packaging, no watermark.",
 ].join(" ");
@@ -56,7 +63,16 @@ function loadRecipes() {
 
 const ai = (() => {
   const opts = { vertexai: true, project, location: arg("location", "global") };
-  if (process.env.ACCESS_TOKEN) {
+  if (flag("firebase-login")) {
+    // Reuse the Firebase CLI sign-in (firebase login). Refreshes itself, so long runs keep working.
+    const { OAuth2Client } = require("google-auth-library");
+    const api = require("../node_modules/firebase-tools/lib/api.js");
+    const tokens = JSON.parse(readFileSync(require("os").homedir() + "/.config/configstore/firebase-tools.json", "utf8")).tokens;
+    const val = v => typeof v === "function" ? v() : v;
+    const authClient = new OAuth2Client(val(api.clientId), val(api.clientSecret));
+    authClient.setCredentials({ refresh_token: tokens.refresh_token });
+    opts.googleAuthOptions = { authClient };
+  } else if (process.env.ACCESS_TOKEN) {
     const { OAuth2Client } = require("google-auth-library");
     const authClient = new OAuth2Client();
     authClient.setCredentials({ access_token: process.env.ACCESS_TOKEN });
@@ -94,7 +110,7 @@ Rules:
 - Follow the recipe's prep and directions for how it is served. If they say jars, it's in a glass jar; a bowl, a bowl; a sheet pan or skillet, then plated on a plate unless they say to serve from the pan.
 - Show only foods in the ingredients or named in the directions. Toppings and sides only if the recipe has them. Don't add herbs, garnishes or sides the recipe doesn't have.
 - Show the food as the directions finish it (sliced, rolled and halved, stirred, topped, etc.).
-- Utensil: "a spoon" for anything eaten with a spoon (soups, chili, stews, oatmeal, overnight oats, cereal, yogurt). Otherwise "a fork".
+- Utensil: "none" for food eaten by hand (wraps, sandwiches, burgers, tacos, quesadillas, burritos, pitas, pizza, muffins, bagels, toast eaten by hand, bars, cookies, finger snacks). "a spoon" for anything eaten with a spoon (soups, chili, stews, oatmeal, overnight oats, cereal, yogurt, smoothie bowls). Otherwise "a fork" (plated meals, salads, pasta, bowls of rice or grains, French toast, pancakes).
 - Vessel: plain white ceramic for plates and bowls; clear glass for jars.
 
 Recipe:
@@ -107,7 +123,7 @@ ${recipe}
         type: "object",
         properties: {
           vessel: { type: "string", description: "What one serving is in or on, e.g. 'a clear glass jar', 'a white ceramic bowl', 'a white ceramic plate'" },
-          utensil: { type: "string", enum: ["a spoon", "a fork"] },
+          utensil: { type: "string", enum: ["none", "a spoon", "a fork"] },
           dish: { type: "string", description: "One or two sentences on what the serving looks like, using only the recipe's foods" },
         },
         required: ["vessel", "utensil", "dish"],
@@ -120,7 +136,9 @@ ${recipe}
 // ---------- run ----------
 const recipes = loadRecipes();
 const prefs = JSON.parse(readFileSync("photos.json", "utf8"));
-const ids = only ? only.split(",").map(s => s.trim()).filter(Boolean) : Object.keys(prefs.recipes);
+// --all: every recipe in the app. --missing: skip recipes that already have an AI photo.
+let ids = only ? only.split(",").map(s => s.trim()).filter(Boolean) : flag("all") ? Object.keys(recipes) : Object.keys(prefs.recipes);
+if (flag("missing")) ids = ids.filter(id => !(prefs.recipes[id] && prefs.recipes[id].ai && prefs.recipes[id].ai.files.length));
 mkdirSync("img/ai", { recursive: true });
 
 for (const id of ids) {
@@ -130,7 +148,7 @@ for (const id of ids) {
   let d;
   try { d = await describe(r); }
   catch (e) { console.error(`${id}: couldn't describe the recipe: ${e.status || ""} ${e.message}`); continue; }
-  const prompt = `${STYLE.replace("{utensil}", d.utensil)}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}`;
+  const prompt = `${STYLE.replace("{utensil}", UTENSIL[d.utensil] || UTENSIL["a fork"])}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}`;
   console.log(`${id}: ${d.vessel}, ${d.utensil}. ${d.dish}`);
   if (flag("describe-only")) continue;
 

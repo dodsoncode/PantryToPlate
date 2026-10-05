@@ -153,16 +153,18 @@
           "img/ai/turkeywraps-2.jpg",
           "img/ai/turkeywraps-3.jpg",
           "img/ai/turkeywraps-1.jpg",
-          "img/ai/turkeywraps-4.jpg"
+          "img/ai/turkeywraps-4.jpg",
+          "img/ai/turkeywraps-5.jpg",
+          "img/ai/turkeywraps-6.jpg"
         ],
-        "pick": "img/ai/turkeywraps-3.jpg",
+        "pick": "img/ai/turkeywraps-5.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Overhead food photograph, square 1:1. One serving on a plain white ceramic plate (or white bowl for soups, oats and chili) centered on a light natural oak table. Soft natural window light from the left, gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. A folded linen napkin and a fork at the edge are fine. No text, no logos, no hands, no people, no brand packaging, no watermark.\nThe dish: two turkey club wraps cut in half on the diagonal showing sliced turkey, bacon, lettuce, tomato and a flour tortilla, with a few baby carrots on the side.",
-        "generated": "2026-10-04",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Turkey Club Wraps. Two halves of a tightly rolled flour tortilla wrap are neatly arranged on the plate, displaying a cross-section packed with layers of sliced turkey, sliced cheddar, bacon, romaine lettuce, and sliced tomatoes with a spread of mayonnaise.",
+        "generated": "2026-10-05",
         "described": {
           "vessel": "a white ceramic plate",
-          "utensil": "a fork",
-          "dish": "Two tightly rolled flour tortilla halves are stacked, revealing a filling of sliced turkey, sliced cheddar, crispy bacon, romaine, sliced tomatoes, and mayonnaise."
+          "utensil": "none",
+          "dish": "Two halves of a tightly rolled flour tortilla wrap are neatly arranged on the plate, displaying a cross-section packed with layers of sliced turkey, sliced cheddar, bacon, romaine lettuce, and sliced tomatoes with a spread of mayonnaise."
         },
         "round2": [
           "img/ai/turkeywraps-1.jpg",
@@ -202,6 +204,1811 @@
           "img/ai/salmon-3.jpg",
           "img/ai/salmon-4.jpg"
         ]
+      },
+      "chosen": "ai"
+    },
+    "salsasoup": {
+      "name": "Chicken Salsa Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/salsasoup-1.jpg"
+        ],
+        "pick": "img/ai/salsasoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Salsa Soup. A steaming soup of savory broth mixed with chunky salsa, filled with cubed chicken breast and yellow corn. The surface is topped with melted shredded pepper jack cheese, accompanied by Tostitos tortilla chips for dipping.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A steaming soup of savory broth mixed with chunky salsa, filled with cubed chicken breast and yellow corn. The surface is topped with melted shredded pepper jack cheese, accompanied by Tostitos tortilla chips for dipping."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "friedrice": {
+      "name": "Chicken Fried Rice",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/friedrice-1.jpg"
+        ],
+        "pick": "img/ai/friedrice-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Fried Rice. A serving of savory fried rice, browned with soy sauce, is mixed with bite-sized cubes of chicken breast and pieces of scrambled egg. Bright green peas, diced orange carrots, and sliced scallions are scattered throughout the rice.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A serving of savory fried rice, browned with soy sauce, is mixed with bite-sized cubes of chicken breast and pieces of scrambled egg. Bright green peas, diced orange carrots, and sliced scallions are scattered throughout the rice."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "ziti": {
+      "name": "Baked Ziti",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/ziti-1.jpg"
+        ],
+        "pick": "img/ai/ziti-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Baked Ziti. A slice of baked ziti displaying layers of tender ziti pasta, rich marinara sauce with crumbled Italian sausage, and pockets of creamy ricotta. The portion is topped with a layer of melted, bubbly, and lightly browned mozzarella and parmesan cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A slice of baked ziti displaying layers of tender ziti pasta, rich marinara sauce with crumbled Italian sausage, and pockets of creamy ricotta. The portion is topped with a layer of melted, bubbly, and lightly browned mozzarella and parmesan cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "beefbroc": {
+      "name": "Beef & Broccoli Stir-Fry",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/beefbroc-1.jpg"
+        ],
+        "pick": "img/ai/beefbroc-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Beef & Broccoli Stir-Fry. A bed of steamed rice topped with seared, thinly sliced flank steak and green broccoli florets, all coated in a glossy, thick sauce.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of steamed rice topped with seared, thinly sliced flank steak and green broccoli florets, all coated in a glossy, thick sauce."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pancakes": {
+      "name": "Breakfast for Dinner",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pancakes-1.jpg"
+        ],
+        "pick": "img/ai/pancakes-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Breakfast for Dinner. A stack of golden-brown pancakes is served alongside scrambled eggs and strips of crispy bacon. The plate is finished with sliced strawberries and a drizzle of maple syrup.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A stack of golden-brown pancakes is served alongside scrambled eggs and strips of crispy bacon. The plate is finished with sliced strawberries and a drizzle of maple syrup."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "soup": {
+      "name": "Chicken Noodle Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/soup-1.jpg"
+        ],
+        "pick": "img/ai/soup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Noodle Soup. A steaming portion of golden chicken broth is filled with tender egg noodles, shredded chicken breast, and diced carrots, celery, and onions. Tiny flecks of dried thyme are visible throughout the soup.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A steaming portion of golden chicken broth is filled with tender egg noodles, shredded chicken breast, and diced carrots, celery, and onions. Tiny flecks of dried thyme are visible throughout the soup."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "burgers": {
+      "name": "Turkey Burgers & Oven Fries",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/burgers-1.jpg"
+        ],
+        "pick": "img/ai/burgers-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Turkey Burgers & Oven Fries. A toasted burger bun holds a juicy turkey patty topped with melted cheddar cheese, sliced tomato, and lettuce. Beside the assembled burger is a side of golden-brown roasted russet potato wedges.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A toasted burger bun holds a juicy turkey patty topped with melted cheddar cheese, sliced tomato, and lettuce. Beside the assembled burger is a side of golden-brown roasted russet potato wedges."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "lemonherbchicken": {
+      "name": "Lemon Herb Chicken & Potatoes",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/lemonherbchicken-1.jpg"
+        ],
+        "pick": "img/ai/lemonherbchicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Lemon Herb Chicken & Potatoes. A serving of roasted chicken thigh, seasoned with garlic, dried oregano, and thyme, is presented alongside halved baby potatoes and tender green beans, all drizzled with olive oil and squeezed lemon juice.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A serving of roasted chicken thigh, seasoned with garlic, dried oregano, and thyme, is presented alongside halved baby potatoes and tender green beans, all drizzled with olive oil and squeezed lemon juice."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "turkeychili": {
+      "name": "Weeknight Turkey Chili",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/turkeychili-1.jpg"
+        ],
+        "pick": "img/ai/turkeychili-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Weeknight Turkey Chili. A thick, warm chili of browned ground turkey, diced onions, bell peppers, kidney beans, and diced tomatoes in a rich tomato sauce, served with a generous topping of shredded cheddar cheese melting on top.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A thick, warm chili of browned ground turkey, diced onions, bell peppers, kidney beans, and diced tomatoes in a rich tomato sauce, served with a generous topping of shredded cheddar cheese melting on top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "teriyakichicken": {
+      "name": "Teriyaki Chicken Rice Bowls",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/teriyakichicken-1.jpg"
+        ],
+        "pick": "img/ai/teriyakichicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Teriyaki Chicken Rice Bowls. A bed of fluffy white rice topped with browned, bite-size chicken thigh pieces, vibrant green broccoli florets, and shredded orange carrots. The chicken and vegetables are generously coated in a thick, glossy, dark brown teriyaki sauce.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of fluffy white rice topped with browned, bite-size chicken thigh pieces, vibrant green broccoli florets, and shredded orange carrots. The chicken and vegetables are generously coated in a thick, glossy, dark brown teriyaki sauce."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "shrimptacos": {
+      "name": "Garlic Lime Shrimp Tacos",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/shrimptacos-1.jpg"
+        ],
+        "pick": "img/ai/shrimptacos-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Garlic Lime Shrimp Tacos. Two warm corn tortillas lie on the plate, filled with crisp shredded cabbage, pink saut\u00e9ed shrimp, and rich avocado slices. A drizzle of smooth lime crema, made from sour cream and lime juice, runs over the filling.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two warm corn tortillas lie on the plate, filled with crisp shredded cabbage, pink saut\u00e9ed shrimp, and rich avocado slices. A drizzle of smooth lime crema, made from sour cream and lime juice, runs over the filling."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pestopasta": {
+      "name": "Chicken Pesto Pasta",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pestopasta-1.jpg"
+        ],
+        "pick": "img/ai/pestopasta-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Pesto Pasta. Penne pasta is tossed in green pesto with wilted spinach leaves and juicy halved cherry tomatoes. The pasta is topped with neat slices of cooked chicken breast and a dusting of grated parmesan.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "Penne pasta is tossed in green pesto with wilted spinach leaves and juicy halved cherry tomatoes. The pasta is topped with neat slices of cooked chicken breast and a dusting of grated parmesan."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "beeftacos": {
+      "name": "Ground Beef Tacos",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/beeftacos-1.jpg"
+        ],
+        "pick": "img/ai/beeftacos-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Ground Beef Tacos. Two warm, crispy taco shells are arranged on a white ceramic plate, filled with seasoned ground beef and topped with shredded cheddar, shredded lettuce, diced tomatoes, and salsa.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two warm, crispy taco shells are arranged on a white ceramic plate, filled with seasoned ground beef and topped with shredded cheddar, shredded lettuce, diced tomatoes, and salsa."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "sausagepeppers": {
+      "name": "Sausage, Peppers & Onions",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/sausagepeppers-1.jpg"
+        ],
+        "pick": "img/ai/sausagepeppers-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage, Peppers & Onions. A toasted hoagie roll rests on a white ceramic plate, filled with a roasted Italian sausage and a generous portion of sliced roasted bell peppers and onions.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A toasted hoagie roll rests on a white ceramic plate, filled with a roasted Italian sausage and a generous portion of sliced roasted bell peppers and onions."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "salmonrice": {
+      "name": "Sheet-Pan Salmon & Green Beans",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/salmonrice-1.jpg"
+        ],
+        "pick": "img/ai/salmonrice-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sheet-Pan Salmon & Green Beans. A roasted salmon fillet topped with garlic and lemon slices is served next to a portion of fluffy rice and a pile of tender roasted green beans.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A roasted salmon fillet topped with garlic and lemon slices is served next to a portion of fluffy rice and a pile of tender roasted green beans."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenalfredo": {
+      "name": "Easy Chicken Alfredo",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenalfredo-1.jpg"
+        ],
+        "pick": "img/ai/chickenalfredo-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Easy Chicken Alfredo. A portion of fettuccine is tossed in a creamy, garlic-parmesan sauce, mixed with vibrant green broccoli florets and slices of cooked chicken breast.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A portion of fettuccine is tossed in a creamy, garlic-parmesan sauce, mixed with vibrant green broccoli florets and slices of cooked chicken breast."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "blackbeanquesadillas": {
+      "name": "Black Bean Quesadillas",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/blackbeanquesadillas-1.jpg"
+        ],
+        "pick": "img/ai/blackbeanquesadillas-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Black Bean Quesadillas. Four golden-brown flour tortilla wedges are arranged on the plate, showing melted Mexican cheese, black beans, and yellow corn peeking out from the cut edges. A dollop of sour cream and a scoop of salsa are served on the side of the plate.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Four golden-brown flour tortilla wedges are arranged on the plate, showing melted Mexican cheese, black beans, and yellow corn peeking out from the cut edges. A dollop of sour cream and a scoop of salsa are served on the side of the plate."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "porkchops": {
+      "name": "Skillet Pork Chops & Applesauce",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/porkchops-1.jpg"
+        ],
+        "pick": "img/ai/porkchops-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Skillet Pork Chops & Applesauce. A golden-brown seared pork chop seasoned with garlic powder and paprika is served next to boiled, halved baby potatoes and steamed mixed vegetables, with a portion of sweet applesauce on the side.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A golden-brown seared pork chop seasoned with garlic powder and paprika is served next to boiled, halved baby potatoes and steamed mixed vegetables, with a portion of sweet applesauce on the side."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "meatballsubs": {
+      "name": "Meatball Subs",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/meatballsubs-1.jpg"
+        ],
+        "pick": "img/ai/meatballsubs-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Meatball Subs. A split hoagie roll is filled with meatballs in marinara sauce and topped with melted mozzarella cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A split hoagie roll is filled with meatballs in marinara sauce and topped with melted mozzarella cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenstirfry": {
+      "name": "Chicken & Veggie Stir-Fry",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenstirfry-1.jpg"
+        ],
+        "pick": "img/ai/chickenstirfry-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken & Veggie Stir-Fry. A bed of steaming white rice is topped with sliced stir-fried chicken breast and colorful mixed vegetables, all thoroughly coated in a thick, glossy brown garlic-soy sauce.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of steaming white rice is topped with sliced stir-fried chicken breast and colorful mixed vegetables, all thoroughly coated in a thick, glossy brown garlic-soy sauce."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bbqchicken": {
+      "name": "BBQ Chicken, Corn & Slaw",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bbqchicken-1.jpg"
+        ],
+        "pick": "img/ai/bbqchicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: BBQ Chicken, Corn & Slaw. Two baked chicken drumsticks coated in a glossy BBQ sauce are arranged on the plate alongside a golden ear of boiled corn on the cob and a mound of coleslaw mixed with mayonnaise and apple cider vinegar.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Two baked chicken drumsticks coated in a glossy BBQ sauce are arranged on the plate alongside a golden ear of boiled corn on the cob and a mound of coleslaw mixed with mayonnaise and apple cider vinegar."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "lasagnasoup": {
+      "name": "Lasagna Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/lasagnasoup-1.jpg"
+        ],
+        "pick": "img/ai/lasagnasoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Lasagna Soup. A rich tomato and chicken broth soup filled with browned ground beef, diced onions, and tender broken pieces of lasagna noodles. The hot soup is topped with dollops of creamy white ricotta and melted shredded mozzarella cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A rich tomato and chicken broth soup filled with browned ground beef, diced onions, and tender broken pieces of lasagna noodles. The hot soup is topped with dollops of creamy white ricotta and melted shredded mozzarella cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenfajitabowls": {
+      "name": "Chicken Burrito Bowls",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenfajitabowls-1.jpg"
+        ],
+        "pick": "img/ai/chickenfajitabowls-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Burrito Bowls. The bowl is built with a base of rice stirred with lime juice, topped with sliced taco-seasoned chicken breast, warmed black beans and corn, salsa, and a sprinkle of shredded cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "The bowl is built with a base of rice stirred with lime juice, topped with sliced taco-seasoned chicken breast, warmed black beans and corn, salsa, and a sprinkle of shredded cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "beefstew": {
+      "name": "Quick Stovetop Beef Stew",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/beefstew-1.jpg"
+        ],
+        "pick": "img/ai/beefstew-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Quick Stovetop Beef Stew. A comforting portion of stew featuring tender chunks of browned beef, soft baby potatoes, carrots, and onions. The ingredients are coated in a rich, thick beef broth and tomato paste gravy, speckled with dried thyme.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A comforting portion of stew featuring tender chunks of browned beef, soft baby potatoes, carrots, and onions. The ingredients are coated in a rich, thick beef broth and tomato paste gravy, speckled with dried thyme."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "shrimpfriedrice": {
+      "name": "Shrimp Fried Rice",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/shrimpfriedrice-1.jpg"
+        ],
+        "pick": "img/ai/shrimpfriedrice-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Shrimp Fried Rice. Savory fried rice is tossed together with plump pink shrimp, scrambled eggs, green peas, diced carrots, and chopped green scallions, all glistening with sesame oil and soy sauce.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "Savory fried rice is tossed together with plump pink shrimp, scrambled eggs, green peas, diced carrots, and chopped green scallions, all glistening with sesame oil and soy sauce."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "veggiecurry": {
+      "name": "Chickpea Coconut Curry",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/veggiecurry-1.jpg"
+        ],
+        "pick": "img/ai/veggiecurry-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chickpea Coconut Curry. A bed of fluffy rice is topped with a rich, golden curry made of chickpeas, wilted spinach, and diced tomatoes in a creamy coconut milk sauce. Visible throughout the curry are translucent pieces of cooked onion.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of fluffy rice is topped with a rich, golden curry made of chickpeas, wilted spinach, and diced tomatoes in a creamy coconut milk sauce. Visible throughout the curry are translucent pieces of cooked onion."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "hamburgerhelper": {
+      "name": "Cheesy Beef & Shells",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/hamburgerhelper-1.jpg"
+        ],
+        "pick": "img/ai/hamburgerhelper-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Cheesy Beef & Shells. A warm serving of small pasta shells and crumbled, browned ground beef tossed in a creamy, melted cheddar cheese sauce. The orange cheesy sauce clings to the tender pasta and beef mixture.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A warm serving of small pasta shells and crumbled, browned ground beef tossed in a creamy, melted cheddar cheese sauce. The orange cheesy sauce clings to the tender pasta and beef mixture."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickennoodlecasserole": {
+      "name": "Chicken & Rice Casserole",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickennoodlecasserole-1.jpg"
+        ],
+        "pick": "img/ai/chickennoodlecasserole-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken & Rice Casserole. A portion of the casserole features tender rice bound in a creamy chicken soup sauce mixed with green broccoli florets. A piece of seasoned chicken breast sits on top, all covered under a layer of melted, golden shredded cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A portion of the casserole features tender rice bound in a creamy chicken soup sauce mixed with green broccoli florets. A piece of seasoned chicken breast sits on top, all covered under a layer of melted, golden shredded cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "fishsticks": {
+      "name": "Crispy Fish & Oven Fries",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/fishsticks-1.jpg"
+        ],
+        "pick": "img/ai/fishsticks-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Crispy Fish & Oven Fries. Golden-brown breaded fish fillets and crispy roasted potato wedges are served alongside green peas. A wedge of fresh lemon and a dollop of tartar sauce are placed on the side of the plate.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Golden-brown breaded fish fillets and crispy roasted potato wedges are served alongside green peas. A wedge of fresh lemon and a dollop of tartar sauce are placed on the side of the plate."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "greekchicken": {
+      "name": "Greek Chicken Pitas",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/greekchicken-1.jpg"
+        ],
+        "pick": "img/ai/greekchicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Greek Chicken Pitas. A warm pita bread filled with cooked, sliced chicken breast, diced cucumber, and diced tomatoes, topped with a dollop of tzatziki and crumbled feta cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A warm pita bread filled with cooked, sliced chicken breast, diced cucumber, and diced tomatoes, topped with a dollop of tzatziki and crumbled feta cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "tortellinisoup": {
+      "name": "Tortellini Vegetable Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/tortellinisoup-1.jpg"
+        ],
+        "pick": "img/ai/tortellinisoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Tortellini Vegetable Soup. A hot vegetable broth filled with plump cheese tortellini, diced carrots, celery, onions, tomatoes, and wilted spinach. The soup is topped with a sprinkle of grated parmesan cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A hot vegetable broth filled with plump cheese tortellini, diced carrots, celery, onions, tomatoes, and wilted spinach. The soup is topped with a sprinkle of grated parmesan cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "honeymustardchicken": {
+      "name": "Honey Mustard Chicken & Carrots",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/honeymustardchicken-1.jpg"
+        ],
+        "pick": "img/ai/honeymustardchicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Honey Mustard Chicken & Carrots. A bed of cooked rice topped with a roasted chicken thigh coated in a honey mustard glaze. Alongside the chicken are tender roasted carrot sticks, with savory pan juices spooned over the top.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A bed of cooked rice topped with a roasted chicken thigh coated in a honey mustard glaze. Alongside the chicken are tender roasted carrot sticks, with savory pan juices spooned over the top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenparm": {
+      "name": "Skillet Chicken Parmesan",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenparm-1.jpg"
+        ],
+        "pick": "img/ai/chickenparm-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Skillet Chicken Parmesan. A bed of cooked spaghetti coated in marinara sauce, topped with a golden-brown breaded chicken cutlet covered in melted mozzarella and sprinkled parmesan cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A bed of cooked spaghetti coated in marinara sauce, topped with a golden-brown breaded chicken cutlet covered in melted mozzarella and sprinkled parmesan cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "sloppyjoes": {
+      "name": "Sloppy Joes",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/sloppyjoes-1.jpg"
+        ],
+        "pick": "img/ai/sloppyjoes-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sloppy Joes. A toasted burger bun is piled high with a thick, saucy mixture of browned ground beef, diced onion, and diced bell peppers.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A toasted burger bun is piled high with a thick, saucy mixture of browned ground beef, diced onion, and diced bell peppers."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "shrimpscampi": {
+      "name": "Shrimp Scampi Linguine",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/shrimpscampi-1.jpg"
+        ],
+        "pick": "img/ai/shrimpscampi-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Shrimp Scampi Linguine. A serving of steaming linguine is tossed in a glistening butter sauce with minced garlic, red pepper flakes, and pink shrimp. The dish is finished with a dusting of parmesan and a sprinkle of chopped parsley.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A serving of steaming linguine is tossed in a glistening butter sauce with minced garlic, red pepper flakes, and pink shrimp. The dish is finished with a dusting of parmesan and a sprinkle of chopped parsley."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pulledpork": {
+      "name": "Slow Cooker Pulled Pork Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pulledpork-1.jpg"
+        ],
+        "pick": "img/ai/pulledpork-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Slow Cooker Pulled Pork Sandwiches. A burger bun is piled with shredded pork shoulder coated in barbecue sauce and topped with a portion of coleslaw mix.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A burger bun is piled with shredded pork shoulder coated in barbecue sauce and topped with a portion of coleslaw mix."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenquesadillas": {
+      "name": "Chicken & Cheese Quesadillas",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenquesadillas-1.jpg"
+        ],
+        "pick": "img/ai/chickenquesadillas-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken & Cheese Quesadillas. Golden-brown flour tortilla wedges are stacked to reveal a filling of shredded rotisserie chicken, black beans, and melted cheddar cheese. They are served alongside a dollop of sour cream and a small spoonful of salsa.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Golden-brown flour tortilla wedges are stacked to reveal a filling of shredded rotisserie chicken, black beans, and melted cheddar cheese. They are served alongside a dollop of sour cream and a small spoonful of salsa."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "minestrone": {
+      "name": "Hearty Minestrone",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/minestrone-1.jpg"
+        ],
+        "pick": "img/ai/minestrone-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Hearty Minestrone. A steaming portion of vegetable broth filled with tender small pasta, plump cannellini beans, diced carrots, zucchini, celery, and tomatoes, with wilted spinach leaves mixed throughout. The soup is finished with a dusting of parmesan cheese on top.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A steaming portion of vegetable broth filled with tender small pasta, plump cannellini beans, diced carrots, zucchini, celery, and tomatoes, with wilted spinach leaves mixed throughout. The soup is finished with a dusting of parmesan cheese on top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickentortillasoup": {
+      "name": "Chicken Tortilla Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickentortillasoup-1.jpg"
+        ],
+        "pick": "img/ai/chickentortillasoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Tortilla Soup. A reddish-brown chicken broth containing shredded chicken, black beans, yellow corn, diced tomatoes, and onions is poured over a base of crushed Tostitos tortilla chips. The soup is finished with several fresh slices of green avocado on top.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A reddish-brown chicken broth containing shredded chicken, black beans, yellow corn, diced tomatoes, and onions is poured over a base of crushed Tostitos tortilla chips. The soup is finished with several fresh slices of green avocado on top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pizzanight": {
+      "name": "Homemade Sheet-Pan Pizza",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pizzanight-1.jpg"
+        ],
+        "pick": "img/ai/pizzanight-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Homemade Sheet-Pan Pizza. A square slice of sheet-pan pizza is presented on the plate, showing a deep golden crust topped with spread pizza sauce, melted shredded mozzarella, pepperoni, and sliced bell peppers.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A square slice of sheet-pan pizza is presented on the plate, showing a deep golden crust topped with spread pizza sauce, melted shredded mozzarella, pepperoni, and sliced bell peppers."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "beefstroganoff": {
+      "name": "Ground Beef Stroganoff",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/beefstroganoff-1.jpg"
+        ],
+        "pick": "img/ai/beefstroganoff-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Ground Beef Stroganoff. A bed of egg noodles is topped with a thick, creamy gravy of browned ground beef, tender sliced mushrooms, and diced onions.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of egg noodles is topped with a thick, creamy gravy of browned ground beef, tender sliced mushrooms, and diced onions."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pestosalmon": {
+      "name": "Pesto Salmon & Roasted Veggies",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pestosalmon-1.jpg"
+        ],
+        "pick": "img/ai/pestosalmon-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Pesto Salmon & Roasted Veggies. A roasted salmon fillet coated with a layer of green pesto is served alongside tender, lightly browned asparagus spears and blistered cherry tomatoes. The entire plate is finished with a squeeze of fresh lemon juice.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A roasted salmon fillet coated with a layer of green pesto is served alongside tender, lightly browned asparagus spears and blistered cherry tomatoes. The entire plate is finished with a squeeze of fresh lemon juice."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickencaesarwraps": {
+      "name": "Chicken Caesar Wraps",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickencaesarwraps-1.jpg"
+        ],
+        "pick": "img/ai/chickencaesarwraps-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken Caesar Wraps. Two halves of a tightly rolled flour tortilla wrap are placed on the plate, cut on a diagonal to reveal a filling of shredded rotisserie chicken and chopped romaine tossed with caesar dressing, parmesan, and crushed croutons.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two halves of a tightly rolled flour tortilla wrap are placed on the plate, cut on a diagonal to reveal a filling of shredded rotisserie chicken and chopped romaine tossed with caesar dressing, parmesan, and crushed croutons."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "stuffedpeppers": {
+      "name": "Easy Stuffed Peppers",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/stuffedpeppers-1.jpg"
+        ],
+        "pick": "img/ai/stuffedpeppers-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Easy Stuffed Peppers. A roasted bell pepper half is filled with a mixture of browned ground beef, rice, and diced tomatoes seasoned with Italian seasoning. The top is covered with a layer of melted, golden-brown shredded mozzarella cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A roasted bell pepper half is filled with a mixture of browned ground beef, rice, and diced tomatoes seasoned with Italian seasoning. The top is covered with a layer of melted, golden-brown shredded mozzarella cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "sheetpansausage": {
+      "name": "Sausage, Potato & Broccoli Sheet Pan",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/sheetpansausage-1.jpg"
+        ],
+        "pick": "img/ai/sheetpansausage-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage, Potato & Broccoli Sheet Pan. A colorful mound of roasted, halved baby potatoes, charred broccoli florets, and sliced smoked sausage. The ingredients are tossed together, glistening with olive oil and showing a light dusting of reddish smoked paprika.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A colorful mound of roasted, halved baby potatoes, charred broccoli florets, and sliced smoked sausage. The ingredients are tossed together, glistening with olive oil and showing a light dusting of reddish smoked paprika."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenpotpie": {
+      "name": "Shortcut Chicken Pot Pie",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenpotpie-1.jpg"
+        ],
+        "pick": "img/ai/chickenpotpie-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Shortcut Chicken Pot Pie. A serving of creamy chicken pot pie features shredded rotisserie chicken and colorful mixed vegetables bound in a thick, pepper-flecked cream soup sauce. A single golden-brown, puffed biscuit sits on top of the warm filling.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A serving of creamy chicken pot pie features shredded rotisserie chicken and colorful mixed vegetables bound in a thick, pepper-flecked cream soup sauce. A single golden-brown, puffed biscuit sits on top of the warm filling."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "tacosoup": {
+      "name": "Taco Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/tacosoup-1.jpg"
+        ],
+        "pick": "img/ai/tacosoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Taco Soup. A hearty soup filled with browned ground beef, diced onions, plump black beans, kidney beans, diced tomatoes, and yellow corn kernels in a savory beef broth. The serving is topped with a generous sprinkle of shredded cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A hearty soup filled with browned ground beef, diced onions, plump black beans, kidney beans, diced tomatoes, and yellow corn kernels in a savory beef broth. The serving is topped with a generous sprinkle of shredded cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "ramennoodles": {
+      "name": "Chicken Ramen Noodle Bowls",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/ramennoodles-1.jpg"
+        ],
+        "pick": "img/ai/ramennoodles-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Ramen Noodle Bowls. A serving of ramen noodles and thinly sliced chicken breast submerged in a ginger and soy-infused chicken broth with wilted spinach. It is topped with two halves of a soft-boiled egg showing a runny yolk and a scatter of sliced scallions.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A serving of ramen noodles and thinly sliced chicken breast submerged in a ginger and soy-infused chicken broth with wilted spinach. It is topped with two halves of a soft-boiled egg showing a runny yolk and a scatter of sliced scallions."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "ravioliskillet": {
+      "name": "Cheesy Ravioli Bake",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/ravioliskillet-1.jpg"
+        ],
+        "pick": "img/ai/ravioliskillet-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Cheesy Ravioli Bake. A portion of the bake showcasing layered cheese ravioli, wilted green spinach, and red marinara sauce, topped with a blanket of melted and lightly browned mozzarella cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A portion of the bake showcasing layered cheese ravioli, wilted green spinach, and red marinara sauce, topped with a blanket of melted and lightly browned mozzarella cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "maplepork": {
+      "name": "Maple Dijon Pork Tenderloin",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/maplepork-1.jpg"
+        ],
+        "pick": "img/ai/maplepork-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Maple Dijon Pork Tenderloin. A bed of white rice topped with several thick slices of seared and roasted pork tenderloin, glistening with a maple mustard glaze. Tender, roasted sliced carrots are arranged alongside the pork on the plate.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A bed of white rice topped with several thick slices of seared and roasted pork tenderloin, glistening with a maple mustard glaze. Tender, roasted sliced carrots are arranged alongside the pork on the plate."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "blackbeanburgers": {
+      "name": "Black Bean Burgers",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/blackbeanburgers-1.jpg"
+        ],
+        "pick": "img/ai/blackbeanburgers-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Black Bean Burgers. A pan-cooked black bean burger patty topped with melted cheddar cheese is served inside a burger bun alongside sliced avocado.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A pan-cooked black bean burger patty topped with melted cheddar cheese is served inside a burger bun alongside sliced avocado."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickenenchiladas": {
+      "name": "Green Chicken Enchiladas",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickenenchiladas-1.jpg"
+        ],
+        "pick": "img/ai/chickenenchiladas-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Green Chicken Enchiladas. Two rolled flour tortillas are served side-by-side, covered in warm green enchilada sauce and bubbly, melted monterey jack cheese. A glimpse inside the tortillas reveals the filling of shredded chicken, sour cream, and cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Two rolled flour tortillas are served side-by-side, covered in warm green enchilada sauce and bubbly, melted monterey jack cheese. A glimpse inside the tortillas reveals the filling of shredded chicken, sour cream, and cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "garlicbuttersteak": {
+      "name": "Garlic Butter Steak Bites",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/garlicbuttersteak-1.jpg"
+        ],
+        "pick": "img/ai/garlicbuttersteak-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Garlic Butter Steak Bites. Seared one-inch cubes of sirloin steak, glistening with melted butter and garlic, are served alongside a portion of vibrant, steamed green beans.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Seared one-inch cubes of sirloin steak, glistening with melted butter and garlic, are served alongside a portion of vibrant, steamed green beans."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "cashewchicken": {
+      "name": "Cashew Chicken",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/cashewchicken-1.jpg"
+        ],
+        "pick": "img/ai/cashewchicken-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Cashew Chicken. A bed of fluffy white rice topped with stir-fried cubed chicken breast and sliced bell peppers, all coated in a glossy soy-hoisin sauce. Whole cashews are scattered throughout the dish.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A bed of fluffy white rice topped with stir-fried cubed chicken breast and sliced bell peppers, all coated in a glossy soy-hoisin sauce. Whole cashews are scattered throughout the dish."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "eggrollbowl": {
+      "name": "Egg Roll in a Bowl",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/eggrollbowl-1.jpg"
+        ],
+        "pick": "img/ai/eggrollbowl-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Egg Roll in a Bowl. A warm mixture of savory browned ground pork and tender, wilted coleslaw mix is piled into the bowl. The dish is drizzled with sesame oil and topped with a scattering of freshly sliced green scallions.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A warm mixture of savory browned ground pork and tender, wilted coleslaw mix is piled into the bowl. The dish is drizzled with sesame oil and topped with a scattering of freshly sliced green scallions."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickpeacurry": {
+      "name": "Chickpea & Spinach Curry",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickpeacurry-1.jpg"
+        ],
+        "pick": "img/ai/chickpeacurry-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chickpea & Spinach Curry. A bed of cooked rice topped with a creamy coconut milk curry containing whole chickpeas, pieces of diced tomatoes, wilted spinach leaves, and diced onion.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of cooked rice topped with a creamy coconut milk curry containing whole chickpeas, pieces of diced tomatoes, wilted spinach leaves, and diced onion."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bakedtilapia": {
+      "name": "Lemon Garlic Tilapia",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bakedtilapia-1.jpg"
+        ],
+        "pick": "img/ai/bakedtilapia-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Lemon Garlic Tilapia. A baked tilapia fillet is coated with a rich garlic butter and lemon juice sauce, served alongside a portion of tender baked green beans.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A baked tilapia fillet is coated with a rich garlic butter and lemon juice sauce, served alongside a portion of tender baked green beans."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "eggmuffins": {
+      "name": "Veggie Egg Muffins",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/eggmuffins-1.jpg"
+        ],
+        "pick": "img/ai/eggmuffins-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Veggie Egg Muffins. Two golden-brown, freshly warmed egg muffins are served on the plate. Bright green chopped spinach, colorful diced bell peppers, and melted shreds of cheddar cheese are visible throughout the baked egg mixture.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two golden-brown, freshly warmed egg muffins are served on the plate. Bright green chopped spinach, colorful diced bell peppers, and melted shreds of cheddar cheese are visible throughout the baked egg mixture."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "breakfastburritos": {
+      "name": "Freezer Breakfast Burritos",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/breakfastburritos-1.jpg"
+        ],
+        "pick": "img/ai/breakfastburritos-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Freezer Breakfast Burritos. A tightly rolled flour tortilla filled with soft scrambled eggs, browned breakfast sausage, crispy hash browns, and melted cheddar cheese. A portion of salsa is served alongside it on the plate.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A tightly rolled flour tortilla filled with soft scrambled eggs, browned breakfast sausage, crispy hash browns, and melted cheddar cheese. A portion of salsa is served alongside it on the plate."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "yogurtparfait": {
+      "name": "Yogurt Berry Parfaits",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/yogurtparfait-1.jpg"
+        ],
+        "pick": "img/ai/yogurtparfait-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a clear glass.\nThe dish: Yogurt Berry Parfaits. A beautifully layered parfait in a clear glass, showcasing alternating bands of white greek yogurt, golden granola, and deep blue blueberries. The top layer of yogurt is sprinkled with a handful of granola and blueberries, all finished with a glossy drizzle of honey.",
+        "described": {
+          "vessel": "a clear glass",
+          "utensil": "a spoon",
+          "dish": "A beautifully layered parfait in a clear glass, showcasing alternating bands of white greek yogurt, golden granola, and deep blue blueberries. The top layer of yogurt is sprinkled with a handful of granola and blueberries, all finished with a glossy drizzle of honey."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "frenchtoast": {
+      "name": "Cinnamon French Toast",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/frenchtoast-1.jpg"
+        ],
+        "pick": "img/ai/frenchtoast-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Cinnamon French Toast. Two golden-brown slices of French toast, speckled with cinnamon from the egg wash, are stacked and drizzled with sweet maple syrup.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "Two golden-brown slices of French toast, speckled with cinnamon from the egg wash, are stacked and drizzled with sweet maple syrup."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bananapancakes": {
+      "name": "Banana Oat Pancakes",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bananapancakes-1.jpg"
+        ],
+        "pick": "img/ai/bananapancakes-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Banana Oat Pancakes. A stack of golden-brown banana oat pancakes, showing flecks of old-fashioned oats and mashed bananas throughout.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A stack of golden-brown banana oat pancakes, showing flecks of old-fashioned oats and mashed bananas throughout."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "avocadotoast": {
+      "name": "Avocado Toast with Eggs",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/avocadotoast-1.jpg"
+        ],
+        "pick": "img/ai/avocadotoast-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Avocado Toast with Eggs. A slice of golden-brown toasted bread is spread with mashed avocado and topped with a freshly cooked egg. A light dusting of red pepper flakes is sprinkled over the egg.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A slice of golden-brown toasted bread is spread with mashed avocado and topped with a freshly cooked egg. A light dusting of red pepper flakes is sprinkled over the egg."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "scrambledeggs": {
+      "name": "Cheesy Scrambled Eggs & Toast",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/scrambledeggs-1.jpg"
+        ],
+        "pick": "img/ai/scrambledeggs-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Cheesy Scrambled Eggs & Toast. A serving of soft, yellow scrambled eggs with melted shreds of cheddar cheese folded throughout, placed next to a slice of toasted bread.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A serving of soft, yellow scrambled eggs with melted shreds of cheddar cheese folded throughout, placed next to a slice of toasted bread."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "smoothie": {
+      "name": "Berry Banana Smoothies",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/smoothie-1.jpg"
+        ],
+        "pick": "img/ai/smoothie-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a clear glass.\nThe dish: Berry Banana Smoothies. A vibrant, thick purple smoothie blended from frozen mixed berries, banana, Greek yogurt, milk, and honey fills the glass to the top.",
+        "described": {
+          "vessel": "a clear glass",
+          "utensil": "none",
+          "dish": "A vibrant, thick purple smoothie blended from frozen mixed berries, banana, Greek yogurt, milk, and honey fills the glass to the top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bakedoatmeal": {
+      "name": "Blueberry Baked Oatmeal",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bakedoatmeal-1.jpg"
+        ],
+        "pick": "img/ai/bakedoatmeal-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Blueberry Baked Oatmeal. A warm square of golden-brown baked oatmeal sits on the plate, showing plump, purple blueberries burst throughout. The cut edges reveal a soft, moist texture of oats baked with milk, eggs, melted butter, and maple syrup, with fine flecks of cinnamon visible.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A warm square of golden-brown baked oatmeal sits on the plate, showing plump, purple blueberries burst throughout. The cut edges reveal a soft, moist texture of oats baked with milk, eggs, melted butter, and maple syrup, with fine flecks of cinnamon visible."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "breakfastsandwich": {
+      "name": "Sausage Egg Breakfast Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/breakfastsandwich-1.jpg"
+        ],
+        "pick": "img/ai/breakfastsandwich-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage Egg Breakfast Sandwiches. A toasted English muffin is stacked with a browned sausage patty, a fried egg with a broken yolk, and a melted slice of cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A toasted English muffin is stacked with a browned sausage patty, a fried egg with a broken yolk, and a melted slice of cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "waffles": {
+      "name": "Weekend Waffles",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/waffles-1.jpg"
+        ],
+        "pick": "img/ai/waffles-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Weekend Waffles. A stack of golden-brown waffles sits on the plate, drizzled with maple syrup.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A stack of golden-brown waffles sits on the plate, drizzled with maple syrup."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "hashbrowncasserole": {
+      "name": "Hash Brown Breakfast Casserole",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/hashbrowncasserole-1.jpg"
+        ],
+        "pick": "img/ai/hashbrowncasserole-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Hash Brown Breakfast Casserole. A thick square slice of the baked casserole shows golden shredded hash browns and crumbled browned breakfast sausage set within a fluffy baked egg and milk mixture. The top of the slice is covered in a melted layer of shredded cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A thick square slice of the baked casserole shows golden shredded hash browns and crumbled browned breakfast sausage set within a fluffy baked egg and milk mixture. The top of the slice is covered in a melted layer of shredded cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "peanutbutterbanana": {
+      "name": "Peanut Butter Banana Toast",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/peanutbutterbanana-1.jpg"
+        ],
+        "pick": "img/ai/peanutbutterbanana-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Peanut Butter Banana Toast. A slice of golden toasted bread is evenly spread with peanut butter and topped with neat slices of banana. A thin drizzle of glistening honey is patterned across the bananas and toast.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A slice of golden toasted bread is evenly spread with peanut butter and topped with neat slices of banana. A thin drizzle of glistening honey is patterned across the bananas and toast."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "huevos": {
+      "name": "Huevos Rancheros",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/huevos-1.jpg"
+        ],
+        "pick": "img/ai/huevos-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Huevos Rancheros. A crisped corn tortilla is layered with warm refried beans and topped with a fried egg. The egg is finished with a spoonful of salsa, slices of avocado, and a dusting of crumbled cotija cheese.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A crisped corn tortilla is layered with warm refried beans and topped with a fried egg. The egg is finished with a spoonful of salsa, slices of avocado, and a dusting of crumbled cotija cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "granolabars": {
+      "name": "No-Bake Granola Bites",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/granolabars-1.jpg"
+        ],
+        "pick": "img/ai/granolabars-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: No-Bake Granola Bites. Several one-inch round granola balls are piled on the plate, showcasing a textured mixture of old-fashioned oats, peanut butter, and honey. Tiny black chia seeds and dark mini chocolate chips are scattered throughout each bite.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Several one-inch round granola balls are piled on the plate, showcasing a textured mixture of old-fashioned oats, peanut butter, and honey. Tiny black chia seeds and dark mini chocolate chips are scattered throughout each bite."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bagelbar": {
+      "name": "Bagels & Cream Cheese Bar",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bagelbar-1.jpg"
+        ],
+        "pick": "img/ai/bagelbar-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Bagels & Cream Cheese Bar. A toasted bagel sliced in half, spread with cream cheese, and topped with sliced tomatoes and sliced cucumber.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A toasted bagel sliced in half, spread with cream cheese, and topped with sliced tomatoes and sliced cucumber."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "shakshuka": {
+      "name": "Shakshuka",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/shakshuka-1.jpg"
+        ],
+        "pick": "img/ai/shakshuka-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Shakshuka. A portion of the thick, red tomato sauce mixed with diced onions and bell peppers holds a single egg with a set white. A piece of toasted bread rests on the side of the plate for dipping.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "a fork",
+          "dish": "A portion of the thick, red tomato sauce mixed with diced onions and bell peppers holds a single egg with a set white. A piece of toasted bread rests on the side of the plate for dipping."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "cottagecheesebowl": {
+      "name": "Cottage Cheese Fruit Bowls",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/cottagecheesebowl-1.jpg"
+        ],
+        "pick": "img/ai/cottagecheesebowl-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Cottage Cheese Fruit Bowls. A serving of creamy cottage cheese sits in the bowl, topped with sweet pineapple chunks and a scattering of crunchy granola.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A serving of creamy cottage cheese sits in the bowl, topped with sweet pineapple chunks and a scattering of crunchy granola."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "muffins": {
+      "name": "Banana Muffins",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/muffins-1.jpg"
+        ],
+        "pick": "img/ai/muffins-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Banana Muffins. A single golden-brown banana muffin baked with mashed bananas and cinnamon sits on the plate, showcasing a soft, rounded top.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A single golden-brown banana muffin baked with mashed bananas and cinnamon sits on the plate, showcasing a soft, rounded top."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickensaladsandwich": {
+      "name": "Chicken Salad Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickensaladsandwich-1.jpg"
+        ],
+        "pick": "img/ai/chickensaladsandwich-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken Salad Sandwiches. A sandwich made with two slices of bread is filled with a creamy mixture of chopped rotisserie chicken, celery, and halved red grapes tossed in mayonnaise. Fresh romaine lettuce leaves are layered inside and visible between the bread slices.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A sandwich made with two slices of bread is filled with a creamy mixture of chopped rotisserie chicken, celery, and halved red grapes tossed in mayonnaise. Fresh romaine lettuce leaves are layered inside and visible between the bread slices."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "grilledcheese": {
+      "name": "Grilled Cheese & Tomato Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/grilledcheese-1.jpg"
+        ],
+        "pick": "img/ai/grilledcheese-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl next to a white ceramic plate.\nThe dish: Grilled Cheese & Tomato Soup. A bowl of warm tomato soup is served alongside a golden-brown grilled cheese sandwich. The sandwich is made with toasted buttered bread and melted cheddar cheese, cut in half to reveal the warm, melted cheese inside.",
+        "described": {
+          "vessel": "a white ceramic bowl next to a white ceramic plate",
+          "utensil": "a spoon",
+          "dish": "A bowl of warm tomato soup is served alongside a golden-brown grilled cheese sandwich. The sandwich is made with toasted buttered bread and melted cheddar cheese, cut in half to reveal the warm, melted cheese inside."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "greeksalad": {
+      "name": "Greek Chickpea Salad",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/greeksalad-1.jpg"
+        ],
+        "pick": "img/ai/greeksalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Greek Chickpea Salad. A vibrant toss of chickpeas, chopped cucumber, chopped cherry tomatoes, and chopped red onion, combined with crumbled feta. The salad is lightly dressed in a glistening mixture of olive oil, red wine vinegar, and flecks of dried oregano.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A vibrant toss of chickpeas, chopped cucumber, chopped cherry tomatoes, and chopped red onion, combined with crumbled feta. The salad is lightly dressed in a glistening mixture of olive oil, red wine vinegar, and flecks of dried oregano."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickencaesarsalad": {
+      "name": "Chicken Caesar Salad",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickencaesarsalad-1.jpg"
+        ],
+        "pick": "img/ai/chickencaesarsalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Caesar Salad. A bed of chopped romaine lettuce tossed with caesar dressing and parmesan, topped with slices of rotisserie chicken and a handful of croutons.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of chopped romaine lettuce tossed with caesar dressing and parmesan, topped with slices of rotisserie chicken and a handful of croutons."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "tunasalad": {
+      "name": "Tuna Salad Lettuce Cups",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/tunasalad-1.jpg"
+        ],
+        "pick": "img/ai/tunasalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Tuna Salad Lettuce Cups. Three crisp butter lettuce leaves are arranged on the plate, each filled with a scoop of flaked tuna and finely diced celery mixed with creamy mayonnaise and lemon juice.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Three crisp butter lettuce leaves are arranged on the plate, each filled with a scoop of flaked tuna and finely diced celery mixed with creamy mayonnaise and lemon juice."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "bentobox": {
+      "name": "Snack Bento Boxes",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/bentobox-1.jpg"
+        ],
+        "pick": "img/ai/bentobox-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a multi-compartment bento box.\nThe dish: Snack Bento Boxes. The compartments of the bento box are neatly filled with cheese cubes, rolled turkey slices, crackers, baby carrots, and apple slices, alongside a small cup of smooth hummus for dipping.",
+        "described": {
+          "vessel": "a multi-compartment bento box",
+          "utensil": "none",
+          "dish": "The compartments of the bento box are neatly filled with cheese cubes, rolled turkey slices, crackers, baby carrots, and apple slices, alongside a small cup of smooth hummus for dipping."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "quesadillalunch": {
+      "name": "Bean & Cheese Quesadillas",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/quesadillalunch-1.jpg"
+        ],
+        "pick": "img/ai/quesadillalunch-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Bean & Cheese Quesadillas. Several golden-brown flour tortilla wedges are stacked on the plate, revealing a melted filling of refried beans and shredded cheddar cheese. A small portion of salsa is served alongside the wedges.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Several golden-brown flour tortilla wedges are stacked on the plate, revealing a melted filling of refried beans and shredded cheddar cheese. A small portion of salsa is served alongside the wedges."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pastasalad": {
+      "name": "Italian Pasta Salad",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pastasalad-1.jpg"
+        ],
+        "pick": "img/ai/pastasalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Italian Pasta Salad. A colorful mixture of chilled rotini pasta, halved cherry tomatoes, diced cucumber, and quartered pepperoni, all tossed with fresh mozzarella pearls and glistening with Italian dressing.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A colorful mixture of chilled rotini pasta, halved cherry tomatoes, diced cucumber, and quartered pepperoni, all tossed with fresh mozzarella pearls and glistening with Italian dressing."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "blt": {
+      "name": "BLT Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/blt-1.jpg"
+        ],
+        "pick": "img/ai/blt-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: BLT Sandwiches. A sandwich of toasted bread spread with mayonnaise, layered with crisp bacon, romaine lettuce, and sliced tomatoes.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A sandwich of toasted bread spread with mayonnaise, layered with crisp bacon, romaine lettuce, and sliced tomatoes."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "hummuswraps": {
+      "name": "Hummus Veggie Wraps",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/hummuswraps-1.jpg"
+        ],
+        "pick": "img/ai/hummuswraps-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Hummus Veggie Wraps. Two tightly rolled flour tortilla wrap halves are placed on the plate, revealing a colorful filling of spread hummus, sliced cucumber, sliced bell peppers, spinach, and shredded carrots.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two tightly rolled flour tortilla wrap halves are placed on the plate, revealing a colorful filling of spread hummus, sliced cucumber, sliced bell peppers, spinach, and shredded carrots."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "chickennoodlecup": {
+      "name": "Leftover Soup & Crackers",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/chickennoodlecup-1.jpg"
+        ],
+        "pick": "img/ai/chickennoodlecup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Leftover Soup & Crackers. A white ceramic bowl is filled with steaming leftover soup, served alongside crisp crackers and fresh apple slices.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A white ceramic bowl is filled with steaming leftover soup, served alongside crisp crackers and fresh apple slices."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "eggsaladsandwich": {
+      "name": "Egg Salad Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/eggsaladsandwich-1.jpg"
+        ],
+        "pick": "img/ai/eggsaladsandwich-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Egg Salad Sandwiches. An egg salad sandwich is presented, featuring a creamy mixture of chopped hard-boiled eggs, mayonnaise, and dijon mustard layered between two slices of bread. Crisp green romaine lettuce leaves are tucked inside, visible at the edges of the sandwich.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "An egg salad sandwich is presented, featuring a creamy mixture of chopped hard-boiled eggs, mayonnaise, and dijon mustard layered between two slices of bread. Crisp green romaine lettuce leaves are tucked inside, visible at the edges of the sandwich."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "burritobowls": {
+      "name": "Chicken Burrito Bowls",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/burritobowls-1.jpg"
+        ],
+        "pick": "img/ai/burritobowls-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Chicken Burrito Bowls. A bed of rice is topped with neat sections of sliced taco-seasoned chicken breast, black beans, corn, salsa, and shredded cheddar cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of rice is topped with neat sections of sliced taco-seasoned chicken breast, black beans, corn, salsa, and shredded cheddar cheese."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pizzabagels": {
+      "name": "Mini Pizza Bagels",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pizzabagels-1.jpg"
+        ],
+        "pick": "img/ai/pizzabagels-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Mini Pizza Bagels. Two split bagel halves are served on the plate, spread with red pizza sauce and topped with bubbly, melted shredded mozzarella and crisp pepperoni slices.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "Two split bagel halves are served on the plate, spread with red pizza sauce and topped with bubbly, melted shredded mozzarella and crisp pepperoni slices."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "asianchickensalad": {
+      "name": "Crunchy Asian Chicken Salad",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/asianchickensalad-1.jpg"
+        ],
+        "pick": "img/ai/asianchickensalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Crunchy Asian Chicken Salad. A mixture of shredded rotisserie chicken, coleslaw mix, mandarin oranges, and chopped scallions is tossed with sesame ginger dressing. The salad is served piled high and topped with a generous scattering of sliced almonds.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A mixture of shredded rotisserie chicken, coleslaw mix, mandarin oranges, and chopped scallions is tossed with sesame ginger dressing. The salad is served piled high and topped with a generous scattering of sliced almonds."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "cobbsalad": {
+      "name": "Easy Cobb Salad",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/cobbsalad-1.jpg"
+        ],
+        "pick": "img/ai/cobbsalad-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Easy Cobb Salad. A bed of chopped romaine lettuce is arranged in the bowl, topped with orderly parallel rows of sliced rotisserie chicken, chopped hard-boiled eggs, crumbled bacon, diced avocado, and halved cherry tomatoes. Rich ranch dressing is served alongside.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a fork",
+          "dish": "A bed of chopped romaine lettuce is arranged in the bowl, topped with orderly parallel rows of sliced rotisserie chicken, chopped hard-boiled eggs, crumbled bacon, diced avocado, and halved cherry tomatoes. Rich ranch dressing is served alongside."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "pbj": {
+      "name": "PB&J with Fruit",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/pbj-1.jpg"
+        ],
+        "pick": "img/ai/pbj-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: PB&J with Fruit. A closed peanut butter and strawberry jam sandwich on bread, cut in half to reveal the layers of filling. It is served on the plate alongside fresh apple slices.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A closed peanut butter and strawberry jam sandwich on bread, cut in half to reveal the layers of filling. It is served on the plate alongside fresh apple slices."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "lentilsoup": {
+      "name": "Lentil Vegetable Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/lentilsoup-1.jpg"
+        ],
+        "pick": "img/ai/lentilsoup-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Lentil Vegetable Soup. A warm, savory soup featuring tender lentils, diced orange carrots, chopped celery, and pieces of red diced tomatoes in a vegetable broth.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "dish": "A warm, savory soup featuring tender lentils, diced orange carrots, chopped celery, and pieces of red diced tomatoes in a vegetable broth."
+        },
+        "generated": "2026-10-05"
+      },
+      "chosen": "ai"
+    },
+    "caprese": {
+      "name": "Caprese Sandwiches",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/caprese-1.jpg"
+        ],
+        "pick": "img/ai/caprese-1.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Caprese Sandwiches. A quarter of the caprese sandwich is served on the plate, showcasing the split ciabatta loaf spread with green pesto and layered with slices of fresh mozzarella, red tomato, and green spinach.",
+        "described": {
+          "vessel": "a white ceramic plate",
+          "utensil": "none",
+          "dish": "A quarter of the caprese sandwich is served on the plate, showcasing the split ciabatta loaf spread with green pesto and layered with slices of fresh mozzarella, red tomato, and green spinach."
+        },
+        "generated": "2026-10-05"
       },
       "chosen": "ai"
     }
