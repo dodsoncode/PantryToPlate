@@ -28,20 +28,26 @@ const arg = (k, d) => { const i = process.argv.indexOf("--" + k); return i > 0 ?
 const flag = k => process.argv.includes("--" + k);
 const project = arg("project", process.env.GOOGLE_CLOUD_PROJECT);
 const imageModel = arg("model", "gemini-3.1-flash-image");
-const textModel = arg("text-model", "gemini-3.5-flash");
+const textModel = arg("text-model", "gemini-3.5-flash-lite");
 const tries = Math.max(1, Math.min(4, +arg("tries", 2)));
 const only = arg("only", "");
 if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1); }
 
 // The house style. {utensil} becomes the utensil line below; the vessel and dish come from the recipe.
+// Camera angle. Flat dishes are shot from directly above; tall ones (jars, glasses, parfaits) at 45 degrees
+// so you can see both the layers up the side and the toppings.
+const VIEW = {
+  overhead: "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width.",
+  angled: "Square 1:1 food photograph of a single serving, shot from a 45-degree angle so both the height and layers of the jar or glass and the toppings on top are visible. The jar or glass is large in the frame, filling most of its height.",
+};
 const UTENSIL = {
-  "a spoon": "Exactly one utensil: a spoon, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
-  "a fork": "Exactly one utensil: a fork, resting on a folded light linen napkin beside the food. No other utensils, no knives, no chopsticks.",
-  "none": "This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A folded light linen napkin beside the plate is fine.",
+  "a spoon": "Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks.",
+  "a fork": "Exactly one utensil: a fork, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks.",
+  "none": "This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame.",
 };
 export const STYLE = [
-  "Square 1:1 top-down (directly overhead) food photograph of a single serving.",
-  "The light natural-oak tabletop fills the entire frame edge to edge. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
+  "{view}",
+  "Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
   "Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
   "{utensil}",
   "Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description.",
@@ -62,7 +68,8 @@ function loadRecipes() {
 }
 
 const ai = (() => {
-  const opts = { vertexai: true, project, location: arg("location", "global") };
+  // A request that hangs is cut off after 150 seconds and retried (see withRetry).
+  const opts = { vertexai: true, project, location: arg("location", "global"), httpOptions: { timeout: 150000 } };
   if (flag("firebase-login")) {
     // Reuse the Firebase CLI sign-in (firebase login). Refreshes itself, so long runs keep working.
     const { OAuth2Client } = require("google-auth-library");
@@ -86,8 +93,10 @@ async function withRetry(fn) {
   for (let wait = 20; ; wait *= 2) {
     try { return await fn(); }
     catch (e) {
-      if (e.status !== 429 || wait > 160) throw e;
-      console.log(`  busy, waiting ${wait}s...`);
+      const stalled = !e.status && /abort|timed? ?out/i.test(String(e.message || e.name));
+      const flaky = [500, 503, 504].includes(e.status);
+      if ((e.status !== 429 && !stalled && !flaky) || wait > 160) throw e;
+      console.log(stalled || flaky ? `  no answer (${e.status || "timeout"}), trying again in ${wait}s...` : `  busy, waiting ${wait}s...`);
       await new Promise(r => setTimeout(r, wait * 1000));
     }
   }
@@ -118,15 +127,17 @@ Recipe:
 ${recipe}
 """`,
     config: {
+      thinkingConfig: { thinkingLevel: "low" }, // a short description doesn't need long thinking, and long thinking was timing out
       responseMimeType: "application/json",
       responseJsonSchema: {
         type: "object",
         properties: {
           vessel: { type: "string", description: "What one serving is in or on, e.g. 'a clear glass jar', 'a white ceramic bowl', 'a white ceramic plate'" },
           utensil: { type: "string", enum: ["none", "a spoon", "a fork"] },
+          tall: { type: "boolean", description: "true when served in a tall jar or glass (overnight oats, parfaits, smoothies, layered drinks) whose height and layers matter" },
           dish: { type: "string", description: "One or two sentences on what the serving looks like, using only the recipe's foods" },
         },
-        required: ["vessel", "utensil", "dish"],
+        required: ["vessel", "utensil", "tall", "dish"],
       },
     },
   }));
@@ -150,8 +161,8 @@ for (const id of ids) {
   catch (e) { console.error(`${id}: couldn't describe the recipe: ${e.status || ""} ${e.message}`); continue; }
   // photos.json "fix" on a recipe: extra direction from a review, e.g. "the chicken should be the main thing you see".
   const fix = rec.fix ? `\nMake sure: ${rec.fix}` : "";
-  const prompt = `${STYLE.replace("{utensil}", UTENSIL[d.utensil] || UTENSIL["a fork"])}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}${fix}`;
-  console.log(`${id}: ${d.vessel}, ${d.utensil}. ${d.dish}`);
+  const prompt = `${STYLE.replace("{view}", d.tall ? VIEW.angled : VIEW.overhead).replace("{utensil}", UTENSIL[d.utensil] || UTENSIL["a fork"])}\nServed in ${d.vessel}.\nThe dish: ${r.name}. ${d.dish}${fix}`;
+  console.log(`${id}: ${d.vessel}, ${d.utensil}${d.tall ? ", 45°" : ""}. ${d.dish}`);
   if (flag("describe-only")) continue;
 
   const made = [];
