@@ -526,16 +526,18 @@
       "ai": {
         "files": [
           "img/ai/sausagepeppers-1.jpg",
-          "img/ai/sausagepeppers-2.jpg"
+          "img/ai/sausagepeppers-2.jpg",
+          "img/ai/sausagepeppers-3.jpg",
+          "img/ai/sausagepeppers-4.jpg"
         ],
-        "pick": "img/ai/sausagepeppers-2.jpg",
+        "pick": "img/ai/sausagepeppers-4.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A small folded light linen napkin tucked close beside the plate, partly cropped by the edge of the frame, is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage, Peppers & Onions. A toasted hoagie roll is split open and filled with a roasted Italian sausage, surrounded by tender, caramelized slices of bell peppers and onions showing flecks of Italian seasoning.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage, Peppers & Onions. An assembled italian sausage, bell peppers, and onion sandwich sits upright in a toasted hoagie roll on a white ceramic plate, showing the sliced sausage and roasted peppers and onions at the cut edge facing the camera.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A toasted hoagie roll is split open and filled with a roasted Italian sausage, surrounded by tender, caramelized slices of bell peppers and onions showing flecks of Italian seasoning."
+          "tall": true,
+          "dish": "An assembled italian sausage, bell peppers, and onion sandwich sits upright in a toasted hoagie roll on a white ceramic plate, showing the sliced sausage and roasted peppers and onions at the cut edge facing the camera."
         },
         "generated": "2026-10-05"
       },
@@ -634,16 +636,18 @@
       "ai": {
         "files": [
           "img/ai/meatballsubs-1.jpg",
-          "img/ai/meatballsubs-2.jpg"
+          "img/ai/meatballsubs-2.jpg",
+          "img/ai/meatballsubs-3.jpg",
+          "img/ai/meatballsubs-4.jpg"
         ],
-        "pick": "img/ai/meatballsubs-2.jpg",
+        "pick": "img/ai/meatballsubs-4.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A small folded light linen napkin tucked close beside the plate, partly cropped by the edge of the frame, is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Meatball Subs. A split hoagie roll lies on the plate, packed with savory meatballs coated in rich marinara sauce. The sandwich is blanketed with a layer of melted, bubbly shredded mozzarella cheese.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Meatball Subs. A warm meatball sub is served upright on a white ceramic plate, filled with hot meatballs in marinara sauce and topped with melted shredded mozzarella cheese, showing the savory filling at the open-faced cut edges.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A split hoagie roll lies on the plate, packed with savory meatballs coated in rich marinara sauce. The sandwich is blanketed with a layer of melted, bubbly shredded mozzarella cheese."
+          "tall": true,
+          "dish": "A warm meatball sub is served upright on a white ceramic plate, filled with hot meatballs in marinara sauce and topped with melted shredded mozzarella cheese, showing the savory filling at the open-faced cut edges."
         },
         "generated": "2026-10-05"
       },
@@ -949,16 +953,18 @@
       "ai": {
         "files": [
           "img/ai/sloppyjoes-1.jpg",
-          "img/ai/sloppyjoes-2.jpg"
+          "img/ai/sloppyjoes-2.jpg",
+          "img/ai/sloppyjoes-3.jpg",
+          "img/ai/sloppyjoes-4.jpg"
         ],
-        "pick": "img/ai/sloppyjoes-2.jpg",
+        "pick": "img/ai/sloppyjoes-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A small folded light linen napkin tucked close beside the plate, partly cropped by the edge of the frame, is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sloppy Joes. A toasted burger bun is piled high with a thick, saucy mixture of browned ground beef, diced onion, and diced bell peppers in a rich tomato and ketchup sauce.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sloppy Joes. A sloppy joe is assembled upright on a toasted burger bun, with the thick ground beef, onion, and bell pepper mixture piled high between the halves.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A toasted burger bun is piled high with a thick, saucy mixture of browned ground beef, diced onion, and diced bell peppers in a rich tomato and ketchup sauce."
+          "tall": true,
+          "dish": "A sloppy joe is assembled upright on a toasted burger bun, with the thick ground beef, onion, and bell pepper mixture piled high between the halves."
         },
         "generated": "2026-10-05"
       },
@@ -991,16 +997,18 @@
       "ai": {
         "files": [
           "img/ai/pulledpork-1.jpg",
-          "img/ai/pulledpork-2.jpg"
+          "img/ai/pulledpork-2.jpg",
+          "img/ai/pulledpork-3.jpg",
+          "img/ai/pulledpork-4.jpg"
         ],
-        "pick": "img/ai/pulledpork-2.jpg",
+        "pick": "img/ai/pulledpork-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand: no utensils at all (no fork, spoon or knife). A small folded light linen napkin tucked close beside the plate, partly cropped by the edge of the frame, is fine. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Slow Cooker Pulled Pork Sandwiches. A burger bun filled with shredded pulled pork in BBQ sauce and slow-cooked onion, topped with coleslaw mix.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Slow Cooker Pulled Pork Sandwiches. A slow cooker pulled pork sandwich is assembled upright on a white ceramic plate, featuring a tender pulled pork mixed with barbecue sauce on a burger bun, generously topped with coleslaw.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A burger bun filled with shredded pulled pork in BBQ sauce and slow-cooked onion, topped with coleslaw mix."
+          "tall": true,
+          "dish": "A slow cooker pulled pork sandwich is assembled upright on a white ceramic plate, featuring a tender pulled pork mixed with barbecue sauce on a burger bun, generously topped with coleslaw."
         },
         "generated": "2026-10-05"
       },
@@ -1669,16 +1677,18 @@
       "ai": {
         "files": [
           "img/ai/breakfastsandwich-1.jpg",
-          "img/ai/breakfastsandwich-2.jpg"
+          "img/ai/breakfastsandwich-2.jpg",
+          "img/ai/breakfastsandwich-3.jpg",
+          "img/ai/breakfastsandwich-4.jpg"
         ],
-        "pick": "img/ai/breakfastsandwich-2.jpg",
+        "pick": "img/ai/breakfastsandwich-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage Egg Breakfast Sandwiches. A toasted English muffin is stacked with a cooked sausage patty, a fried egg with broken yolks, and melted sliced cheddar cheese.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Sausage Egg Breakfast Sandwiches. A toasted English muffin holds a cooked sausage patty, a fried egg with a broken yolk, and a slice of melted cheddar cheese, assembled upright and stacked.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A toasted English muffin is stacked with a cooked sausage patty, a fried egg with broken yolks, and melted sliced cheddar cheese."
+          "tall": true,
+          "dish": "A toasted English muffin holds a cooked sausage patty, a fried egg with a broken yolk, and a slice of melted cheddar cheese, assembled upright and stacked."
         },
         "generated": "2026-10-05"
       },
@@ -1889,16 +1899,18 @@
       "ai": {
         "files": [
           "img/ai/chickensaladsandwich-1.jpg",
-          "img/ai/chickensaladsandwich-2.jpg"
+          "img/ai/chickensaladsandwich-2.jpg",
+          "img/ai/chickensaladsandwich-3.jpg",
+          "img/ai/chickensaladsandwich-4.jpg"
         ],
-        "pick": "img/ai/chickensaladsandwich-2.jpg",
+        "pick": "img/ai/chickensaladsandwich-4.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken Salad Sandwiches. A chicken salad sandwich is served on sliced bread with crisp romaine lettuce, featuring a mixture of chopped chicken, celery, and halved grapes bound in mayonnaise.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Chicken Salad Sandwiches. A chicken salad sandwich assembled upright on bread with romaine lettuce showing at the edge.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A chicken salad sandwich is served on sliced bread with crisp romaine lettuce, featuring a mixture of chopped chicken, celery, and halved grapes bound in mayonnaise."
+          "tall": true,
+          "dish": "A chicken salad sandwich assembled upright on bread with romaine lettuce showing at the edge."
         },
         "generated": "2026-10-05"
       },
@@ -1910,20 +1922,24 @@
       "ai": {
         "files": [
           "img/ai/grilledcheese-1.jpg",
-          "img/ai/grilledcheese-2.jpg"
+          "img/ai/grilledcheese-2.jpg",
+          "img/ai/grilledcheese-3.jpg",
+          "img/ai/grilledcheese-4.jpg"
         ],
-        "pick": "img/ai/grilledcheese-2.jpg",
+        "pick": "img/ai/grilledcheese-4.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Grilled Cheese & Tomato Soup. A warm bowl of tomato soup is served alongside a golden, buttered grilled cheese sandwich with melted cheddar cheese visible between the sliced bread.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Grilled Cheese & Tomato Soup. A golden grilled cheese sandwich cut in half with melted cheddar showing at the cut edge, served alongside a bowl of hot tomato soup.\nMake sure: the grilled cheese sandwich is cut in half with one half propped against the other, melted cheese showing at the cut edge, beside the bowl of tomato soup with its spoon.",
         "described": {
           "vessel": "a white ceramic bowl",
           "utensil": "a spoon",
-          "tall": false,
-          "dish": "A warm bowl of tomato soup is served alongside a golden, buttered grilled cheese sandwich with melted cheddar cheese visible between the sliced bread."
+          "tall": true,
+          "dish": "A golden grilled cheese sandwich cut in half with melted cheddar showing at the cut edge, served alongside a bowl of hot tomato soup."
         },
         "generated": "2026-10-05"
       },
-      "chosen": "ai"
+      "chosen": "ai",
+      "view": "angled",
+      "fix": "the grilled cheese sandwich is cut in half with one half propped against the other, melted cheese showing at the cut edge, beside the bowl of tomato soup with its spoon."
     },
     "greeksalad": {
       "name": "Greek Chickpea Salad",
@@ -2057,16 +2073,18 @@
       "ai": {
         "files": [
           "img/ai/blt-1.jpg",
-          "img/ai/blt-2.jpg"
+          "img/ai/blt-2.jpg",
+          "img/ai/blt-3.jpg",
+          "img/ai/blt-4.jpg"
         ],
-        "pick": "img/ai/blt-2.jpg",
+        "pick": "img/ai/blt-4.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: BLT Sandwiches. A toasted BLT sandwich sits on a white ceramic plate, layered with crispy bacon, romaine lettuce, and sliced tomatoes spread with mayonnaise.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: BLT Sandwiches. A BLT sandwich is assembled upright on a white ceramic plate, with toasted bread, mayonnaise, bacon, romaine lettuce, and sliced tomato visible between the slices.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "A toasted BLT sandwich sits on a white ceramic plate, layered with crispy bacon, romaine lettuce, and sliced tomatoes spread with mayonnaise."
+          "tall": true,
+          "dish": "A BLT sandwich is assembled upright on a white ceramic plate, with toasted bread, mayonnaise, bacon, romaine lettuce, and sliced tomato visible between the slices."
         },
         "generated": "2026-10-05"
       },
@@ -2120,16 +2138,18 @@
       "ai": {
         "files": [
           "img/ai/eggsaladsandwich-1.jpg",
-          "img/ai/eggsaladsandwich-2.jpg"
+          "img/ai/eggsaladsandwich-2.jpg",
+          "img/ai/eggsaladsandwich-3.jpg",
+          "img/ai/eggsaladsandwich-4.jpg"
         ],
-        "pick": "img/ai/eggsaladsandwich-2.jpg",
+        "pick": "img/ai/eggsaladsandwich-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Egg Salad Sandwiches. An egg salad sandwich made with chopped eggs mixed with mayonnaise and dijon mustard, served on bread with romaine lettuce.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Egg Salad Sandwiches. A freshly assembled egg salad sandwich sits upright on a white ceramic plate, featuring chopped egg salad and crisp romaine lettuce between two slices of bread, with the cut edge angled toward the camera to show the filling.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "An egg salad sandwich made with chopped eggs mixed with mayonnaise and dijon mustard, served on bread with romaine lettuce."
+          "tall": true,
+          "dish": "A freshly assembled egg salad sandwich sits upright on a white ceramic plate, featuring chopped egg salad and crisp romaine lettuce between two slices of bread, with the cut edge angled toward the camera to show the filling."
         },
         "generated": "2026-10-05"
       },
@@ -2225,16 +2245,18 @@
       "ai": {
         "files": [
           "img/ai/pbj-1.jpg",
-          "img/ai/pbj-2.jpg"
+          "img/ai/pbj-2.jpg",
+          "img/ai/pbj-3.jpg",
+          "img/ai/pbj-4.jpg"
         ],
-        "pick": "img/ai/pbj-2.jpg",
+        "pick": "img/ai/pbj-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: PB&J with Fruit. Peanut butter and strawberry jam sandwiches are closed and served alongside fresh apple slices on a white ceramic plate.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: PB&J with Fruit. An assembled peanut butter and strawberry jam sandwich cut in half to show the filling at the cut edge facing the camera, served with fresh apple slices on a white ceramic plate.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "Peanut butter and strawberry jam sandwiches are closed and served alongside fresh apple slices on a white ceramic plate."
+          "tall": true,
+          "dish": "An assembled peanut butter and strawberry jam sandwich cut in half to show the filling at the cut edge facing the camera, served with fresh apple slices on a white ceramic plate."
         },
         "generated": "2026-10-05"
       },
@@ -2267,16 +2289,18 @@
       "ai": {
         "files": [
           "img/ai/caprese-1.jpg",
-          "img/ai/caprese-2.jpg"
+          "img/ai/caprese-2.jpg",
+          "img/ai/caprese-3.jpg",
+          "img/ai/caprese-4.jpg"
         ],
-        "pick": "img/ai/caprese-2.jpg",
+        "pick": "img/ai/caprese-3.jpg",
         "model": "gemini-3.1-flash-image",
-        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Caprese Sandwiches. Four triangular quarters of a caprese sandwich are arranged on the plate, showing layers of melted fresh mozzarella, sliced tomatoes, fresh spinach, and green pesto between toasted ciabatta halves.",
+        "prompt": "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. This is finger food, eaten by hand. There are NO utensils anywhere in the picture: no fork, no spoon, no knife. The only thing beside the plate is a small folded light linen napkin, tucked close and partly cropped by the edge of the frame. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic plate.\nThe dish: Caprese Sandwiches. A sliced caprese sandwich on ciabatta bread, assembled upright with layers of fresh mozzarella, tomato, spinach, and pesto, showing the colorful filling at the cut edges.",
         "described": {
           "vessel": "a white ceramic plate",
           "utensil": "none",
-          "tall": false,
-          "dish": "Four triangular quarters of a caprese sandwich are arranged on the plate, showing layers of melted fresh mozzarella, sliced tomatoes, fresh spinach, and green pesto between toasted ciabatta halves."
+          "tall": true,
+          "dish": "A sliced caprese sandwich on ciabatta bread, assembled upright with layers of fresh mozzarella, tomato, spinach, and pesto, showing the colorful filling at the cut edges."
         },
         "generated": "2026-10-05"
       },
