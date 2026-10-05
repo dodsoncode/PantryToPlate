@@ -38,7 +38,7 @@ if (!project) { console.error("Add --project YOUR-PROJECT-ID"); process.exit(1);
 // so you can see both the layers up the side and the toppings.
 const VIEW = {
   overhead: "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width.",
-  angled: "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served.",
+  angled: "Square 1:1 food photograph of a single serving, shot from a 45-degree angle (not from directly above and not straight from the side) so both the height and layers of the food and its top are visible. The jar, glass, burger or sandwich is large in the frame, filling most of its height, and stands upright the way it is served. Behind the food there is only more of the same oak tabletop, softly out of focus: never a window, window frame, curtain, wall or room.",
 };
 const UTENSIL = {
   "a spoon": "Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks.",
@@ -48,7 +48,7 @@ const UTENSIL = {
 export const STYLE = [
   "{view}",
   "Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop.",
-  "Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
+  "No windows anywhere in the picture, not even a corner or reflection. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled.",
   "Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image.",
   "{utensil}",
   "Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description.",

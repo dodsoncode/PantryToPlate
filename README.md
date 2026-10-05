@@ -137,6 +137,15 @@ Uses Kroger's public API through a Cloudflare Worker (`kroger-worker.js`) that h
 
 ## Recipe photos
 
+### House style for recipe photos (`scripts/gen-photos.mjs`)
+- Close up: the plate fills most of the frame, with the napkin and utensil tucked at the edge and only a thin strip of light oak table.
+- Directly overhead for most dishes; 45° for tall foods (jars, glasses, parfaits, smoothies) and for all burgers and sandwiches.
+- One utensil that fits the dish: a spoon for soups, chili and oatmeal, a fork for plated food, none for finger food (wraps, tacos, sandwiches, burgers, pizza, muffins).
+- Built from the recipe's own ingredients and directions; nothing on the table that the recipe doesn't have.
+- Plated naturally, not symmetrically.
+- No windows in the background, ever; no table edges, walls, hands, text or logos.
+- Per-recipe fixes go in `photos.json` as `"fix"` (extra direction) or `"view"` (`"angled"` or `"overhead"`).
+
 `photos.json` keeps the photo choice for each recipe:
 - `real` is the stock photo picked on 2026-10-04. Each one is saved in `img/real/` with its photographer, source page and license (Unsplash or Pexels; neither requires credit, but the app will show it anyway).
 - `ai` is filled in by `scripts/gen-photos.mjs`. That script makes AI pictures in one house style for comparison. It needs the new project with billing and Vertex AI turned on; the script's top comment explains how to run it.
