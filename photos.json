@@ -2305,6 +2305,27 @@
         "generated": "2026-10-05"
       },
       "chosen": "ai"
+    },
+    "stuffedpeppersoup": {
+      "name": "Stuffed Pepper Soup",
+      "real": null,
+      "ai": {
+        "files": [
+          "img/ai/stuffedpeppersoup-1.jpg",
+          "img/ai/stuffedpeppersoup-2.jpg"
+        ],
+        "pick": "img/ai/stuffedpeppersoup-2.jpg",
+        "model": "gemini-3.1-flash-image",
+        "prompt": "Square 1:1 top-down (directly overhead) food photograph of a single serving. The plate or bowl is large in the frame, filling about 80 to 85 percent of the width. Shot close: the dish nearly fills the frame. Only a thin strip of light natural-oak tabletop shows around the plate, napkin and utensil, with very little empty space. Do not show the edge of the table, a window, a wall, the floor or anything beyond the tabletop. No windows anywhere in the picture, not even a corner or reflection. Soft natural daylight from the left with gentle shadows, true-to-life colors, appetizing but realistic home cooking, not overly styled. Arrange the food naturally and casually, the way a person would plate it at home: slightly offset, not perfectly symmetrical or mirror-image. Exactly one utensil: a spoon, resting on a small folded light linen napkin tucked close beside the food, partly cropped by the edge of the frame. No other utensils, no knives, no chopsticks. Nothing else on the table: no drinks, no extra bowls or plates, no loose ingredients, no garnish that isn't in the description. No text, no logos, no hands, no people, no brand packaging, no watermark.\nServed in a white ceramic bowl.\nThe dish: Stuffed Pepper Soup. A white ceramic bowl is filled with a hearty stuffed pepper soup containing ground beef, rice, onions, and green bell peppers in a rich tomato broth, topped with melted shredded pepper jack cheese.",
+        "described": {
+          "vessel": "a white ceramic bowl",
+          "utensil": "a spoon",
+          "tall": false,
+          "dish": "A white ceramic bowl is filled with a hearty stuffed pepper soup containing ground beef, rice, onions, and green bell peppers in a rich tomato broth, topped with melted shredded pepper jack cheese."
+        },
+        "generated": "2026-10-07"
+      },
+      "chosen": "ai"
     }
   }
 }
